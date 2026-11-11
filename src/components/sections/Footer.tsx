@@ -6,7 +6,7 @@ import { Logo } from "../ui/Logo";
 
 export function Footer() {
   return (
-    <footer className="bg-navy-950 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-14 text-white/70 md:pb-14">
+    <footer className="relative z-30 bg-navy-950 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-14 text-white/70 md:pb-14">
       <div className="container-x grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <Logo />

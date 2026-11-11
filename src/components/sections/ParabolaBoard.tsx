@@ -53,29 +53,29 @@ export function ParabolaBoard() {
   const formula = `f(x) = ${term(a, "x²", true) || ""}${term(b, "x", !a)}${term(c, "", !a && !b)}` || "f(x) = 0";
 
   return (
-    <figure className="overflow-hidden rounded-[1.4rem] bg-white text-ink shadow-[var(--shadow-lift)] ring-1 ring-black/5">
-      <figcaption className="flex items-center justify-between gap-2 border-b border-line px-4 py-2.5">
+    <figure className="overflow-hidden rounded-[1.4rem] bg-surface text-text shadow-[var(--shadow-lift)] ring-1 ring-white/10">
+      <figcaption className="flex items-center justify-between gap-2 border-b border-white/10 px-4 py-2.5">
         <span className="flex items-center gap-1.5" aria-hidden>
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
           <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
         </span>
-        <span className="text-[0.8125rem] font-bold uppercase tracking-wider text-ink-muted">Tablica · spróbuj sam</span>
+        <span className="text-[0.8125rem] font-bold uppercase tracking-wider text-text-3">Tablica · spróbuj sam</span>
       </figcaption>
-      <div className="grid-paper-light bg-[#fbfcfe] px-3 pt-3">
-        <p className="math text-center text-[1.05rem] font-semibold text-navy-800" aria-live="polite">
+      <div className="grid-paper-light bg-base/60 px-3 pt-3">
+        <p className="math text-center text-[1.05rem] font-semibold text-white" aria-live="polite">
           {formula}
         </p>
         <svg viewBox={`0 0 ${W} ${H}`} className="mt-1 block h-auto w-full" role="img" aria-label={`Wykres funkcji ${formula}`}>
-          <line x1={0} x2={W} y1={sy(0)} y2={sy(0)} stroke="#98a2b3" strokeWidth="1.2" />
-          <line x1={sx(0)} x2={sx(0)} y1={0} y2={H} stroke="#98a2b3" strokeWidth="1.2" />
+          <line x1={0} x2={W} y1={sy(0)} y2={sy(0)} stroke="#5b6f8f" strokeWidth="1.2" />
+          <line x1={sx(0)} x2={sx(0)} y1={0} y2={H} stroke="#5b6f8f" strokeWidth="1.2" />
           {[-4, -3, -2, -1, 1, 2, 3, 4].map((t) => (
-            <line key={t} x1={sx(t)} x2={sx(t)} y1={sy(0) - 3} y2={sy(0) + 3} stroke="#98a2b3" />
+            <line key={t} x1={sx(t)} x2={sx(t)} y1={sy(0) - 3} y2={sy(0) + 3} stroke="#5b6f8f" />
           ))}
-          <path d={path} fill="none" stroke="#102849" strokeWidth="3" strokeLinecap="round" className="underline-draw-path" />
-          {vertex && Math.abs(vertex.y) < 7 && <circle cx={sx(vertex.x)} cy={sy(vertex.y)} r="4" fill="#102849" />}
+          <path d={path} fill="none" stroke="#FFC928" strokeWidth="3" strokeLinecap="round" className="underline-draw-path" />
+          {vertex && Math.abs(vertex.y) < 7 && <circle cx={sx(vertex.x)} cy={sy(vertex.y)} r="4" fill="#ffffff" />}
           {roots.filter((r) => r >= X0 && r <= X1).map((r) => (
-            <circle key={r} cx={sx(r)} cy={sy(0)} r="6" fill="#FFC928" stroke="#07162E" strokeWidth="2" />
+            <circle key={r} cx={sx(r)} cy={sy(0)} r="6" fill="#07162E" stroke="#FFC928" strokeWidth="2.5" />
           ))}
         </svg>
       </div>
@@ -95,20 +95,20 @@ export function ParabolaBoard() {
               step={s.step}
               value={s.v}
               onChange={onChange(s.set)}
-              className="h-11 flex-1 cursor-pointer touch-pan-y accent-navy-800"
+              className="h-11 flex-1 cursor-pointer touch-pan-y accent-yellow-400"
             />
-            <span className="w-9 text-right tabular-nums text-ink-muted">{fmt(s.v)}</span>
+            <span className="w-9 text-right tabular-nums text-text-3">{fmt(s.v)}</span>
           </label>
         ))}
-        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl bg-paper px-3 py-2 text-sm">
+        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl bg-base/70 px-3 py-2 text-sm">
           {a === 0 ? (
-            <span className="font-semibold text-ink-muted">a = 0 → to już funkcja liniowa</span>
+            <span className="font-semibold text-text-2">a = 0 → to już funkcja liniowa</span>
           ) : (
             <>
               <span>
                 <span className="math">Δ</span> = <b className="tabular-nums">{fmt(delta)}</b>
               </span>
-              <span className="text-ink-muted">
+              <span className="text-text-2">
                 {roots.length === 0 ? "brak miejsc zerowych" : roots.length === 1 ? `x₀ = ${fmt(roots[0])}` : `x₁ = ${fmt(roots[0])}, x₂ = ${fmt(roots[1])}`}
               </span>
             </>

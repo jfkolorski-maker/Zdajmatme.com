@@ -9,7 +9,7 @@ export function SuccessView({ leadId, onHome, headingRef }: { leadId: string; on
     <m.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="relative overflow-hidden rounded-[2rem] bg-white px-6 py-12 text-center text-ink shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)] sm:px-12 sm:py-16"
+      className="relative overflow-hidden rounded-[2rem] bg-surface px-6 py-12 text-center text-text ring-1 ring-white/10 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)] sm:px-12 sm:py-16"
       role="status"
     >
       <m.span
@@ -23,7 +23,7 @@ export function SuccessView({ leadId, onHome, headingRef }: { leadId: string; on
       <h3 ref={headingRef} tabIndex={-1} className="mx-auto mt-7 max-w-xl text-3xl font-extrabold outline-none sm:text-4xl">
         Dziękujemy! To pierwszy krok do lepszej matematyki.
       </h3>
-      <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-ink-muted">
+      <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-text-2">
         Otrzymaliśmy Twoje zgłoszenie. {site.owner.firstName} skontaktuje się z Tobą, aby omówić potrzeby ucznia i dopasować odpowiednie korepetycje.
       </p>
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -34,7 +34,7 @@ export function SuccessView({ leadId, onHome, headingRef }: { leadId: string; on
           Wróć na stronę główną
         </button>
       </div>
-      <p className="mt-6 text-[0.8125rem] font-semibold text-ink-muted">Numer zgłoszenia: {leadId}</p>
+      <p className="mt-6 text-[0.8125rem] font-semibold text-text-3">Numer zgłoszenia: {leadId}</p>
     </m.div>
   );
 }

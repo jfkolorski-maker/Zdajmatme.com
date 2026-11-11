@@ -43,7 +43,7 @@ export const tutors: Tutor[] = [
       width: 864,
       height: 1536,
     },
-    bio: "Założycielka ZdajMatme.com. To z Oliwią rozmawiasz po wysłaniu zgłoszenia — poznaje potrzeby ucznia i dobiera korepetytora z zespołu.",
+    bio: "To z Oliwią rozmawiasz po wysłaniu zgłoszenia — poznaje potrzeby ucznia i dobiera korepetytora z zespołu.",
     // TODO: uzupełnij specjalizację, poziomy i doświadczenie wg danych od Oliwii
     specialization: undefined,
     levels: undefined,

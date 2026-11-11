@@ -107,7 +107,7 @@ export function Quiz() {
   const selected = step ? state.answers[step.key] : undefined;
 
   return (
-    <div ref={rootRef} className="scroll-mt-24 overflow-hidden rounded-[2rem] bg-navy-900/80 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)] ring-1 ring-white/10 backdrop-blur">
+    <div ref={rootRef} className="scroll-mt-24 overflow-hidden rounded-[2rem] bg-surface shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)] ring-1 ring-white/10 backdrop-blur">
       {/* progress */}
       <div className="flex items-center gap-4 px-5 pt-5 sm:px-8 sm:pt-7">
         <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/10" role="progressbar" aria-label="Postęp quizu" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)}>

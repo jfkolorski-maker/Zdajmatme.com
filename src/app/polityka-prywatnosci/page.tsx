@@ -14,7 +14,7 @@ const fill = (value: string, what: string) => value || `[UZUPEŁNIJ: ${what}]`;
 export default function PrivacyPage() {
   const L = site.legal;
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="min-h-screen bg-base">
       <header className="bg-navy-950 py-5">
         <div className="container-x">
           <a href="/" aria-label="Strona główna">
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
       </header>
       <main className="container-x max-w-3xl py-14 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-extrabold [&_li]:mt-1.5 [&_p]:mt-3 [&_p]:leading-relaxed [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-6">
         <h1 className="text-4xl font-extrabold">Polityka prywatności</h1>
-        <p className="text-ink-muted">Wersja robocza do weryfikacji prawnej przed uruchomieniem kampanii.</p>
+        <p className="text-text-2">Wersja robocza do weryfikacji prawnej przed uruchomieniem kampanii.</p>
 
         <h2>1. Administrator danych</h2>
         <p>

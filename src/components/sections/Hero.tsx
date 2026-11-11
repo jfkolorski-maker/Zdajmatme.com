@@ -1,6 +1,5 @@
 import { site } from "@/config/site";
 import { CallCta, QuizCta } from "../ui/Cta";
-import { Check } from "../ui/Icons";
 import { FloatingFormulas } from "./FloatingFormulas";
 import { HeroMedia } from "./HeroMedia";
 
@@ -22,13 +21,13 @@ export function Hero() {
         <FloatingFormulas />
       </div>
 
-      <div className="container-x pb-6 pt-24 sm:pb-12 lg:pb-20 lg:pt-32">
+      <div className="container-x pb-14 pt-20 sm:pb-16 lg:pb-24 lg:pt-32">
         <div className="max-w-[40rem]">
           <p className="eyebrow hero-in hidden w-fit rounded-full sm:flex bg-navy-950/60 px-3.5 py-1.5 text-yellow-400 ring-1 ring-white/15 backdrop-blur-sm" style={delay(0)}>
             <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />
             Korepetycje z matematyki online 1:1
           </p>
-          <h1 className="hero-in-h1 text-[2rem] min-[380px]:text-[2.2rem] sm:mt-4 font-extrabold leading-[1.06] sm:text-5xl lg:mt-6 lg:text-[4rem] lg:leading-[1.03]">
+          <h1 className="hero-in-h1 h-display sm:mt-5">
             Twoje dziecko uczy się matematyki, ale{" "}
             <span className="relative inline-block text-yellow-400">
               wyniki nie rosną?
@@ -37,7 +36,7 @@ export function Hero() {
               </svg>
             </span>
           </h1>
-          <p className="hero-in mt-4 max-w-xl text-[1.0625rem] leading-relaxed text-white/80 sm:text-xl" style={delay(0.15)}>
+          <p className="hero-in lead mt-4 max-w-xl !text-white/85" style={delay(0.15)}>
             Indywidualne korepetycje online, które pomagają zrozumieć matematykę.
           </p>
           <div data-hide-sticky className="hero-in mt-6 grid gap-2.5 sm:flex sm:gap-3" style={delay(0.25)}>
@@ -49,13 +48,10 @@ export function Hero() {
           <p className="hero-in mt-3 text-[0.9375rem] font-semibold text-white/70" style={delay(0.32)}>
             Lekcje online 1:1 <span className="mx-1.5 text-yellow-400">•</span> {site.price.label}
           </p>
-          <ul className="hero-in mt-5 flex flex-wrap gap-x-5 gap-y-1.5 text-sm font-semibold text-white/75 lg:mt-6" style={delay(0.4)}>
-            {["Szkoła podstawowa i liceum", "Poziom podstawowy i rozszerzony", "Egzamin ósmoklasisty i matura"].map((t) => (
-              <li key={t} className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-yellow-400" /> {t}
-              </li>
-            ))}
-          </ul>
+          <a href="#sciezki" className="hero-in mt-6 inline-flex min-h-11 items-center gap-3 text-sm font-bold text-text-2 hover:text-white" style={delay(0.45)}>
+            <span aria-hidden className="cue grid h-8 w-8 place-items-center rounded-full ring-1 ring-white/25">↓</span>
+            Zobacz, jak pracujemy
+          </a>
         </div>
       </div>
     </section>

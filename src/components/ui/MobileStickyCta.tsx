@@ -46,7 +46,7 @@ export function MobileStickyCta() {
           <div className="flex gap-2">
             <button
               type="button"
-              className="btn btn-primary !min-h-12 flex-1"
+              className="btn btn-primary !min-h-12 flex-1 !gap-2 !px-4 whitespace-nowrap !text-[0.9375rem]"
               onClick={() => {
                 track("cta_click", { cta_location: "mobile_sticky", cta_target: "quiz" });
                 openQuiz();
@@ -54,7 +54,7 @@ export function MobileStickyCta() {
             >
               Dobierz korepetycje <ArrowRight className="arrow" />
             </button>
-            <a href={site.phone.href} onClick={() => trackCall("mobile_sticky")} className="btn btn-ghost-dark !min-h-12 !px-4" aria-label={`Zadzwoń do Oliwii: ${site.phone.display}`}>
+            <a href={site.phone.href} onClick={() => trackCall("mobile_sticky")} className="btn btn-ghost-dark !min-h-12 !gap-2 !px-3.5 whitespace-nowrap !text-[0.9375rem]" aria-label={`Zadzwoń do Oliwii: ${site.phone.display}`}>
               <PhoneIcon className="text-yellow-400" /> Zadzwoń
             </a>
           </div>
