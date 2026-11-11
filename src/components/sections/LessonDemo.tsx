@@ -4,6 +4,7 @@ import { AnimatePresence, m, useInView } from "motion/react";
 import { QuizCta } from "../ui/Cta";
 import { Reveal } from "../ui/Reveal";
 import { ArrowRight, Check } from "../ui/Icons";
+import { ParabolaBoard } from "./ParabolaBoard";
 
 type Who = "tutor" | "student";
 interface Line {
@@ -42,7 +43,7 @@ function Avatar({ who, active }: { who: Who; active: boolean }) {
       </span>
       <span className="flex-1">
         <span className="block text-sm font-extrabold">{isT ? "Korepetytor" : "Uczeń"}</span>
-        <span className="block text-xs font-semibold text-ink-muted">{active ? (isT ? "tłumaczy…" : "rozwiązuje…") : "online"}</span>
+        <span className="block text-[0.8125rem] font-semibold text-ink-muted">{active ? (isT ? "tłumaczy…" : "rozwiązuje…") : "online"}</span>
       </span>
       <span aria-hidden className="flex items-end gap-0.5">
         {[0, 1, 2].map((i) => (
@@ -98,7 +99,7 @@ export function LessonDemo() {
           <div ref={boardRef} className="overflow-hidden rounded-[var(--radius-card)] bg-white shadow-[var(--shadow-lift)] ring-1 ring-black/5">
             <div className="flex items-center justify-between border-b border-line px-5 py-3">
               <span className="text-sm font-extrabold">Lekcja · funkcja kwadratowa</span>
-              <span className="flex items-center gap-2 text-xs font-bold text-ink-muted">
+              <span className="flex items-center gap-2 text-[0.8125rem] font-bold text-ink-muted">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-[#f04438]" /> na żywo
               </span>
             </div>
@@ -182,7 +183,7 @@ export function LessonDemo() {
                       <p className="flex items-center gap-2 font-extrabold text-success">
                         <Check /> Rozwiązane samodzielnie!
                       </p>
-                      <button type="button" className="text-sm font-bold text-navy-700 underline underline-offset-4" onClick={() => { setShown(1); setAnswer(null); }}>
+                      <button type="button" className="min-h-11 text-sm font-bold text-navy-700 underline underline-offset-4" onClick={() => { setShown(1); setAnswer(null); }}>
                         Zacznij od nowa
                       </button>
                     </>
@@ -193,7 +194,20 @@ export function LessonDemo() {
           </div>
         </Reveal>
 
-        <Reveal className="mt-10 text-center">
+        <Reveal className="mt-16 grid items-center gap-8 lg:grid-cols-[1fr_22rem] lg:gap-14">
+          <div>
+            <h3 className="text-2xl font-extrabold sm:text-3xl">Pobaw się parabolą</h3>
+            <p className="mt-3 max-w-xl text-lg text-ink-muted">
+              Przesuń suwaki <span className="math">a</span>, <span className="math">b</span> i <span className="math">c</span> — zobacz, jak zmienia się wykres, delta i miejsca zerowe.
+              Na lekcjach sprawdzamy matematykę w praktyce, zamiast uczyć się wzorów na pamięć.
+            </p>
+          </div>
+          <div className="mx-auto w-full max-w-sm">
+            <ParabolaBoard />
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-12 text-center">
           <QuizCta location="lesson_demo">Znajdź korepetytora</QuizCta>
         </Reveal>
       </div>

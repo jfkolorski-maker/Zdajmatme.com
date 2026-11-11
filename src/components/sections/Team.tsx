@@ -33,13 +33,13 @@ function Meta({ t }: { t: Tutor }) {
     <dl className="mt-5 space-y-3 text-[0.9375rem]">
       {t.specialization && (
         <div>
-          <dt className="text-xs font-bold uppercase tracking-wider text-ink-muted">Specjalizacja</dt>
+          <dt className="text-[0.8125rem] font-bold uppercase tracking-wider text-ink-muted">Specjalizacja</dt>
           <dd className="font-semibold">{t.specialization}</dd>
         </div>
       )}
       {t.levels?.length ? (
         <div>
-          <dt className="text-xs font-bold uppercase tracking-wider text-ink-muted">Poziomy</dt>
+          <dt className="text-[0.8125rem] font-bold uppercase tracking-wider text-ink-muted">Poziomy</dt>
           <dd className="mt-1 flex flex-wrap gap-1.5">
             {t.levels.map((l) => (
               <span key={l} className="rounded-full bg-paper px-2.5 py-1 text-sm font-semibold ring-1 ring-line">
@@ -51,7 +51,7 @@ function Meta({ t }: { t: Tutor }) {
       ) : null}
       {t.experience && (
         <div>
-          <dt className="text-xs font-bold uppercase tracking-wider text-ink-muted">Doświadczenie</dt>
+          <dt className="text-[0.8125rem] font-bold uppercase tracking-wider text-ink-muted">Doświadczenie</dt>
           <dd>{t.experience}</dd>
         </div>
       )}

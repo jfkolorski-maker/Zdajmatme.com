@@ -60,7 +60,7 @@ export function ParabolaBoard() {
           <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
         </span>
-        <span className="text-xs font-bold uppercase tracking-wider text-ink-muted">Tablica · spróbuj sam</span>
+        <span className="text-[0.8125rem] font-bold uppercase tracking-wider text-ink-muted">Tablica · spróbuj sam</span>
       </figcaption>
       <div className="grid-paper-light bg-[#fbfcfe] px-3 pt-3">
         <p className="math text-center text-[1.05rem] font-semibold text-navy-800" aria-live="polite">
@@ -79,13 +79,13 @@ export function ParabolaBoard() {
           ))}
         </svg>
       </div>
-      <div className="space-y-2 px-4 pb-4 pt-3">
+      <div className="px-4 pb-4 pt-2">
         {[
           { k: "a", v: a, set: setA, min: -2, max: 2, step: 0.5 },
           { k: "b", v: b, set: setB, min: -4, max: 4, step: 1 },
           { k: "c", v: c, set: setC, min: -4, max: 4, step: 1 },
         ].map((s) => (
-          <label key={s.k} htmlFor={`${id}-${s.k}`} className="flex items-center gap-3 text-sm font-semibold">
+          <label key={s.k} htmlFor={`${id}-${s.k}`} className="flex min-h-11 items-center gap-3 text-sm font-semibold">
             <span className="math w-4 text-base">{s.k}</span>
             <input
               id={`${id}-${s.k}`}
@@ -95,7 +95,7 @@ export function ParabolaBoard() {
               step={s.step}
               value={s.v}
               onChange={onChange(s.set)}
-              className="h-2 flex-1 cursor-pointer accent-navy-800"
+              className="h-11 flex-1 cursor-pointer touch-pan-y accent-navy-800"
             />
             <span className="w-9 text-right tabular-nums text-ink-muted">{fmt(s.v)}</span>
           </label>

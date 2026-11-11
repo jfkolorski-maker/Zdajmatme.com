@@ -18,7 +18,7 @@ export function FinalCta() {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <QuizCta location="final_cta" variant="navy">
-                  Dopasuj korepetycje
+                  Dobierz korepetycje
                 </QuizCta>
                 <CallCta location="final_cta" variant="ghost-light">
                   Zadzwoń: {site.phone.display}

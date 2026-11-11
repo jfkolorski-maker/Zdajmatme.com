@@ -253,7 +253,7 @@ export function LeadForm({
               <span className="font-semibold text-white">(Opcjonalnie)</span> Chcę otrzymywać od {site.name} informacje o ofercie e-mailem lub SMS-em. Zgodę mogę wycofać w każdej chwili.
             </span>
           </label>
-          <p className="text-xs leading-relaxed text-white/55">
+          <p className="text-[0.8125rem] leading-relaxed text-white/55">
             Administratorem danych jest {site.name}. Dane z formularza przetwarzamy wyłącznie w celu obsługi zgłoszenia i kontaktu w sprawie korepetycji
             (art. 6 ust. 1 lit. b RODO). Szczegóły i Twoje prawa:{" "}
             <a href="/polityka-prywatnosci" target="_blank" className="font-semibold text-white underline underline-offset-2">
@@ -289,7 +289,7 @@ export function LeadForm({
             </>
           )}
         </button>
-        <p className="text-center text-xs text-white/50">Bez opłat za zgłoszenie i bez zakładania konta.</p>
+        <p className="text-center text-[0.8125rem] text-white/50">Bez opłat za zgłoszenie i bez zakładania konta.</p>
       </div>
     </form>
   );

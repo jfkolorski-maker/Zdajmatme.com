@@ -82,7 +82,7 @@ export function ConsentBanner() {
                 Zapisz wybór
               </button>
             ) : (
-              <button type="button" className="col-span-2 text-sm font-bold text-navy-800 underline underline-offset-4 sm:ml-auto" onClick={() => setCustom(true)}>
+              <button type="button" className="col-span-2 min-h-11 text-sm font-bold text-navy-800 underline underline-offset-4 sm:ml-auto" onClick={() => setCustom(true)}>
                 Ustawienia
               </button>
             )}

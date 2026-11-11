@@ -16,7 +16,7 @@ export function Faq() {
           <h2 className="h-section mt-3">Najczęściej zadawane pytania</h2>
           <p className="mt-5 text-lg text-ink-muted">Nie znalazłeś odpowiedzi? Zadzwoń — porozmawiasz bezpośrednio z Oliwią.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-            <QuizCta location="faq">Dopasuj korepetycje</QuizCta>
+            <QuizCta location="faq">Dobierz korepetycje</QuizCta>
             <CallCta location="faq" variant="ghost-light" />
           </div>
         </Reveal>

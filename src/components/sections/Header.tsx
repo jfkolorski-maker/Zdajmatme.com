@@ -30,7 +30,7 @@ export function Header() {
       }`}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
-        <a href="#top" aria-label={`${site.name} — strona główna`} className="shrink-0">
+        <a href="#top" aria-label={`${site.name} — strona główna`} className="flex min-h-11 shrink-0 items-center">
           <Logo />
         </a>
         <nav aria-label="Główna nawigacja" className="hidden lg:block">
@@ -55,7 +55,7 @@ export function Header() {
             <span className="hidden sm:inline">{site.phone.display}</span>
           </a>
           <QuizCta location="header" className="!hidden !min-h-11 !py-2 !text-[0.9375rem] md:!inline-flex" arrow={false}>
-            Dopasuj korepetycje
+            Dobierz korepetycje
           </QuizCta>
         </div>
       </div>

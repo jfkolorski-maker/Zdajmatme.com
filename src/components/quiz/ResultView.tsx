@@ -64,7 +64,7 @@ export function ResultView({
           <span className="text-sm font-bold">Indywidualna lekcja online 1:1</span>
           <span className="text-lg font-extrabold">{site.price.label}</span>
         </div>
-        <button type="button" onClick={onBack} className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-white/70 hover:text-white">
+        <button type="button" onClick={onBack} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-white/70 hover:text-white">
           <ArrowLeft className="h-4 w-4" /> Zmień odpowiedzi
         </button>
       </div>

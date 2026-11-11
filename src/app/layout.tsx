@@ -12,8 +12,7 @@ import { Boot } from "@/components/tracking/Boot";
 const manrope = Manrope({
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  variable: "--font-manrope",
-  weight: ["500", "600", "700", "800"],
+  variable: "--font-manrope", // variable font: one file per subset covers weights 200–800
 });
 
 export const metadata: Metadata = {

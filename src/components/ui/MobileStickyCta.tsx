@@ -8,8 +8,9 @@ import { useConsent } from "@/lib/consent";
 import { ArrowRight, PhoneIcon } from "./Icons";
 
 /**
- * Mobile-only bottom bar. Hidden while any [data-hide-sticky] element (hero, quiz, footer) is on screen,
- * so it never covers the quiz, the form or the footer links. Also hidden while the consent banner is open.
+ * Mobile-only bottom bar, visible while scrolling. Hidden only while a [data-hide-sticky] element
+ * (hero CTAs, quiz + form) is on screen, so it never duplicates them or covers quiz/form controls.
+ * The footer reserves bottom padding so the bar never covers the last content. Also hidden while the consent banner is open.
  */
 export function MobileStickyCta() {
   const [blocked, setBlocked] = useState(true);
@@ -51,9 +52,9 @@ export function MobileStickyCta() {
                 openQuiz();
               }}
             >
-              Dopasuj korepetycje <ArrowRight className="arrow" />
+              Dobierz korepetycje <ArrowRight className="arrow" />
             </button>
-            <a href={site.phone.href} onClick={() => trackCall("mobile_sticky")} className="btn btn-ghost-dark !min-h-12 !px-4" aria-label={`Zadzwoń: ${site.phone.display}`}>
+            <a href={site.phone.href} onClick={() => trackCall("mobile_sticky")} className="btn btn-ghost-dark !min-h-12 !px-4" aria-label={`Zadzwoń do Oliwii: ${site.phone.display}`}>
               <PhoneIcon className="text-yellow-400" /> Zadzwoń
             </a>
           </div>

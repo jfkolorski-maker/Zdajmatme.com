@@ -34,7 +34,7 @@ export function SuccessView({ leadId, onHome, headingRef }: { leadId: string; on
           Wróć na stronę główną
         </button>
       </div>
-      <p className="mt-6 text-xs font-semibold text-ink-muted">Numer zgłoszenia: {leadId}</p>
+      <p className="mt-6 text-[0.8125rem] font-semibold text-ink-muted">Numer zgłoszenia: {leadId}</p>
     </m.div>
   );
 }
