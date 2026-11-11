@@ -41,18 +41,18 @@ export const CONTACT_LABELS: Record<(typeof CONTACT_METHODS)[number], string> = 
 
 export const contactSchema = z.object({
   name: z
-    .string()
+    .string({ error: "Podaj imię." })
     .trim()
     .min(2, "Podaj imię (min. 2 znaki).")
     .max(60, "Imię może mieć maks. 60 znaków.")
     .regex(/^[\p{L}][\p{L}\s'.-]*$/u, "Imię może zawierać tylko litery."),
   phone: z
-    .string()
+    .string({ error: "Podaj numer telefonu." })
     .trim()
     .min(1, "Podaj numer telefonu.")
     .refine((v) => normalizePhone(v) !== null, "Podaj poprawny numer telefonu, np. 600 123 456."),
   email: z
-    .string()
+    .string({ error: "Podaj adres e-mail." })
     .trim()
     .min(1, "Podaj adres e-mail.")
     .max(120, "Adres e-mail jest za długi.")
