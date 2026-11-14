@@ -53,7 +53,7 @@ export function ParabolaBoard() {
   const formula = `f(x) = ${term(a, "x²", true) || ""}${term(b, "x", !a)}${term(c, "", !a && !b)}` || "f(x) = 0";
 
   return (
-    <figure className="overflow-hidden rounded-[1.4rem] bg-surface text-text shadow-[var(--shadow-lift)] ring-1 ring-white/10">
+    <figure className="overflow-hidden rounded-[1.4rem] bg-surface text-text shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] ring-1 ring-white/10">
       <figcaption className="flex items-center justify-between gap-2 border-b border-white/10 px-4 py-2.5">
         <span className="flex items-center gap-1.5" aria-hidden>
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />

@@ -1,17 +1,18 @@
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
-import { Paths } from "@/components/sections/Paths";
-import { Process } from "@/components/sections/Process";
-import { QuizSection } from "@/components/quiz/QuizSection";
+import { Steps } from "@/components/sections/Steps";
 import { LessonDemo } from "@/components/sections/LessonDemo";
+import { QuizSection } from "@/components/quiz/QuizSection";
+import { Standard } from "@/components/sections/Standard";
 import { Team } from "@/components/sections/Team";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Faq } from "@/components/sections/Faq";
-import { FinalCta } from "@/components/sections/FinalCta";
+import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
 import { MobileStickyCta } from "@/components/ui/MobileStickyCta";
 import { structuredData } from "@/lib/seo";
 
+/** Order = CHAPTERS in src/config/chapters.ts */
 export default function Home() {
   return (
     <>
@@ -19,14 +20,14 @@ export default function Home() {
       <Header />
       <main id="main">
         <Hero />
-        <Paths />
-        <Process />
-        <QuizSection />
+        <Steps />
         <LessonDemo />
+        <QuizSection />
+        <Standard />
         <Team />
         <Testimonials />
         <Faq />
-        <FinalCta />
+        <Contact />
       </main>
       <Footer />
       <MobileStickyCta />

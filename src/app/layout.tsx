@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import { site } from "@/config/site";
 import { seo } from "@/lib/seo";
@@ -8,12 +8,6 @@ import { ConsentDefaults } from "@/components/tracking/ConsentDefaults";
 import { TrackingScripts } from "@/components/tracking/TrackingScripts";
 import { ConsentBanner } from "@/components/tracking/ConsentBanner";
 import { Boot } from "@/components/tracking/Boot";
-
-const manrope = Manrope({
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-  variable: "--font-manrope", // variable font: one file per subset covers weights 200–800
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -37,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07162E",
+  themeColor: "#031226",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -45,7 +39,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl" className={manrope.variable}>
+    <html lang="pl">
       <head>
         <ConsentDefaults />
       </head>

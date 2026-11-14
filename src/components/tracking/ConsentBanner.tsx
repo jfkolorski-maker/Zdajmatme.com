@@ -51,38 +51,38 @@ export function ConsentBanner() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 40, opacity: 0 }}
           transition={{ duration: 0.35 }}
-          className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-xl rounded-2xl bg-surface-2 p-5 text-text shadow-[var(--shadow-lift)] ring-1 ring-white/15 sm:bottom-5"
+          className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-xl card-app p-5 sm:bottom-5"
         >
           <p id="consent-title" className="font-extrabold">Szanujemy Twoją prywatność</p>
-          <p className="mt-1.5 text-sm leading-relaxed text-text-2">
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
             Używamy plików cookies do analizy ruchu i mierzenia skuteczności reklam. Możesz je zaakceptować, odrzucić lub wybrać.{" "}
-            <a href="/polityka-prywatnosci" className="font-semibold text-yellow-400 underline">Więcej</a>
+            <a href="/polityka-prywatnosci" className="font-semibold text-ink underline">Więcej</a>
           </p>
           {custom && (
             <div className="mt-4 space-y-2 text-sm">
-              <label className="flex items-center justify-between gap-3 rounded-xl bg-base/60 px-3 py-2.5">
+              <label className="flex items-center justify-between gap-3 rounded-xl bg-bg px-3 py-2.5">
                 <span><b>Analityczne</b> — statystyki odwiedzin (Google Analytics)</span>
-                <input type="checkbox" className="h-5 w-5 accent-yellow-400" checked={analytics} onChange={(e) => setAnalytics(e.target.checked)} />
+                <input type="checkbox" className="h-5 w-5 accent-[#061a32]" checked={analytics} onChange={(e) => setAnalytics(e.target.checked)} />
               </label>
-              <label className="flex items-center justify-between gap-3 rounded-xl bg-base/60 px-3 py-2.5">
+              <label className="flex items-center justify-between gap-3 rounded-xl bg-bg px-3 py-2.5">
                 <span><b>Reklamowe</b> — pomiar skuteczności reklam (Google Ads)</span>
-                <input type="checkbox" className="h-5 w-5 accent-yellow-400" checked={ads} onChange={(e) => setAds(e.target.checked)} />
+                <input type="checkbox" className="h-5 w-5 accent-[#061a32]" checked={ads} onChange={(e) => setAds(e.target.checked)} />
               </label>
             </div>
           )}
           <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-            <button type="button" className="btn btn-ghost-light !min-h-11 !px-4 !text-sm" onClick={() => decide(true, true)}>
+            <button type="button" className="btn btn-secondary !min-h-12 !px-4 !text-sm" onClick={() => decide(true, true)}>
               Akceptuję wszystkie
             </button>
-            <button type="button" className="btn btn-ghost-light !min-h-11 !px-4 !text-sm" onClick={() => decide(false, false)}>
+            <button type="button" className="btn btn-secondary !min-h-12 !px-4 !text-sm" onClick={() => decide(false, false)}>
               Odrzucam
             </button>
             {custom ? (
-              <button type="button" className="btn btn-ghost-light col-span-2 !min-h-11 !px-4 !text-sm" onClick={() => decide(analytics, ads)}>
+              <button type="button" className="btn btn-secondary col-span-2 !min-h-12 !px-4 !text-sm" onClick={() => decide(analytics, ads)}>
                 Zapisz wybór
               </button>
             ) : (
-              <button type="button" className="col-span-2 min-h-11 text-sm font-bold text-text-2 underline underline-offset-4 sm:ml-auto" onClick={() => setCustom(true)}>
+              <button type="button" className="col-span-2 min-h-12 text-sm font-bold text-muted underline underline-offset-4 sm:ml-auto" onClick={() => setCustom(true)}>
                 Ustawienia
               </button>
             )}

@@ -41,8 +41,8 @@ export function HeroMedia() {
   return (
     <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden bg-navy-950">
       {/* still image: full-bleed portrait on mobile, right-side cinematic panel on desktop */}
-      <div className={`absolute inset-x-0 top-0 h-[64%] transition-opacity duration-1000 lg:inset-y-0 lg:left-auto lg:h-full lg:w-[60%] ${playing ? "opacity-0" : "opacity-100"}`}>
-        <Image src={heroStill.src} alt="" fill priority fetchPriority="high" quality={60} sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover object-[55%_42%] lg:object-[50%_28%]" />
+      <div className={`absolute inset-0 transition-opacity duration-1000 lg:left-auto lg:w-[60%] ${playing ? "opacity-0" : "opacity-100"}`}>
+        <Image src={heroStill.src} alt="" fill priority fetchPriority="high" quality={60} sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover object-[55%_20%] lg:object-[50%_28%]" />
         <div className="absolute inset-y-0 left-0 hidden w-1/2 bg-gradient-to-r from-navy-950 to-transparent lg:block" />
       </div>
 
@@ -67,7 +67,8 @@ export function HeroMedia() {
       )}
 
       {/* readability gradients: bottom-up on mobile, left-to-right on desktop */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-950/20 via-navy-950/10 via-25% to-navy-950 to-[62%] lg:hidden" />
+      {/* light veil on top, strong only at the bottom where the copy sits */}
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-950/35 via-navy-950/15 via-30% to-navy-950 to-[78%] lg:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-r from-navy-950 via-navy-950/80 via-40% to-navy-950/10 lg:block" />
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy-950 to-transparent" />
     </div>

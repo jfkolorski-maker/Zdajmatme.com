@@ -73,8 +73,7 @@ export function LessonDemo() {
   return (
     <Chapter
       id="lekcja"
-      titleText="Nie tylko oglądasz rozwiązanie. Uczysz się samodzielnie je tworzyć."
-      title="Nie tylko oglądasz rozwiązanie. Uczysz się samodzielnie je tworzyć."
+      title="Nie tylko oglądasz rozwiązanie. Uczysz się je tworzyć."
       lead="Korepetytor naprowadza, uczeń rozwiązuje — na wspólnej wirtualnej tablicy. Spróbuj sam."
     >
       <div className="grid gap-3 lg:grid-cols-[15rem_1fr] lg:gap-4">
@@ -83,7 +82,7 @@ export function LessonDemo() {
           <Avatar who="student" active={activeWho === "student" || waitingForAnswer} />
         </div>
 
-        <div ref={boardRef} className="overflow-hidden rounded-[var(--radius-card)] bg-surface shadow-[var(--shadow-lift)] ring-1 ring-white/10">
+        <div ref={boardRef} className="overflow-hidden rounded-[22px] bg-surface shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] ring-1 ring-white/10">
           <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
             <span className="text-sm font-extrabold">Lekcja · funkcja kwadratowa</span>
             <span className="flex shrink-0 items-center gap-2 whitespace-nowrap text-[0.8125rem] font-bold text-text-3">
@@ -118,7 +117,7 @@ export function LessonDemo() {
                             setAnswer(c);
                             if (c === "1") window.setTimeout(() => setShown((s) => s + 1), 350);
                           }}
-                          className={`math min-h-11 min-w-16 rounded-xl px-4 text-lg font-semibold ring-2 transition ${wrong ? "bg-base text-danger ring-danger" : "bg-base ring-white/15 hover:ring-yellow-400"}`}
+                          className={`math min-h-11 min-w-16 rounded-xl px-4 text-lg font-semibold ring-2 transition ${wrong ? "bg-base text-danger-dark ring-danger-dark" : "bg-base ring-white/15 hover:ring-yellow-400"}`}
                         >
                           Δ = {c}
                         </button>
@@ -150,7 +149,7 @@ export function LessonDemo() {
               </svg>
               <div className="mt-4 flex flex-col gap-2">
                 {!done ? (
-                  <button type="button" className="btn btn-ghost-light w-full" disabled={waitingForAnswer || shown < QUIZ_AT} onClick={() => setShown((s) => s + 1)}>
+                  <button type="button" className="btn btn-dark w-full" disabled={waitingForAnswer || shown < QUIZ_AT} onClick={() => setShown((s) => s + 1)}>
                     {waitingForAnswer ? "Najpierw odpowiedz" : "Następny krok"}
                     <ArrowRight className="arrow" />
                   </button>
@@ -170,15 +169,15 @@ export function LessonDemo() {
         </div>
       </div>
 
-      <div className="mt-14 grid items-center gap-8 lg:grid-cols-[1fr_22rem] lg:gap-14">
+      <div className="mt-12 grid items-center gap-6 text-center lg:grid-cols-[1fr_22rem] lg:gap-14 lg:text-left">
         <div>
-          <h3 className="h-card">Pobaw się parabolą</h3>
-          <p className="mt-3 max-w-xl text-text-2">
+          <h3 className="h3">Pobaw się parabolą</h3>
+          <p className="mx-auto mt-3 max-w-xl text-text-2 lg:mx-0">
             Przesuń suwaki <span className="math">a</span>, <span className="math">b</span> i <span className="math">c</span> — zobacz, jak zmienia się wykres, delta i miejsca zerowe.
             Na lekcjach sprawdzamy matematykę w praktyce, zamiast uczyć się wzorów na pamięć.
           </p>
         </div>
-        <div className="w-full max-w-sm lg:mx-auto">
+        <div className="mx-auto w-full max-w-sm">
           <ParabolaBoard />
         </div>
       </div>

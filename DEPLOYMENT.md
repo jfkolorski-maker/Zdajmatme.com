@@ -11,6 +11,12 @@
 - [ ] **Upstash Redis** dla rate limitu / idempotency, jeśli hosting jest serverless (Vercel) — sekcja 4.
 - [ ] `NEXT_PUBLIC_SITE_URL` = docelowa domena (canonical, sitemap, Open Graph, CORS).
 
+## Struktura strony (rozdziały)
+Hero → **01 Jak działamy** (5 etapów: na telefonie stos kart — 1 przesunięcie = 1 karta, na desktopie „stories” sterowane przewijaniem) → **02 Lekcja online** (interaktywna tablica) → **03 Dopasowanie** (quiz na białej karcie + szybki start 4 ścieżek) → **04 Standard** (6 zasad) → **05 Zespół** → (Opinie — gdy będą prawdziwe) → **06 FAQ** (5 pytań) → **07 Kontakt** → stopka.
+Kolejność i numeracja: `src/config/chapters.ts`. Sekcje rozdziela cienka linia, bez nachodzenia i bez zatrzaskiwania przewijania.
+
+Formularz: Imię*, Telefon* (z „✓ Poprawny numer”), E-mail (opcjonalnie; wymagany tylko przy kontakcie e-mailowym), preferowany kontakt, dodatkowe informacje, oświadczenie rodzica/pełnoletności*, akceptacja polityki prywatności*, opcjonalna zgoda marketingowa. Honeypot ma neutralną nazwę (`zm_trap_8q`), żeby przeglądarki go nie autouzupełniały.
+
 ## 1. Hosting
 
 Zalecany **Vercel** (natywne wsparcie Next.js): import repozytorium → ustaw zmienne z `.env.example` → deploy.
@@ -100,6 +106,9 @@ Ustaw `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_GADS_ID` (`AW-…`), `NEXT_PUBLIC_GADS_
 ### Consent Mode v2
 Domyślnie wszystko `denied` (skrypt w `<head>` przed tagami). Baner (akceptuj / odrzuć / ustawienia) aktualizuje zgody; link „Ustawienia cookies” w stopce otwiera go ponownie.
 `NEXT_PUBLIC_CONSENT_MODE=basic` (domyślnie) — tagi ładują się dopiero po zgodzie; `advanced` — ładują się od razu z pingami bez cookies (decyzja prawna po Waszej stronie).
+
+### Meta Pixel (opcjonalnie)
+`NEXT_PUBLIC_META_PIXEL_ID` — w trybie `gtag` piksel ładuje się dopiero po zgodzie reklamowej; `Lead` (z `eventID = lead_id`) po zapisie w CRM, `Contact` po kliknięciu telefonu. W trybie `gtm` skonfiguruj piksel w GTM na tych samych eventach.
 
 ### Enhanced conversions
 `NEXT_PUBLIC_ENHANCED_CONVERSIONS=true` → po zgodzie reklamowej strona dołącza **zahashowane SHA-256** e-mail i telefon:

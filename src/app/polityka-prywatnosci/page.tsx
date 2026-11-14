@@ -14,7 +14,7 @@ const fill = (value: string, what: string) => value || `[UZUPEŁNIJ: ${what}]`;
 export default function PrivacyPage() {
   const L = site.legal;
   return (
-    <div className="min-h-screen bg-base">
+    <div className="min-h-screen bg-navy-950">
       <header className="bg-navy-950 py-5">
         <div className="container-x">
           <a href="/" aria-label="Strona główna">

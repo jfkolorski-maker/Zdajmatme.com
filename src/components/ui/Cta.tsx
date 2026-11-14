@@ -5,24 +5,10 @@ import { openQuiz } from "@/lib/quiz-bus";
 import { track, trackCall } from "@/lib/tracking";
 import { ArrowRight, PhoneIcon } from "./Icons";
 
-type Variant = "primary" | "ghost-dark" | "ghost-light" | "navy";
+type Variant = "primary" | "dark" | "secondary";
 
-/** Opens (and optionally pre-fills) the quiz. */
-export function QuizCta({
-  children,
-  location,
-  preset,
-  variant = "primary",
-  className = "",
-  arrow = true,
-}: {
-  children: React.ReactNode;
-  location: string;
-  preset?: PathPreset;
-  variant?: Variant;
-  className?: string;
-  arrow?: boolean;
-}) {
+/** Opens (and optionally pre-fills) the quiz. Always with an arrow. */
+export function QuizCta({ children, location, preset, variant = "primary", className = "" }: { children: React.ReactNode; location: string; preset?: PathPreset; variant?: Variant; className?: string }) {
   return (
     <button
       type="button"
@@ -33,27 +19,17 @@ export function QuizCta({
       }}
     >
       {children}
-      {arrow && <ArrowRight className="arrow" />}
+      <ArrowRight className="arrow" />
     </button>
   );
 }
 
-/** tel: link with click_to_call tracking. */
-export function CallCta({
-  location,
-  variant = "ghost-dark",
-  className = "",
-  children,
-}: {
-  location: string;
-  variant?: Variant;
-  className?: string;
-  children?: React.ReactNode;
-}) {
+/** tel: link with the handset icon + click_to_call event. Default label = the phone number. */
+export function CallCta({ location, variant = "dark", className = "", children }: { location: string; variant?: Variant; className?: string; children?: React.ReactNode }) {
   return (
-    <a href={site.phone.href} className={`btn btn-${variant} ${className}`} onClick={() => trackCall(location)}>
+    <a href={site.phone.href} className={`btn btn-${variant} ${className}`} onClick={() => trackCall(location)} aria-label={`Zadzwoń do ${site.owner.firstNameGenitive}: ${site.phone.display}`}>
       <PhoneIcon />
-      {children ?? <>Zadzwoń do {site.owner.firstNameGenitive}</>}
+      {children ?? site.phone.display}
     </a>
   );
 }

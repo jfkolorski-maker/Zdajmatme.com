@@ -27,7 +27,7 @@ export function buildLeadRecord(req: LeadRequest, leadId: string, now = new Date
     createdAt: now.toISOString(),
     parentName: contact.name.trim(),
     phone: normalizePhone(contact.phone)!,
-    email: contact.email.trim().toLowerCase(),
+    email: (contact.email ?? "").trim().toLowerCase(),
     source: "website",
     campaignSource,
     utmSource: a.utm_source,

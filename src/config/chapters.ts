@@ -1,8 +1,8 @@
 import { testimonials } from "./testimonials";
 
 /**
- * Single source of truth for the page "chapters" (order, numbering, labels).
- * Used by the sections, the sticky header (current chapter + nav) and the "next chapter" links.
+ * Page chapters — single source for order, numbering ("03 / 07") and labels.
+ * Used by section headers, the mobile header label and the desktop menu.
  */
 export interface ChapterMeta {
   id: string;
@@ -10,16 +10,18 @@ export interface ChapterMeta {
 }
 
 export const CHAPTERS: ChapterMeta[] = [
-  { id: "sciezki", label: "Dla kogo" },
-  { id: "wspolpraca", label: "Jak działamy" },
-  { id: "dopasuj", label: "Dopasowanie" },
+  { id: "jak-dzialamy", label: "Jak działamy" },
   { id: "lekcja", label: "Lekcja online" },
+  { id: "dopasuj", label: "Dopasowanie" },
+  { id: "standard", label: "Standard" },
   { id: "zespol", label: "Zespół" },
   ...(testimonials.length ? [{ id: "opinie", label: "Opinie" }] : []),
   { id: "faq", label: "FAQ" },
-  { id: "start", label: "Start" },
+  { id: "kontakt", label: "Kontakt" },
 ];
 
+const pad = (n: number) => String(n).padStart(2, "0");
 export const chapterIndex = (id: string) => CHAPTERS.findIndex((c) => c.id === id);
-export const chapterNo = (id: string) => String(chapterIndex(id) + 1).padStart(2, "0");
-export const nextChapter = (id: string) => CHAPTERS[chapterIndex(id) + 1];
+export const chapterNo = (id: string) => pad(chapterIndex(id) + 1);
+export const chapterTotal = () => pad(CHAPTERS.length);
+export const chapterLabel = (id: string) => CHAPTERS[chapterIndex(id)]?.label ?? "";

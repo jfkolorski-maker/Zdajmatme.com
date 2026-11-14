@@ -37,7 +37,7 @@ export async function notifyLead(lead: LeadRecord) {
           `Lead: ${lead.leadId}`,
           `Imię: ${lead.parentName}`,
           `Telefon: ${lead.phone}`,
-          `E-mail: ${lead.email}`,
+          `E-mail: ${lead.email || "—"}`,
           `Kontakt: ${lead.contactMethod}`,
           `Klasa: ${lead.studentGrade}`,
           `Poziom: ${lead.mathLevel}`,
@@ -54,7 +54,7 @@ export async function notifyLead(lead: LeadRecord) {
       ),
     );
   }
-  if (process.env.SEND_CONFIRMATION_EMAIL === "true") {
+  if (process.env.SEND_CONFIRMATION_EMAIL === "true" && lead.email) {
     jobs.push(
       send(
         lead.email,

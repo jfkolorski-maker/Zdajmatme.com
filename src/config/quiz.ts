@@ -123,8 +123,8 @@ export const QUIZ_STEPS: QuizStep[] = [
     multi: false,
     title: () => "Dla kogo szukasz korepetycji?",
     options: () => [
-      opt("who", "child", { glyph: "👪", hint: "Jestem rodzicem lub opiekunem" }),
-      opt("who", "self", { glyph: "🎓", hint: "Jestem uczniem / uczennicą" }),
+      opt("who", "child", { glyph: "@parent", hint: "Jestem rodzicem lub opiekunem" }),
+      opt("who", "self", { glyph: "@student", hint: "Jestem uczniem / uczennicą" }),
     ],
     isVisible: () => true,
   },

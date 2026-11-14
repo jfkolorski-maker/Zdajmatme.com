@@ -36,6 +36,8 @@ export const trackingConfig = {
   leadValue: Number(process.env.NEXT_PUBLIC_LEAD_VALUE || 0),
   enhancedConversions: process.env.NEXT_PUBLIC_ENHANCED_CONVERSIONS === "true",
   consentMode: (process.env.NEXT_PUBLIC_CONSENT_MODE || "basic") as "basic" | "advanced",
+  /** Meta Pixel (gtag mode only; in GTM mode configure the pixel inside GTM). Loaded after ad consent. */
+  metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "",
 };
 
 const FORBIDDEN = /(name|imie|imię|phone|tel|mail|message|wiadomo|address|adres)/i;
@@ -53,6 +55,7 @@ function sanitize(p: Params): Params {
 interface W {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
+  fbq?: (...args: unknown[]) => void;
 }
 const w = () => (typeof window === "undefined" ? null : (window as unknown as W));
 
@@ -84,15 +87,13 @@ async function sha256(value: string) {
  * NEXT_PUBLIC_ENHANCED_CONVERSIONS=true AND the user granted advertising consent.
  * They are meant for the Google Ads tag only – do NOT map them into GA4.
  */
-export async function trackLead(leadId: string, pii?: { email: string; phoneE164: string }) {
+export async function trackLead(leadId: string, pii?: { email?: string; phoneE164: string }) {
   const win = w();
   if (!win) return;
   let userData: Record<string, string> | undefined;
   if (pii && trackingConfig.enhancedConversions && getConsent()?.ads && crypto?.subtle) {
-    userData = {
-      sha256_email_address: await sha256(pii.email.trim().toLowerCase()),
-      sha256_phone_number: await sha256(pii.phoneE164),
-    };
+    userData = { sha256_phone_number: await sha256(pii.phoneE164) };
+    if (pii.email) userData.sha256_email_address = await sha256(pii.email.trim().toLowerCase());
   }
   const value = trackingConfig.leadValue || undefined;
   if (trackingConfig.mode === "gtm") {
@@ -105,6 +106,7 @@ export async function trackLead(leadId: string, pii?: { email: string; phoneE164
     });
   } else if (trackingConfig.mode === "gtag") {
     win.gtag?.("event", "generate_lead", { transaction_id: leadId, value, currency: value ? "PLN" : undefined });
+    win.fbq?.("track", "Lead", {}, { eventID: leadId });
     if (trackingConfig.adsId && trackingConfig.adsLeadLabel) {
       if (userData) win.gtag?.("set", "user_data", userData);
       win.gtag?.("event", "conversion", {
@@ -119,6 +121,7 @@ export async function trackLead(leadId: string, pii?: { email: string; phoneE164
 
 export function trackCall(location: string) {
   track("click_to_call", { cta_location: location });
+  if (trackingConfig.mode === "gtag") w()?.fbq?.("track", "Contact");
   if (trackingConfig.mode === "gtag" && trackingConfig.adsId && trackingConfig.adsCallLabel) {
     w()?.gtag?.("event", "conversion", { send_to: `${trackingConfig.adsId}/${trackingConfig.adsCallLabel}` });
   }

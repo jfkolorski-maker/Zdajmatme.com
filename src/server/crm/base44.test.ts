@@ -5,7 +5,7 @@ import { leadRequestSchema } from "@/lib/lead-schema";
 
 const req = leadRequestSchema.parse({
   idempotencyKey: "6f1c1d1e-8a3b-4c5d-9e6f-1a2b3c4d5e6f",
-  contact: { name: "Anna", phone: "600 123 456", email: "Anna@Example.pl", contactMethod: "sms", message: "", filler: "parent", fillerConfirm: true },
+  contact: { name: "Anna", phone: "600 123 456", email: "Anna@Example.pl", contactMethod: "sms", message: "", filler: "parent", fillerConfirm: true, privacyAccepted: true },
   quiz: { who: "child", stage: "lomat", mathLevel: "extended", problems: ["matura_ext"], topics: ["logs", "derivatives"], goal: "matura", start: "7d" },
   attribution: { utm_source: "google", utm_medium: "cpc", utm_campaign: "matura", gclid: "Cj0K" },
   history: [{ step: "who", at: 1_700_000_000_000, ms: 1200 }],

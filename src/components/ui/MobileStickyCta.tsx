@@ -8,29 +8,27 @@ import { useConsent } from "@/lib/consent";
 import { ArrowRight, PhoneIcon } from "./Icons";
 
 /**
- * Mobile-only bottom bar, visible while scrolling. Hidden only while a [data-hide-sticky] element
- * (hero CTAs, quiz + form) is on screen, so it never duplicates them or covers quiz/form controls.
- * The footer reserves bottom padding so the bar never covers the last content. Also hidden while the consent banner is open.
+ * Phone-only bottom bar: "Dobierz korepetycje" + round call button.
+ * Hidden while hero buttons, the quiz or the contact chapter ([data-hide-sticky]) are on screen;
+ * the footer reserves space so it never covers content.
  */
 export function MobileStickyCta() {
   const [blocked, setBlocked] = useState(true);
   const consent = useConsent();
 
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll("[data-hide-sticky]"));
     const visible = new Set<Element>();
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
         setBlocked(visible.size > 0);
       },
-      { threshold: 0.08 },
+      { threshold: 0.05 },
     );
-    els.forEach((el) => io.observe(el));
+    document.querySelectorAll("[data-hide-sticky]").forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
-  // wait for the consent banner to be dismissed so the two never overlap
   const show = !blocked && (trackingConfig.mode === "off" || consent !== null);
 
   return (
@@ -40,13 +38,13 @@ export function MobileStickyCta() {
           initial={{ y: "110%" }}
           animate={{ y: 0 }}
           exit={{ y: "110%" }}
-          transition={{ duration: 0.35 }}
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-navy-950/95 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-lg md:hidden"
+          transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.07] bg-navy-950/92 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl lg:hidden"
         >
-          <div className="flex gap-2">
+          <div className="flex gap-2.5">
             <button
               type="button"
-              className="btn btn-primary !min-h-12 flex-1 !gap-2 !px-4 whitespace-nowrap !text-[0.9375rem]"
+              className="btn btn-primary flex-1"
               onClick={() => {
                 track("cta_click", { cta_location: "mobile_sticky", cta_target: "quiz" });
                 openQuiz();
@@ -54,8 +52,8 @@ export function MobileStickyCta() {
             >
               Dobierz korepetycje <ArrowRight className="arrow" />
             </button>
-            <a href={site.phone.href} onClick={() => trackCall("mobile_sticky")} className="btn btn-ghost-dark !min-h-12 !gap-2 !px-3.5 whitespace-nowrap !text-[0.9375rem]" aria-label={`Zadzwoń do Oliwii: ${site.phone.display}`}>
-              <PhoneIcon className="text-yellow-400" /> Zadzwoń
+            <a href={site.phone.href} onClick={() => trackCall("mobile_sticky")} aria-label={`Zadzwoń do ${site.owner.firstNameGenitive}: ${site.phone.display}`} className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/[0.08] text-yellow-400 ring-1 ring-white/25">
+              <PhoneIcon />
             </a>
           </div>
         </m.div>

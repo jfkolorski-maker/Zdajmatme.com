@@ -1,47 +1,42 @@
 "use client";
 import { site } from "@/config/site";
+import { CHAPTERS } from "@/config/chapters";
 import { openConsentSettings } from "@/lib/consent";
 import { trackCall } from "@/lib/tracking";
 import { Logo } from "../ui/Logo";
 
+const link = "inline-flex min-h-12 items-center text-white/65 hover:text-white";
+
 export function Footer() {
   return (
-    <footer className="relative z-30 bg-navy-950 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-14 text-white/70 md:pb-14">
-      <div className="container-x grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+    <footer className="border-t border-white/[0.07] bg-navy-950 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-10 lg:pb-12 lg:pt-14">
+      <div className="container-x grid gap-8 text-center sm:grid-cols-3 sm:text-left">
         <div>
           <Logo />
-          <p className="mt-4 max-w-sm text-sm leading-relaxed">
-            Indywidualne korepetycje online z matematyki 1:1 dla uczniów szkoły podstawowej i liceum.
-          </p>
+          <p className="mt-3 text-white/60">Korepetycje z matematyki online 1:1. Lekcje prowadzimy zdalnie.</p>
         </div>
-        <div>
-          <p className="text-sm font-bold uppercase tracking-wider text-white">Kontakt</p>
-          <ul className="mt-3 text-[0.9375rem]">
-            <li>
-              <a href={site.phone.href} onClick={() => trackCall("footer")} className="inline-flex min-h-11 items-center font-bold text-yellow-400 hover:underline">
-                {site.phone.display}
-              </a>
-            </li>
-            <li>{site.owner.name} — {site.owner.role}</li>
-            {site.legal.contactEmail && (
-              <li>
-                <a href={`mailto:${site.legal.contactEmail}`} className="inline-flex min-h-11 items-center hover:text-white">{site.legal.contactEmail}</a>
-              </li>
-            )}
+        <nav aria-label="Rozdziały">
+          <p className="kicker kicker-plain text-white">Strona</p>
+          <ul className="mt-2">
+            {CHAPTERS.map((c) => (
+              <li key={c.id}><a href={`#${c.id}`} className={link}>{c.label}</a></li>
+            ))}
           </ul>
-        </div>
+        </nav>
         <div>
-          <p className="text-sm font-bold uppercase tracking-wider text-white">Informacje</p>
-          <ul className="mt-3 text-[0.9375rem]">
-            <li><a href="/polityka-prywatnosci" className="inline-flex min-h-11 items-center hover:text-white">Polityka prywatności</a></li>
-            <li><button type="button" onClick={openConsentSettings} className="inline-flex min-h-11 items-center hover:text-white">Ustawienia cookies</button></li>
-            <li><a href="#faq" className="inline-flex min-h-11 items-center hover:text-white">FAQ</a></li>
+          <p className="kicker kicker-plain text-white">Kontakt</p>
+          <ul className="mt-2">
+            <li><a href={site.phone.href} onClick={() => trackCall("footer")} className={`${link} font-bold !text-yellow-400`}>{site.phone.display}</a></li>
+            {site.legal.contactEmail && <li><a href={`mailto:${site.legal.contactEmail}`} className={link}>{site.legal.contactEmail}</a></li>}
+            <li><a href="/polityka-prywatnosci" className={link}>Polityka prywatności</a></li>
+            <li><a href="/regulamin" className={link}>Regulamin</a></li>
+            <li><button type="button" onClick={openConsentSettings} className={link}>Ustawienia cookies</button></li>
           </ul>
         </div>
       </div>
-      <div className="container-x mt-12 border-t border-white/10 pt-6 text-[0.8125rem]">
-        © {new Date().getFullYear()} {site.name}. Wszelkie prawa zastrzeżone.
-      </div>
+      <p className="container-x mt-8 border-t border-white/[0.07] pt-5 text-center text-[0.85rem] text-white/60 sm:text-left">
+        © {new Date().getFullYear()} {site.name}
+      </p>
     </footer>
   );
 }

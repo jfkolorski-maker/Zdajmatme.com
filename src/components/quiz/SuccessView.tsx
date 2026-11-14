@@ -2,39 +2,28 @@
 import { m } from "motion/react";
 import { site } from "@/config/site";
 import { CallCta } from "../ui/Cta";
-import { Check } from "../ui/Icons";
 
-export function SuccessView({ leadId, onHome, headingRef }: { leadId: string; onHome: () => void; headingRef: React.RefObject<HTMLHeadingElement | null> }) {
+export function SuccessView({ leadId, onNew, headingRef }: { leadId: string; onNew: () => void; headingRef: React.RefObject<HTMLHeadingElement | null> }) {
   return (
-    <m.div
-      initial={{ opacity: 0, scale: 0.97 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="relative overflow-hidden rounded-[2rem] bg-surface px-6 py-12 text-center text-text ring-1 ring-white/10 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)] sm:px-12 sm:py-16"
-      role="status"
-    >
-      <m.span
-        initial={{ scale: 0, rotate: -20 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
-        className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-yellow-400 text-navy-950 shadow-[var(--shadow-glow)]"
-      >
-        <Check className="h-10 w-10" strokeWidth={3} />
-      </m.span>
-      <h3 ref={headingRef} tabIndex={-1} className="mx-auto mt-7 max-w-xl text-3xl font-extrabold outline-none sm:text-4xl">
-        Dziękujemy! To pierwszy krok do lepszej matematyki.
+    <m.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="card-app px-5 py-10 text-center sm:px-10 sm:py-14" role="status">
+      <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-yellow-400">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#061a32" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <m.path d="M5 12.5l4.5 4.5L19 7.5" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.45, delay: 0.2 }} />
+        </svg>
+      </span>
+      <h3 ref={headingRef} tabIndex={-1} className="h3 mt-5 text-ink outline-none">
+        Dziękujemy! Zgłoszenie dotarło.
       </h3>
-      <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-text-2">
-        Otrzymaliśmy Twoje zgłoszenie. {site.owner.firstName} skontaktuje się z Tobą, aby omówić potrzeby ucznia i dopasować odpowiednie korepetycje.
+      <p className="mx-auto mt-3 max-w-md text-muted">
+        {site.owner.firstName} skontaktuje się z Tobą, aby omówić potrzeby ucznia i dopasować korepetycje.
       </p>
-      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-        <CallCta location="success" variant="primary">
-          Zadzwoń teraz: {site.phone.display}
-        </CallCta>
-        <button type="button" onClick={onHome} className="btn btn-ghost-light">
-          Wróć na stronę główną
+      <div className="mx-auto mt-7 flex max-w-sm flex-col gap-2.5">
+        <CallCta location="success" variant="primary">Zadzwoń teraz</CallCta>
+        <button type="button" onClick={onNew} className="btn btn-secondary">
+          Nowe zgłoszenie
         </button>
       </div>
-      <p className="mt-6 text-[0.8125rem] font-semibold text-text-3">Numer zgłoszenia: {leadId}</p>
+      <p className="mt-5 text-[0.85rem] text-muted">Numer zgłoszenia: {leadId}</p>
     </m.div>
   );
 }

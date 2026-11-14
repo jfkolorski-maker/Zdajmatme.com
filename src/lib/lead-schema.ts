@@ -51,12 +51,14 @@ export const contactSchema = z.object({
     .trim()
     .min(1, "Podaj numer telefonu.")
     .refine((v) => normalizePhone(v) !== null, "Podaj poprawny numer telefonu, np. 600 123 456."),
+  /** optional – required only when the preferred contact method is e-mail */
   email: z
-    .string({ error: "Podaj adres e-mail." })
+    .string()
     .trim()
-    .min(1, "Podaj adres e-mail.")
     .max(120, "Adres e-mail jest za długi.")
-    .refine((v) => EMAIL_RE.test(v), "Podaj poprawny adres e-mail, np. jan@przyklad.pl."),
+    .refine((v) => v === "" || EMAIL_RE.test(v), "Podaj poprawny adres e-mail, np. jan@przyklad.pl.")
+    .optional()
+    .default(""),
   contactMethod: z.enum(CONTACT_METHODS, { message: "Wybierz preferowaną formę kontaktu." }),
   message: z.string().trim().max(1000, "Wiadomość może mieć maks. 1000 znaków.").optional().default(""),
   /**
@@ -65,7 +67,13 @@ export const contactSchema = z.object({
    */
   filler: z.enum(FILLERS, { message: "Wybierz, kto podaje dane kontaktowe." }),
   fillerConfirm: z.literal(true, { message: "Potwierdź to oświadczenie, aby kontynuować." }),
+  /** required acknowledgment of the privacy policy (link next to the checkbox) */
+  privacyAccepted: z.literal(true, { message: "Zaznacz, że zapoznałeś(-aś) się z polityką prywatności." }),
   marketingConsent: z.boolean().default(false),
+}).superRefine((c, ctx) => {
+  if (c.contactMethod === "email" && !c.email) {
+    ctx.addIssue({ code: "custom", path: ["email"], message: "Podaj e-mail albo wybierz kontakt telefoniczny." });
+  }
 });
 
 export type ContactInput = z.input<typeof contactSchema>;

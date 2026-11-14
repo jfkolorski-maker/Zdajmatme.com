@@ -2,7 +2,9 @@
 
 Landing page z interaktywnym quizem kwalifikującym, formularzem leadowym, adapterem CRM (Base44), trackingiem GA4 / Google Ads / GTM i Consent Mode v2.
 
-**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Motion (LazyMotion) · Zod 4 · Vitest
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Motion (LazyMotion) · Zod 4 · Inter Variable (self-hosted) · Vitest
+
+Układ i styl wg szablonu premium landing (rozdziały 01–07, jeden granat + żółty jako kolor akcji, karty „aplikacji” dla quizu i formularza) — zob. `DEPLOYMENT.md` → „Struktura strony”.
 
 ```bash
 npm install
@@ -23,15 +25,18 @@ src/
     layout.tsx               fonty, metadata SEO, Consent Mode, tracking
     api/leads/route.ts       POST /api/leads — walidacja, anty-spam, rate limit, idempotency, zapis do CRM
     polityka-prywatnosci/    szablon polityki prywatności (do uzupełnienia)
+    regulamin/               szablon regulaminu (do uzupełnienia)
     sitemap.ts robots.ts opengraph-image.tsx icon.svg
   config/                    ← TU EDYTUJESZ TREŚCI
     site.ts                  telefon, cena, dane właścicielki, dane prawne
+    chapters.ts              kolejność, numeracja i nazwy rozdziałów (header, nagłówki sekcji)
+    hero.ts                  wideo hero (włącznik + pliki)
     quiz.ts                  pytania, opcje, logika warunkowa, presety ścieżek, scoring leada
     tutors.ts                zespół korepetytorów
     testimonials.ts          opinie (pusta tablica = sekcja ukryta)
     faq.ts                   FAQ
   components/
-    sections/                Hero, Paths, Process, LessonDemo, Team, Faq, …
+    sections/                Hero, Steps (stos kart / stories), LessonDemo, Standard, Team, Faq, Contact, …
     quiz/                    Quiz, LeadForm, ResultView, SuccessView (ładowane leniwie)
     tracking/                Consent defaults/banner, skrypty GTM/gtag, Boot (UTM)
     ui/                      przyciski CTA, sticky CTA, ikony, animacje Reveal
