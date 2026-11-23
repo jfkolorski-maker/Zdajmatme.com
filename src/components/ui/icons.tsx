@@ -41,6 +41,8 @@ const PATHS: Record<string, string> = {
   thumb: "M7 10v11H3V10zM7 10l4-7c1.7 0 2.7 1.3 2.4 3L13 9h6a2 2 0 0 1 2 2.3l-1.3 8A2 2 0 0 1 17.7 21H7",
   trend: "M3 17l6-6 4 4 8-8M15 7h6v6",
   play: "M7 4.5v15l13-7.5z",
+  soundOn: "M4 9h4l5-4v14l-5-4H4zM16.5 9a4 4 0 0 1 0 6M19.5 6a8 8 0 0 1 0 12",
+  soundOff: "M4 9h4l5-4v14l-5-4H4zM17 9.5l5 5M22 9.5l-5 5",
   graph: "M3 3v18h18M7 15c2-6 4-9 6-9s3 3 4 6",
 };
 
