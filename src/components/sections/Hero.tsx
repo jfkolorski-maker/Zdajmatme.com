@@ -144,7 +144,7 @@ export function Hero() {
     <section id="start" aria-labelledby="hero-title" className="relative overflow-hidden bg-night text-white">
       <div className="md:shell md:grid md:min-h-[min(100svh,58rem)] md:grid-cols-[1fr_auto] md:items-center md:gap-14 md:pb-12 md:pt-[6.5rem]">
         {/* film: full-bleed background on phones, portrait card on desktop */}
-        <div className="absolute inset-0 md:relative md:order-2 md:aspect-[9/16] md:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
+        <div className="absolute inset-x-0 top-0 aspect-[9/16] w-full md:relative md:order-2 md:w-auto md:aspect-[9/16] md:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
           <HeroFilm videoRef={videoRef} />
           {/* desktop: sound toggle at the bottom edge of the film card */}
           <SoundButton muted={sound.muted} onClick={sound.toggle} className="absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 md:inline-flex" />
@@ -177,12 +177,10 @@ export function Hero() {
                 {BRAND.phone}
               </PhoneLink>
             </div>
-            <ul aria-label="Co oferujemy" className="hero-rise mx-auto mt-3 flex max-w-[26rem] flex-wrap justify-center gap-1.5 md:mx-0 md:mt-5 md:max-w-none md:justify-start md:gap-2" style={{ animationDelay: "0.3s" }}>
+            <ul aria-label="Co oferujemy" className="hero-rise mx-auto mt-3 flex max-w-[24rem] flex-wrap justify-center gap-x-3 gap-y-0.5 text-[0.74rem] text-white/80 md:mx-0 md:mt-5 md:max-w-none md:justify-start md:text-[0.85rem]" style={{ animationDelay: "0.3s" }}>
               {TRUST.map((t) => (
-                <li key={t} className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-black/40 px-3 py-1.5 text-[0.76rem] font-semibold text-white ring-1 ring-white/15 backdrop-blur-sm md:text-[0.85rem]">
-                  <span className="grid h-4 w-4 place-items-center rounded-full bg-accent text-night">
-                    <Icon name="check" size={11} strokeWidth={3.5} />
-                  </span>
+                <li key={t} className="flex items-center gap-1 whitespace-nowrap">
+                  <Icon name="check" size={12} strokeWidth={3} className="text-accent" />
                   {t}
                 </li>
               ))}

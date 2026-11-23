@@ -87,7 +87,7 @@ export function Header() {
         </nav>
         <PhoneLink
           placement="header"
-          className={`inline-flex h-11 items-center justify-center gap-2 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors sm:px-5 bg-accent text-night shadow-[0_10px_24px_-10px_rgba(255,127,17,0.8)] hover:bg-accent-bright`}
+          className={`inline-flex h-11 items-center justify-center gap-2 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors sm:px-5 bg-accent text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.8)] hover:bg-accent-bright`}
         >
           <Icon name="phone" size={18} />
           <span className="hidden sm:inline">{BRAND.phone}</span>

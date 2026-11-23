@@ -1,5 +1,5 @@
 /** Line illustrations for the four teaching stages (stroke 2, rounded) – no stock photos, no fake footage. */
-const A = "#FF7F11";
+const A = "#FFA550";
 const W = "rgba(255,255,255,0.85)";
 const D = "rgba(255,255,255,0.22)";
 

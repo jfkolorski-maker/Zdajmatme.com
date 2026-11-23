@@ -17,7 +17,7 @@ export const HERO = {
 export const TRUST = ["Lekcje 1-na-1 online", "Zajęcia na ZOOM", "Kurs 8-klasisty i maturalny"];
 
 export const VIDEO = {
-  title: "Przykładowa lekcja próbna",
+  title: "Przykładowa lekcja",
   youtubeId: "8fBZJu4RNss",
   /** the film's own YouTube thumbnail, stored locally */
   poster: "/video/lekcja-poster.webp",

@@ -14,7 +14,7 @@ function StageBadge({ n, large = false }: { n: number; large?: boolean }) {
   return (
     <span
       aria-hidden="true"
-      className={`pointer-events-none absolute left-3 top-3 z-30 grid place-items-center rounded-full bg-accent font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,127,17,0.9)] ring-2 ring-white/20 ${large ? "h-14 w-14 text-xl lg:left-5 lg:top-5" : "h-11 w-11 text-base"}`}
+      className={`pointer-events-none absolute left-3 top-3 z-30 grid place-items-center rounded-full bg-accent font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.9)] ring-2 ring-white/20 ${large ? "h-14 w-14 text-xl lg:left-5 lg:top-5" : "h-11 w-11 text-base"}`}
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span key={n} initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }} transition={{ duration: 0.35, ease: EASE_OUT }}>
@@ -256,7 +256,7 @@ function Stories() {
               <FilmLayer i={i} />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute left-3 top-3 z-30 grid h-11 w-11 place-items-center rounded-full bg-accent text-base font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,127,17,0.9)] ring-2 ring-white/20"
+                className="pointer-events-none absolute left-3 top-3 z-30 grid h-11 w-11 place-items-center rounded-full bg-accent text-base font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.9)] ring-2 ring-white/20"
               >
                 {i + 1}
               </span>
