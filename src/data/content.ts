@@ -17,9 +17,10 @@ export const HERO = {
 export const TRUST = ["Lekcje 1-na-1 online", "Kurs 8-klasisty i maturalny", "Zajęcia na ZOOM"];
 
 export const VIDEO = {
-  title: "Przykładowa lekcja",
-  lead: "Zobacz, jak wygląda nauka na wirtualnej tablicy.",
+  title: "Przykładowa lekcja próbna",
   youtubeId: "8fBZJu4RNss",
+  /** the film's own YouTube thumbnail, stored locally */
+  poster: "/video/lekcja-poster.webp",
 };
 
 export type OfferId = "indiv" | "e8" | "matura";

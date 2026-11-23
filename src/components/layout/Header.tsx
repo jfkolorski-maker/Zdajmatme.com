@@ -69,9 +69,7 @@ export function Header() {
                 transition={{ duration: DUR.ui, ease: EASE_OUT }}
                 className="absolute inset-0 truncate text-[0.72rem] font-bold uppercase leading-5 tracking-[0.12em] text-white/85"
               >
-                <span className="tabular-nums text-accent-bright">{c.n}</span>
-                <span className="text-white/40"> · </span>
-                {c.short}
+                <span className="text-accent-bright">{c.short}</span>
               </motion.p>
             )}
           </AnimatePresence>

@@ -1,29 +1,30 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
-import { FadeUp } from "@/components/motion/Reveal";
-import { SectionHead } from "@/components/motion/SectionHead";
+import { FadeUp, RevealText } from "@/components/motion/Reveal";
 import { Icon } from "@/components/ui/icons";
 import { VIDEO } from "@/data/content";
 import { track } from "@/lib/ads/track";
 
 /**
- * 01 · Przykładowa lekcja – the YouTube video from zdajmatme.com behind a light facade:
- * no Google request (and no cookies) until the visitor taps play; then youtube-nocookie with autoplay.
+ * Przykładowa lekcja próbna – just the title and the film. Thumbnail = the film's own YouTube thumbnail
+ * (served from our domain, so nothing loads from Google until play). Bright orange frame.
+ * On tap: youtube-nocookie with autoplay.
  */
 export function VideoLesson() {
   const [play, setPlay] = useState(false);
   return (
     <section id="lekcja" aria-labelledby="video-title" className="section-y bg-surface text-white">
       <div className="shell">
-        <SectionHead chapter="lekcja" title={VIDEO.title} lead={VIDEO.lead} id="video-title" />
-        <FadeUp soft className="mx-auto mt-8 max-w-4xl md:mt-12">
-          <div className="relative aspect-video overflow-hidden rounded-[22px] bg-night ring-1 ring-white/10 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)]">
+        <RevealText id="video-title" text={VIDEO.title} accent={["próbna"]} className="t-h2 text-center" />
+        <FadeUp soft className="mx-auto mt-7 max-w-4xl md:mt-10">
+          <div className="relative aspect-video overflow-hidden rounded-[22px] bg-night ring-[5px] ring-accent shadow-[0_0_0_10px_rgba(255,165,80,0.18),0_0_70px_-6px_rgba(255,165,80,0.75)] md:ring-[6px]">
             {play ? (
               <iframe
                 className="absolute inset-0 h-full w-full"
                 src={`https://www.youtube-nocookie.com/embed/${VIDEO.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-                title="Przykładowa lekcja wideo"
+                title="Przykładowa lekcja próbna – film"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
@@ -34,18 +35,16 @@ export function VideoLesson() {
                   setPlay(true);
                   track({ name: "cta_click", placement: "video", label: "play" });
                 }}
-                className="group absolute inset-0 grid place-items-center bg-[radial-gradient(90%_80%_at_50%_40%,#2f2f2f_0%,#1a1a1a_75%)]"
-                aria-label="Odtwórz przykładową lekcję (YouTube)"
+                className="group absolute inset-0 block"
+                aria-label="Odtwórz przykładową lekcję próbną (YouTube)"
               >
-                <span aria-hidden="true" className="absolute inset-0 opacity-60 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:32px_32px]" />
-                <span aria-hidden="true" className="math absolute left-[8%] top-[14%] text-[clamp(1rem,3.4vw,1.6rem)] text-white/25">Δ = b² − 4ac</span>
-                <span aria-hidden="true" className="math absolute bottom-[14%] right-[8%] text-[clamp(1rem,3.4vw,1.6rem)] text-white/25">x₁,₂ = (−b ± √Δ) / 2a</span>
-                <span className="relative flex flex-col items-center gap-3">
-                  <span className="relative grid h-[4.5rem] w-[4.5rem] place-items-center rounded-full bg-accent text-night shadow-[0_18px_40px_-14px_rgba(255,165,80,0.8)] transition-transform duration-300 group-hover:scale-105 group-active:scale-95">
+                <Image src={VIDEO.poster} alt="" fill sizes="(min-width: 896px) 896px, 92vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
+                <span aria-hidden="true" className="absolute inset-0 bg-night/25 transition-colors group-hover:bg-night/15" />
+                <span className="absolute inset-0 grid place-items-center">
+                  <span className="relative grid h-[4.5rem] w-[4.5rem] place-items-center rounded-full bg-accent text-night shadow-[0_18px_40px_-10px_rgba(255,165,80,0.9)] transition-transform duration-300 group-hover:scale-105 group-active:scale-95 md:h-20 md:w-20">
                     <span aria-hidden="true" className="ping absolute inset-0 rounded-full bg-accent/40" />
-                    <Icon name="play" size={28} className="relative translate-x-[2px] fill-current" />
+                    <Icon name="play" size={30} className="relative translate-x-[2px] fill-current" />
                   </span>
-                  <span className="text-sm font-semibold text-white/80">Odtwórz lekcję · YouTube</span>
                 </span>
               </button>
             )}

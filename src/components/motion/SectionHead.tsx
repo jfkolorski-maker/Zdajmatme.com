@@ -28,11 +28,10 @@ export function SectionHead({ chapter, kicker, title, accent, lead, id, classNam
         <p className="mt-4 flex items-center justify-center gap-2.5 text-[0.78rem] font-bold uppercase tracking-[0.22em]">
           {c ? (
             <>
-              <span className="tabular-nums text-accent-bright">
-                {c.n} <span className="text-white/35">/ {c.total}</span>
-              </span>
-              <span className="h-px w-6 bg-white/20" />
+              {/* no chapter numbers – just the name between two short lines */}
+              <span className="h-px w-6 bg-accent/50" />
               <span className="text-white/75">{c.label}</span>
+              <span className="h-px w-6 bg-accent/50" />
             </>
           ) : (
             <span className="text-white/75">{kicker}</span>
