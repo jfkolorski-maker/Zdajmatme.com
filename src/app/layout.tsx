@@ -1,58 +1,43 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/inter/wght.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
 import "./globals.css";
-import { site } from "@/config/site";
-import { seo } from "@/lib/seo";
-import { MotionProvider } from "@/components/ui/MotionProvider";
-import { ConsentDefaults } from "@/components/tracking/ConsentDefaults";
-import { TrackingScripts } from "@/components/tracking/TrackingScripts";
-import { ConsentBanner } from "@/components/tracking/ConsentBanner";
-import { Boot } from "@/components/tracking/Boot";
+import { AdsScripts } from "@/components/ads/AdsScripts";
+import { BRAND } from "@/config/brand";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: seo.title,
-  description: seo.description,
-  keywords: seo.keywords,
+  metadataBase: new URL(BRAND.url),
+  title: BRAND.seo.title,
+  description: BRAND.seo.description,
+  applicationName: BRAND.name,
+  keywords: [
+    "korepetycje matematyka online",
+    "korepetycje matematyka liceum",
+    "korepetycje matematyka szkoła podstawowa",
+    "kurs maturalny matematyka",
+    "matura rozszerzona matematyka korepetycje",
+    "kurs egzamin ósmoklasisty matematyka",
+  ],
   alternates: { canonical: "/" },
-  applicationName: site.name,
-  authors: [{ name: site.owner.name }],
+  openGraph: { type: "website", locale: "pl_PL", url: BRAND.url, siteName: BRAND.name, title: BRAND.seo.title, description: BRAND.seo.description },
+  twitter: { card: "summary_large_image", title: BRAND.seo.title, description: BRAND.seo.description },
+  robots: { index: true, follow: true },
   formatDetection: { telephone: false },
-  openGraph: {
-    type: "website",
-    locale: site.locale,
-    url: "/",
-    siteName: site.name,
-    title: "Matematyka przestaje być problemem — korepetycje online 1:1 | ZdajMatme.com",
-    description: seo.description,
-  },
-  twitter: { card: "summary_large_image", title: "Matematyka przestaje być problemem | ZdajMatme.com", description: seo.description },
-  robots: { index: true, follow: true, "max-image-preview": "large" } as Metadata["robots"],
 };
 
-export const viewport: Viewport = {
-  themeColor: "#031226",
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-};
+export const viewport: Viewport = { themeColor: "#1a1a1a", width: "device-width", initialScale: 1, viewportFit: "cover" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl">
-      <head>
-        <ConsentDefaults />
-      </head>
+    <html lang="pl" suppressHydrationWarning>
       <body>
-        <MotionProvider>
-          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-yellow-400 focus:px-4 focus:py-2 focus:font-bold focus:text-navy-950">
-            Przejdź do treści
-          </a>
-          {children}
-          <ConsentBanner />
-        </MotionProvider>
-        <Boot />
-        <TrackingScripts />
+        <a href="#zapisy" className="skip-link">
+          Przejdź do zapisów
+        </a>
+        {children}
+        <AdsScripts />
       </body>
     </html>
   );

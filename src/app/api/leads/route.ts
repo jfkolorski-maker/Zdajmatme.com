@@ -1,118 +1,96 @@
-import { NextResponse, after, type NextRequest } from "next/server";
-import { leadRequestSchema } from "@/lib/lead-schema";
-import { getCrmAdapter } from "@/server/crm";
-import { kv } from "@/server/kv";
-import { buildLeadRecord, newLeadId } from "@/server/lead-service";
-import { notifyLead } from "@/server/notify/email";
+import { NextResponse, type NextRequest } from "next/server";
+import { deliverLead, LeadDeliveryError, toLeadShape } from "@/lib/lead/deliver";
+import { leadRequestSchema, partialLeadSchema, type LeadRequest, type LeadStage } from "@/lib/lead/schema";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+/** Google Apps Script can take 10–20 s on a cold start. */
+export const maxDuration = 30;
 
-const MAX_BODY = 24_000;
-const MIN_FILL_MS = 3_000;
-const GENERIC_ERROR = "Nie udało się wysłać zgłoszenia. Spróbuj ponownie za chwilę lub zadzwoń.";
+/* Best-effort, per-instance guards. Put a shared store (Redis/KV) behind
+ * these if the site runs on many instances. The webhook also receives an
+ * Idempotency-Key header so the destination can de-duplicate too. */
+const delivered = new Map<string, number>();
+const inFlight = new Map<string, Promise<void>>();
+const hits = new Map<string, number[]>();
+const DEDUPE_TTL = 24 * 60 * 60 * 1000;
+const RATE_WINDOW = 10 * 60 * 1000;
+/** Each visitor sends up to three requests (phone, finished quiz, full form). */
+const RATE_MAX = 12;
 
-const json = (status: number, body: Record<string, unknown>) =>
-  NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
-
-function clientIp(req: NextRequest) {
-  return (req.headers.get("x-forwarded-for")?.split(",")[0] || req.headers.get("x-real-ip") || "unknown").trim();
-}
-
-function originAllowed(req: NextRequest) {
-  const origin = req.headers.get("origin");
-  if (!origin) return false;
-  const allowed = new Set(
-    [process.env.NEXT_PUBLIC_SITE_URL, ...(process.env.ALLOWED_ORIGINS || "").split(",")]
-      .map((o) => o?.trim().replace(/\/$/, ""))
-      .filter(Boolean) as string[],
-  );
-  const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
-  try {
-    const o = new URL(origin);
-    return allowed.has(o.origin) || o.host === host;
-  } catch {
-    return false;
+function prune(now: number) {
+  for (const [id, at] of delivered) if (now - at > DEDUPE_TTL) delivered.delete(id);
+  for (const [ip, list] of hits) {
+    const recent = list.filter((t) => now - t < RATE_WINDOW);
+    if (recent.length) hits.set(ip, recent);
+    else hits.delete(ip);
   }
 }
 
-export async function POST(req: NextRequest) {
-  // 1. Origin / CSRF protection
-  if (!originAllowed(req)) return json(403, { ok: false, error: "Forbidden" });
+export async function POST(request: NextRequest) {
+  const now = Date.now();
+  prune(now);
 
-  // 2. Rate limiting per IP (burst + daily)
-  const ip = clientIp(req);
-  try {
-    const [burst, daily] = await Promise.all([kv.incr(`rl:10m:${ip}`, 600), kv.incr(`rl:1d:${ip}`, 86_400)]);
-    if (burst > 5 || daily > 20) return json(429, { ok: false, error: "Zbyt wiele prób. Spróbuj ponownie później lub zadzwoń." });
-  } catch (e) {
-    console.error("[leads] rate-limit store unavailable", (e as Error).message);
-  }
-
-  // 3. Parse + validate
-  const raw = await req.text();
-  if (raw.length > MAX_BODY) return json(413, { ok: false, error: GENERIC_ERROR });
   let body: unknown;
   try {
-    body = JSON.parse(raw);
+    body = await request.json();
   } catch {
-    return json(400, { ok: false, error: GENERIC_ERROR });
+    return NextResponse.json({ ok: false, error: "Nieprawidłowe dane." }, { status: 400 });
   }
-  const parsed = leadRequestSchema.safeParse(body);
+
+  // early capture (phone before the quiz, finished quiz) or the full lead
+  const isPartial = typeof body === "object" && body !== null && "stage" in body;
+  const parsed = isPartial ? partialLeadSchema.safeParse(body) : leadRequestSchema.safeParse(body);
   if (!parsed.success) {
-    const fieldErrors: Record<string, string> = {};
-    for (const issue of parsed.error.issues) {
-      if (issue.path[0] === "contact" && issue.path[1]) fieldErrors[String(issue.path[1])] ??= issue.message;
+    // Honeypot hit: answer like a success so bots learn nothing, but deliver nothing.
+    if (parsed.error.issues.some((i) => i.path[0] === "company")) {
+      return NextResponse.json({ ok: true });
     }
-    return json(422, { ok: false, error: "Sprawdź poprawność danych w formularzu.", fieldErrors });
-  }
-  const data = parsed.data;
-
-  // 4. Anti-spam: honeypot + minimum fill time
-  if (data.hp || Date.now() - data.startedAt < MIN_FILL_MS) {
-    console.warn("[leads] spam heuristics triggered");
-    return json(422, { ok: false, error: GENERIC_ERROR });
+    return NextResponse.json(
+      { ok: false, error: "Sprawdź poprawność danych w formularzu.", issues: parsed.error.issues.map((i) => i.path.join(".")) },
+      { status: 422 },
+    );
   }
 
-  // 5. Idempotency – the same submission (retry / double click) never creates two leads
-  const idemKey = `idem:${data.idempotencyKey}`;
+  const lead: LeadRequest & { stage?: LeadStage } = "stage" in parsed.data ? toLeadShape(parsed.data) : parsed.data;
+  // one key per lead and stage: the phone, the quiz and the full form are separate deliveries
+  const key = `${lead.submissionId}:${lead.stage ?? "complete"}`;
+
+  if (delivered.has(key)) return NextResponse.json({ ok: true, duplicate: true });
+  const pending = inFlight.get(key);
+  if (pending) {
+    try {
+      await pending;
+      return NextResponse.json({ ok: true, duplicate: true });
+    } catch (error) {
+      return errorResponse(error);
+    }
+  }
+
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const recent = hits.get(ip) ?? [];
+  if (recent.length >= RATE_MAX) {
+    return NextResponse.json({ ok: false, error: "Zbyt wiele zapytań. Spróbuj ponownie za kilka minut." }, { status: 429 });
+  }
+  hits.set(ip, [...recent, now]);
+
+  const job = deliverLead(lead);
+  inFlight.set(key, job);
   try {
-    const existing = await kv.get(idemKey);
-    if (existing?.startsWith("done:")) return json(200, { ok: true, leadId: existing.slice(5), duplicate: true });
-    if (existing === "pending") return json(409, { ok: false, error: "Zgłoszenie jest właśnie wysyłane…", retry: true });
-    await kv.setNx(idemKey, "pending", 60);
-  } catch (e) {
-    console.error("[leads] idempotency store unavailable", (e as Error).message);
+    await job;
+    delivered.set(key, Date.now());
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return errorResponse(error);
+  } finally {
+    inFlight.delete(key);
   }
-
-  // 6. Save in CRM – success is returned ONLY after the CRM confirmed the write
-  const crm = getCrmAdapter();
-  if (!crm) {
-    await kv.del(idemKey).catch(() => {});
-    return json(503, { ok: false, error: GENERIC_ERROR });
-  }
-  const leadId = newLeadId();
-  const lead = buildLeadRecord(data, leadId);
-  let result = await crm.createLead(lead);
-  if (!result.ok && result.retryable) {
-    await new Promise((r) => setTimeout(r, 600));
-    result = await crm.createLead(lead);
-  }
-  if (!result.ok) {
-    console.error(`[leads] CRM(${crm.name}) write failed for ${leadId}: ${result.error}`);
-    await kv.del(idemKey).catch(() => {});
-    return json(502, { ok: false, error: GENERIC_ERROR });
-  }
-
-  await kv.set(idemKey, `done:${leadId}`, 86_400).catch(() => {});
-  console.info(`[leads] saved ${leadId} via ${crm.name} tier=${lead.qualification.tier}`);
-
-  // 7. Optional e-mails after the response is sent (never block / never fail the lead)
-  after(() => notifyLead(lead));
-
-  return json(201, { ok: true, leadId });
 }
 
-export function GET() {
-  return json(405, { ok: false });
+function errorResponse(error: unknown) {
+  if (error instanceof LeadDeliveryError) {
+    return NextResponse.json({ ok: false, error: error.message }, { status: error.status });
+  }
+  console.error("[leads] unexpected error", error);
+  return NextResponse.json({ ok: false, error: "Wystąpił nieoczekiwany błąd. Spróbuj ponownie." }, { status: 500 });
 }

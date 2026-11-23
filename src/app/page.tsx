@@ -1,36 +1,76 @@
-import { Header } from "@/components/sections/Header";
-import { Hero } from "@/components/sections/Hero";
-import { Steps } from "@/components/sections/Steps";
-import { LessonDemo } from "@/components/sections/LessonDemo";
-import { QuizSection } from "@/components/quiz/QuizSection";
-import { Standard } from "@/components/sections/Standard";
-import { Team } from "@/components/sections/Team";
-import { Testimonials } from "@/components/sections/Testimonials";
+import { ConsentBanner } from "@/components/ads/ConsentBanner";
+import { Tracking } from "@/components/ads/Tracking";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { StickyCall } from "@/components/layout/StickyCall";
+import { Providers } from "@/components/Providers";
+import { About } from "@/components/sections/About";
 import { Faq } from "@/components/sections/Faq";
-import { Contact } from "@/components/sections/Contact";
-import { Footer } from "@/components/sections/Footer";
-import { MobileStickyCta } from "@/components/ui/MobileStickyCta";
-import { structuredData } from "@/lib/seo";
+import { FinalCta } from "@/components/sections/FinalCta";
+import { Hero } from "@/components/sections/Hero";
+import { Offer } from "@/components/sections/Offer";
+import { Parents } from "@/components/sections/Parents";
+import { Process } from "@/components/sections/Process";
+import { QuizSection } from "@/components/sections/QuizSection";
+import { Standard } from "@/components/sections/Standard";
+import { VideoLesson } from "@/components/sections/VideoLesson";
+import { BRAND } from "@/config/brand";
+import { FAQ, OFFER, PARENTS } from "@/data/content";
 
-/** Order = CHAPTERS in src/config/chapters.ts */
-export default function Home() {
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": `${BRAND.url}/#org`,
+      name: BRAND.name,
+      slogan: BRAND.tagline,
+      url: BRAND.url,
+      telephone: `+48${BRAND.phone.replace(/\D/g, "")}`,
+      email: BRAND.email,
+      image: `${BRAND.url}/opengraph-image.jpg`,
+      description: BRAND.seo.description,
+      founder: { "@type": "Person", name: BRAND.owner.name },
+      knowsAbout: ["Matematyka", "Egzamin ósmoklasisty", "Matura z matematyki", "Korepetycje online"],
+    },
+    {
+      "@type": "Service",
+      name: "Korepetycje indywidualne z matematyki online",
+      provider: { "@id": `${BRAND.url}/#org` },
+      offers: { "@type": "Offer", price: BRAND.price.amount, priceCurrency: "PLN", description: BRAND.price.label },
+    },
+    ...OFFER.items
+      .filter((o) => o.id !== "indiv")
+      .map((o) => ({ "@type": "Course", name: o.title, description: o.text, provider: { "@id": `${BRAND.url}/#org` } })),
+    {
+      "@type": "FAQPage",
+      mainEntity: [...FAQ, ...PARENTS.items].map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+};
+
+/** Order = zdajmatme.com: hero → przykładowa lekcja → oferta → proces → zapisy → jak uczymy → dla rodzica → o nas → FAQ → kontakt. */
+export default function LandingPage() {
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData()).replace(/</g, "\\u003c") }} />
+    <Providers>
+      <Tracking />
       <Header />
-      <main id="main">
+      <main>
         <Hero />
-        <Steps />
-        <LessonDemo />
+        <VideoLesson />
+        <Offer />
+        <Process />
         <QuizSection />
         <Standard />
-        <Team />
-        <Testimonials />
+        <Parents />
+        <About />
         <Faq />
-        <Contact />
+        <FinalCta />
       </main>
       <Footer />
-      <MobileStickyCta />
-    </>
+      <StickyCall />
+      <ConsentBanner />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+    </Providers>
   );
 }

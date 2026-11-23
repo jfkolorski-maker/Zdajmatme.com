@@ -1,0 +1,102 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
+import { SUMMARY_STEP, initialQuizState, quizReducer, type QuizAction, type QuizState } from "../src/components/quiz/quizState.ts";
+import { QUIZ, isComplete, isHidden, isMinorStudent, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers } from "../src/data/quiz.ts";
+import { leadRequestSchema, normalizePhone, validateContact } from "../src/lib/lead/schema.ts";
+
+const run = (actions: QuizAction[], s: QuizState = initialQuizState) => actions.reduce(quizReducer, s);
+const pick = (id: QuizAnswers extends Partial<Record<infer K, string>> ? K : never, value: string): QuizAction[] => [{ type: "answer", id, value } as QuizAction, { type: "next" }];
+const at = (s: QuizState) => (s.step >= SUMMARY_STEP ? "summary" : QUIZ[s.step].id);
+
+describe("quiz paths", () => {
+  it("1:1 lessons, high school: offer → who → stage → level → need → start (6)", () => {
+    let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "lomat")]);
+    assert.equal(at(s), "level");
+    s = run([...pick("level", "extended"), ...pick("need", "exam"), ...pick("start", "asap")], s);
+    assert.equal(at(s), "summary");
+    assert.equal(isComplete(s.answers), true);
+    assert.equal(summarize(s.answers).length, 6);
+  });
+
+  it("1:1 lessons, primary school skips the level question (5)", () => {
+    const s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "sp78")]);
+    assert.equal(at(s), "need");
+    assert.deepEqual(visibleIds(s.answers), ["offer", "who", "stage", "need", "start"]);
+  });
+
+  it("8th-grade course: only offer → who → start (3)", () => {
+    const s = run([...pick("offer", "e8"), ...pick("who", "child")]);
+    assert.equal(at(s), "start");
+    assert.equal(run(pick("start", "7d"), s).step, SUMMARY_STEP);
+  });
+
+  it("matura course asks for the level, not the stage (4)", () => {
+    const s = run([...pick("offer", "matura"), ...pick("who", "self")]);
+    assert.equal(at(s), "level");
+    assert.equal(isHidden("stage", s.answers), true);
+  });
+
+  it("changing the offer drops answers that no longer apply", () => {
+    let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "lo12"), ...pick("level", "basic"), ...pick("need", "grades")]);
+    s = run([{ type: "answer", id: "offer", value: "e8" }], s);
+    assert.equal(s.answers.stage, undefined);
+    assert.equal(s.answers.level, undefined);
+    assert.equal(s.answers.need, undefined);
+  });
+
+  it("addresses a student directly", () => {
+    assert.equal(questionOf(QUIZ[2], { who: "self" }), "Na jakim etapie nauki jesteś?");
+  });
+
+  it("shows the 1:1 price, never an invented course price", () => {
+    assert.equal(offerSummary({ offer: "indiv" }).price, 110);
+    assert.equal(offerSummary({ offer: "e8" }).price, null);
+    assert.equal(offerSummary({ offer: "matura", level: "extended" }).title, "Kurs Maturalny 2026 · rozszerzenie");
+  });
+});
+
+describe("minors", () => {
+  it("primary-school / 8th-grade students are minors", () => {
+    assert.equal(isMinorStudent({ who: "self", stage: "sp78" }), true);
+    assert.equal(isMinorStudent({ who: "self", offer: "e8" }), true);
+    assert.equal(isMinorStudent({ who: "self", stage: "lomat" }), false);
+    assert.equal(isMinorStudent({ who: "child", stage: "sp46" }), false);
+  });
+});
+
+describe("form", () => {
+  const contact = { name: "Anna", phone: "730 170 804", consent: true as const };
+  const answers = { offer: "indiv", who: "child", stage: "sp78", need: "grades", start: "asap" };
+  const req = { submissionId: "6f1c1d1e-8a3b-4c5d-9e6f-1a2b3c4d5e6f", contact, answers, attribution: { gclid: "x" } };
+
+  it("normalises Polish phones", () => {
+    assert.equal(normalizePhone("730 170 804"), "+48730170804");
+    assert.equal(normalizePhone("+48 730-170-804"), "+48730170804");
+    assert.equal(normalizePhone("0048730170804"), "+48730170804");
+    assert.equal(normalizePhone("12345"), null);
+  });
+
+  it("e-mail optional, consent required", () => {
+    assert.deepEqual(validateContact(contact), {});
+    assert.ok(validateContact({ ...contact, email: "x@y" }).email);
+    assert.ok(validateContact({ ...contact, consent: false as unknown as true }).consent);
+  });
+
+  it("student filling in alone must confirm 18+ / guardian", () => {
+    assert.ok(validateContact(contact, { who: "self" }).adultOrGuardian);
+    assert.deepEqual(validateContact({ ...contact, adultOrGuardian: true }, { who: "self" }), {});
+    const selfReq = { ...req, answers: { offer: "matura", who: "self", level: "basic", start: "asap" } };
+    assert.equal(leadRequestSchema.safeParse(selfReq).success, false);
+    assert.equal(leadRequestSchema.safeParse({ ...selfReq, contact: { ...contact, adultOrGuardian: true } }).success, true);
+  });
+
+  it("server rejects incomplete or impossible answers", () => {
+    assert.equal(leadRequestSchema.safeParse(req).success, true);
+    assert.equal(leadRequestSchema.safeParse({ ...req, answers: { offer: "indiv", who: "child", start: "asap" } }).success, false);
+    assert.equal(leadRequestSchema.safeParse({ ...req, answers: { ...answers, stage: "nope" } }).success, false);
+  });
+
+  it("honeypot must stay empty", () => {
+    assert.equal(leadRequestSchema.safeParse({ ...req, company: "bot" }).success, false);
+  });
+});

@@ -1,155 +1,509 @@
 @import "tailwindcss";
 
-/* ============================================================
-   ZdajMatme.com — design system (based on the premium landing template)
-   Navy builds trust · yellow = action · white = legibility.
-   The page is dark; only "app" cards (quiz, form) are light.
-   ============================================================ */
+/* ───────────────── ZdajMatme.com design system (FLIPOR engine) ─────────────────
+ * Colours from zdajmatme.com: graphite builds a calm background, orange marks action,
+ * white keeps it readable. Poppins (same family as zdajmatme.com). Centred, symmetric sections.
+ * Text on orange is ALWAYS dark (#1a1a1a) – white on #FFA550 fails contrast. */
 @theme {
-  /* brand */
-  --color-navy-950: #031226; /* navy-dark: page, hero, header */
-  --color-navy-900: #061a32; /* navy: sections, dark cards, text on light */
-  --color-navy-800: #0b2747;
-  --color-navy-700: #12345c;
-  --color-yellow-400: #ffc928; /* action: buttons, selection, progress */
-  --color-yellow-300: #ffd54f; /* hover / accent text on dark */
-  --color-gold-500: #f4b72a;
+  --color-surface: #212121; /* zdajmatme.com --color-background */
+  --color-night: #1a1a1a; /* zdajmatme.com footer / CTA band */
+  --color-accent: #ffa550; /* zdajmatme.com orange */
+  --color-accent-bright: #ffb870; /* zdajmatme.com hover */
+  --color-accent-soft: #fff5e6; /* zdajmatme.com light orange */
+  --color-bg: #f9f9f9; /* zdajmatme.com light cards */
+  --color-muted: #616161;
+  --color-line: #e0e0e0;
+  --color-ink: #212121;
 
-  /* light "app" cards */
-  --color-bg: #f4f7fb;
-  --color-muted: #64748b;
-  --color-line: #e2e8f0;
-  --color-ink: #061a32;
-
-  /* dark surfaces (boards, panels) */
-  --color-base: #031226;
-  --color-raised: #061a32;
-  --color-surface: #0a2341;
-  --color-surface-2: #0f2c50;
-  --color-text: #ffffff;
-  --color-text-2: rgb(255 255 255 / 0.75);
-  --color-text-3: rgb(255 255 255 / 0.6);
-
-  /* states */
-  --color-success: #16a34a;
-  --color-danger: #dc2626;
-  --color-danger-dark: #ff8a7a;
-
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-math: "Cambria Math", "STIX Two Math", "Latin Modern Math", Georgia, "Times New Roman", serif;
-
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-math: "Cambria Math", "STIX Two Math", Georgia, "Times New Roman", serif;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 4.75rem; /* header 68px + air */
-    -webkit-text-size-adjust: 100%;
+:root {
+  --shell: min(1240px, 100% - 2.5rem);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-night);
+}
+body {
+  background: var(--color-night);
+  color: #fff;
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+::selection {
+  background: var(--color-accent);
+  color: var(--color-night);
+}
+:focus-visible {
+  outline: 3px solid var(--color-accent-bright);
+  outline-offset: 3px;
+}
+html.menu-open {
+  overflow: hidden;
+}
+
+/* ───────────────── Layout & type ───────────────── */
+@utility shell {
+  width: var(--shell);
+  margin-inline: auto;
+}
+/* One rhythm for every section: the same space above and below, a hairline between. */
+@utility section-y {
+  padding-block: 2.5rem;
+  border-top: 1px solid rgb(255 255 255 / 0.07);
+  @media (width >= 48rem) {
+    padding-block: 4.5rem;
   }
-  body {
-    background: var(--color-navy-950);
-    color: #fff;
-    font-family: var(--font-sans);
-    font-size: 1.04rem;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: clip;
+}
+@utility display {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+/* ── One type scale for the whole page ── */
+@utility t-h1 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+  font-size: clamp(2.35rem, 8.6vw, 4.6rem);
+}
+@utility t-h2 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  text-wrap: balance;
+  font-size: clamp(1.75rem, 6.8vw, 3.4rem);
+}
+@utility t-h3 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-wrap: balance;
+  font-size: clamp(1.3rem, 4.8vw, 1.75rem);
+}
+@utility t-lead {
+  font-size: clamp(1.06rem, 3.9vw, 1.18rem);
+  line-height: 1.65;
+}
+@utility t-body {
+  font-size: 1.04rem;
+  line-height: 1.6;
+}
+/* Small label with a leading line – used instead of generic pill eyebrows. */
+@utility kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  justify-content: center;
+  &::before {
+    content: "";
+    width: 1.75rem;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
   }
-  ::selection { background: var(--color-yellow-400); color: var(--color-navy-950); }
-  :focus-visible { outline: 3px solid var(--color-yellow-400); outline-offset: 3px; border-radius: 0.5rem; }
-  h1, h2, h3 { text-wrap: balance; }
-  p { text-wrap: pretty; }
+}
+@utility eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 @layer components {
-  .container-x { width: min(1240px, 100% - 2.5rem); margin-inline: auto; }
-
-  /* ---- type scale (one for the whole page) ---- */
-  .h1 { font-size: clamp(2.35rem, 8.6vw, 4.6rem); font-weight: 760; letter-spacing: -0.04em; line-height: 1.02; }
-  .h2 { font-size: clamp(1.75rem, 6.8vw, 3.4rem); font-weight: 760; letter-spacing: -0.04em; line-height: 1.04; }
-  .h3 { font-size: clamp(1.3rem, 4.8vw, 1.75rem); font-weight: 720; letter-spacing: -0.025em; line-height: 1.15; }
-  .lead { font-size: clamp(1.06rem, 3.9vw, 1.18rem); line-height: 1.65; }
-  .kicker {
-    display: inline-flex; align-items: center; gap: 0.75rem;
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-  }
-  .kicker::before { content: ""; width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
-  .kicker-plain::before { display: none; }
-
-  /* ---- section rhythm: one spacing, hairline between sections, no overlaps ---- */
-  .section { padding-block: 2.5rem; border-top: 1px solid rgb(255 255 255 / 0.07); }
-  @media (min-width: 1024px) { .section { padding-block: 4.5rem; } }
-
-  /* ---- buttons: one family, 56px min ---- */
+  /* Buttons – one family, large tap targets (min 52px). */
   .btn {
-    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-    min-height: 3.5rem; padding: 0.9rem 1.6rem; border-radius: 999px;
-    font-weight: 700; font-size: 1.02rem; line-height: 1.2; white-space: nowrap;
-    transition: transform 0.2s var(--ease-out-expo), background-color 0.2s, color 0.2s, box-shadow 0.2s;
-    -webkit-tap-highlight-color: transparent; user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.5rem;
+    padding: 0.95rem 1.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s,
+      box-shadow 0.25s,
+      transform 0.25s var(--ease-out-expo);
   }
-  .btn:active { transform: scale(0.97); }
-  .btn[disabled] { opacity: 0.55; pointer-events: none; }
-  .btn-primary { background: var(--color-yellow-400); color: var(--color-navy-950); box-shadow: 0 14px 30px -12px rgb(255 201 40 / 0.6); }
-  .btn-primary:hover { background: var(--color-yellow-300); }
-  .btn-secondary { background: #fff; color: var(--color-ink); box-shadow: inset 0 0 0 1.5px var(--color-line); }
-  .btn-secondary:hover { box-shadow: inset 0 0 0 1.5px var(--color-ink); }
-  .btn-dark { background: rgb(255 255 255 / 0.08); color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25); }
-  .btn-dark:hover { background: rgb(255 255 255 / 0.14); }
-  .btn .arrow { transition: transform 0.2s var(--ease-out-expo); }
-  .btn:hover .arrow { transform: translateX(3px); }
-
-  /* ---- dark info card ---- */
-  .card-dark { background: rgb(255 255 255 / 0.04); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); border-radius: 22px; }
-
-  /* ---- light "app" card (quiz, form) ---- */
-  .card-app { background: #fff; color: var(--color-ink); border-radius: 24px; box-shadow: 0 60px 120px -40px rgb(0 0 0 / 0.7); }
-
-  /* ---- form fields (on light cards) ---- */
-  .field-label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--color-ink); }
-  .field {
-    width: 100%; min-height: 3.25rem; padding: 0.8rem 1rem; border-radius: 15px;
-    border: 1.5px solid var(--color-line); background: #fff; color: var(--color-ink);
-    font-size: 1rem; /* ≥16px: no iOS zoom */
-    transition: border-color 0.2s, box-shadow 0.2s;
+  .btn:active {
+    transform: scale(0.97);
   }
-  .field::placeholder { color: #94a3b8; }
-  .field:focus { outline: none; border-color: var(--color-ink); box-shadow: 0 0 0 4px rgb(255 201 40 / 0.45); }
-  .field[aria-invalid="true"] { border-color: var(--color-danger); }
-  .field-error { margin-top: 0.35rem; font-size: 0.875rem; font-weight: 600; color: var(--color-danger); }
-  .field-ok { margin-top: 0.35rem; font-size: 0.875rem; font-weight: 600; color: var(--color-success); }
-
-  /* graph paper used on boards */
-  .grid-paper {
-    background-image:
-      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
-    background-size: 32px 32px;
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-night);
+    box-shadow: 0 14px 30px -12px rgb(255 165 80 / 0.6);
   }
-  .math { font-family: var(--font-math); font-style: italic; }
+  .btn-primary:hover {
+    background: var(--color-accent-bright);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--color-surface);
+    border: 1.5px solid var(--color-line);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-surface);
+  }
+  .btn-on-dark {
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+    border: 1.5px solid rgb(255 255 255 / 0.25);
+  }
+  .btn-on-dark:hover {
+    background: #fff;
+    color: var(--color-surface);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+    border: 1.5px solid rgb(255 255 255 / 0.15);
+    background: rgb(255 255 255 / 0.04);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    transition: all 0.2s;
+  }
+  .chip:hover {
+    border-color: var(--color-accent-bright);
+  }
+  .chip.is-on {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-night);
+  }
+  /* Dark tile used for compact mobile content blocks */
+  .dtile {
+    border-radius: 22px;
+    background: rgb(255 255 255 / 0.04);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 22px;
+  }
+
+  /* Quiz option tile */
+  .tile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    min-height: 4.75rem;
+    padding: 1rem 1.1rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--color-line);
+    background: #fff;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: var(--color-surface);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.25s,
+      transform 0.25s var(--ease-out-expo),
+      background-color 0.2s;
+  }
+  @media (hover: hover) {
+    .tile:hover {
+      border-color: var(--color-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px -20px rgb(26 26 26 / 0.45);
+    }
+  }
+  .tile.is-on {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    box-shadow:
+      0 0 0 1px var(--color-accent),
+      0 18px 40px -22px rgb(255 165 80 / 0.55);
+  }
+  .tile-icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--color-accent-soft);
+    color: #b85f00; /* darker orange – 4.6:1 on the soft tile */
+    transition: all 0.2s;
+  }
+  .tile.is-on .tile-icon {
+    background: var(--color-accent);
+    color: var(--color-night);
+  }
+
+  /* Form */
+  .field-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-surface);
+  }
+  .field-input {
+    width: 100%;
+    min-height: 3.4rem;
+    padding: 0.85rem 1.05rem;
+    border-radius: 14px;
+    border: 1.5px solid var(--color-line);
+    background: #fff;
+    font-size: 1rem; /* ≥16px – no zoom on iOS */
+    color: var(--color-surface);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-ink);
+    box-shadow: 0 0 0 4px rgb(255 165 80 / 0.15);
+  }
+  .field-input.has-error {
+    border-color: #dc2626;
+  }
+  .field-error {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: #b91c1c;
+  }
+
+  .swatch {
+    position: relative;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
+    transition: transform 0.2s;
+  }
+  .swatch:hover {
+    transform: scale(1.08);
+  }
+  .swatch.is-on::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 999px;
+    border: 2px solid var(--color-accent-bright);
+  }
+
+  .spinner {
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid rgb(26 26 26 / 0.3);
+    border-top-color: var(--color-night);
+    border-radius: 999px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: var(--color-accent);
+    color: var(--color-night);
+    font-weight: 700;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
 }
 
-/* ============================================================
-   Motion — transform & opacity only
-   ============================================================ */
-@keyframes rise { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
-.rise { animation: rise 0.7s var(--ease-out-expo) both; animation-delay: var(--delay, 0s); }
-
-@keyframes float-y {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--r, 0deg)); }
-  50% { transform: translate3d(0, -14px, 0) rotate(var(--r, 0deg)); }
+/* ───────────────── Motion ───────────────── */
+/* Horizontal photo rail: native swipe with snap, no scroll hijacking. */
+.rail {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.25rem;
+  padding-inline: 1.25rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
-.float { animation: float-y var(--d, 9s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  scroll-snap-align: start;
+  flex: none;
+}
+.ping {
+  animation: ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
-    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
+
+/* While the welcome intro plays the page does not scroll underneath it. */
+html.intro-lock,
+html.intro-lock body {
+  overflow: hidden;
+}
+/* No-JS safety: the intro can never stay on screen. */
+#intro {
+  animation: intro-failsafe 0.8s ease-out 8s forwards;
+}
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Hero entrance in pure CSS: starts on the first paint, no waiting for JavaScript. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-rise {
+  animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+  }
+}
+
+/* Return visits: the intro never paints (class set by the inline head script). */
+html.intro-skip #intro {
+  display: none;
+}
+
+/* Headline: always painted (LCP), only a soft settle when the greeting hands over. */
+@keyframes hero-settle {
+  from {
+    transform: translateY(10px) scale(0.985);
+    opacity: 0.6;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.hero-settle {
+  animation: hero-settle 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* A drop of accent travelling down the line under "Zobacz, jak pracujemy". */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+.scroll-cue {
+  animation: scroll-cue 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-settle,
+  .scroll-cue {
+    animation: none;
+  }
+}
+
+/* Horizontal rails: no visible scrollbar. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@keyframes swipe-hint {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-6px);
+  }
+}
+.swipe-hint {
+  animation: swipe-hint 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .swipe-hint {
+    animation: none;
+  }
+}
+
+/* Typewriter caret in the hero headline (zdajmatme.com) */
+@keyframes caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret { animation: caret 1s steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .caret { animation: none; }
+}
+.math { font-family: var(--font-math); font-style: italic; }

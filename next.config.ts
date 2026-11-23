@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const securityHeaders = [
@@ -8,10 +9,13 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  // Keep Turbopack scoped to this folder.
+  turbopack: { root: path.join(__dirname) },
   poweredByHeader: false,
-  images: { formats: ["image/avif", "image/webp"], qualities: [60, 75] },
+  images: { formats: ["image/avif", "image/webp"] },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [{ source: "/(.*)", headers: securityHeaders }];
   },
 };
 

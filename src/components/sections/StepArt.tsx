@@ -1,66 +1,55 @@
-/** Line illustrations for the 5 stages (no stock photos, no fake footage). Stroke 2, rounded. */
-const Y = "#FFC928";
+/** Line illustrations for the four teaching stages (stroke 2, rounded) – no stock photos, no fake footage. */
+const A = "#FFA550";
 const W = "rgba(255,255,255,0.85)";
-const D = "rgba(255,255,255,0.25)";
+const D = "rgba(255,255,255,0.22)";
 
 export function StepArt({ step }: { step: number }) {
-  const common = { fill: "none", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+  const c = { fill: "none", strokeWidth: 2.2, strokeLinecap: "round", strokeLinejoin: "round" } as const;
   return (
-    <svg viewBox="0 0 240 200" className="h-full w-full" aria-hidden>
+    <svg viewBox="0 0 240 200" className="h-full w-full" aria-hidden="true">
       {step === 0 && (
-        <g {...common}>
-          <rect x="26" y="34" width="120" height="70" rx="18" stroke={W} />
-          <path d="M56 104l-10 18 28-18" stroke={W} />
-          <text x="86" y="80" textAnchor="middle" fill={Y} fontSize="34" fontWeight="700" stroke="none">?</text>
-          <rect x="104" y="96" width="112" height="62" rx="18" stroke={Y} />
-          <path d="M186 158l12 16-28-16" stroke={Y} />
-          <text x="160" y="136" textAnchor="middle" fill={W} fontSize="26" fontStyle="italic" fontFamily="Georgia, serif" stroke="none">x² + 5</text>
+        // tempo / level fitted to the student: three sliders
+        <g {...c}>
+          {[50, 100, 150].map((y, i) => (
+            <g key={y}>
+              <path d={`M40 ${y}h160`} stroke={D} />
+              <path d={`M40 ${y}h${[110, 60, 140][i]}`} stroke={i === 1 ? A : W} strokeWidth={3.5} />
+              <circle cx={40 + [110, 60, 140][i]} cy={y} r="9" fill="#1a1a1a" stroke={i === 1 ? A : W} strokeWidth={3} />
+            </g>
+          ))}
         </g>
       )}
       {step === 1 && (
-        <g {...common}>
-          <circle cx="62" cy="100" r="34" stroke={W} />
-          <circle cx="62" cy="88" r="11" stroke={W} />
-          <path d="M42 120c6-12 34-12 40 0" stroke={W} />
-          <circle cx="178" cy="100" r="34" stroke={Y} />
-          <circle cx="178" cy="88" r="11" stroke={Y} />
-          <path d="M158 120c6-12 34-12 40 0" stroke={Y} />
-          <path d="M104 92h32M128 84l8 8-8 8" stroke={Y} />
-          <path d="M136 112h-32M112 104l-8 8 8 8" stroke={W} />
+        // homework + constant contact
+        <g {...c}>
+          <rect x="36" y="40" width="104" height="132" rx="10" stroke={W} />
+          {[70, 96, 122].map((y) => (
+            <path key={y} d={`M54 ${y}h68`} stroke={D} />
+          ))}
+          <text x="60" y="104" fill={A} fontSize="22" fontStyle="italic" fontFamily="Georgia, serif" stroke="none">x² = 9</text>
+          <path d="M150 64h60a10 10 0 0 1 10 10v34a10 10 0 0 1-10 10h-32l-16 14v-14h-12a10 10 0 0 1-10-10V74a10 10 0 0 1 10-10z" stroke={A} />
+          <text x="180" y="99" textAnchor="middle" fill={W} fontSize="24" fontWeight="700" stroke="none">?</text>
         </g>
       )}
       {step === 2 && (
-        <g {...common}>
-          <rect x="30" y="30" width="180" height="116" rx="12" stroke={W} />
-          <path d="M98 170h44M120 146v24" stroke={W} />
-          <path d="M44 120h152M120 40v100" stroke={D} />
-          <path d="M66 52c18 96 90 96 108 0" stroke={Y} strokeWidth="3" />
-          <circle cx="91" cy="104" r="4.5" fill={Y} stroke="none" />
-          <circle cx="149" cy="104" r="4.5" fill={Y} stroke="none" />
-          <text x="186" y="64" fill={W} fontSize="15" fontWeight="700" stroke="none">1:1</text>
+        // report for parents
+        <g {...c}>
+          <rect x="58" y="24" width="124" height="156" rx="12" stroke={W} />
+          <path d="M98 24v-8h44v8" stroke={W} />
+          <path d="M78 140l26-26 20 14 38-42" stroke={A} strokeWidth={3.5} />
+          {[60, 76].map((y) => (
+            <path key={y} d={`M78 ${y}h84`} stroke={D} />
+          ))}
+          <circle cx="162" cy="86" r="5" fill={A} stroke="none" />
         </g>
       )}
       {step === 3 && (
-        <g {...common}>
-          <path d="M34 166h176M34 166V34" stroke={D} />
-          <path d="M44 150l38-26 30 12 40-44 44-38" stroke={Y} strokeWidth="3" />
-          <circle cx="196" cy="54" r="6" fill={Y} stroke="none" />
-          <path d="M196 54V22l22 8-22 8" stroke={W} />
-          {[82, 112, 152].map((x, i) => (
-            <circle key={x} cx={x} cy={[124, 136, 92][i]} r="4" fill={W} stroke="none" />
-          ))}
-        </g>
-      )}
-      {step === 4 && (
-        <g {...common}>
-          <rect x="60" y="24" width="120" height="152" rx="14" stroke={W} />
-          <path d="M96 24v-6h48v6" stroke={W} />
-          {[62, 98, 134].map((y) => (
-            <g key={y}>
-              <path d={`M80 ${y}l7 7 13-14`} stroke={Y} strokeWidth="3" />
-              <path d={`M112 ${y + 1}h46`} stroke={D} />
-            </g>
-          ))}
+        // success and confidence
+        <g {...c}>
+          <circle cx="120" cy="96" r="62" stroke={D} />
+          <circle cx="120" cy="96" r="46" stroke={W} />
+          <path d="M96 98l17 17 32-36" stroke={A} strokeWidth={4.5} />
+          <path d="M120 18v10M198 96h-10M52 96H42M175 41l-7 7M65 41l7 7" stroke={A} />
         </g>
       )}
     </svg>
