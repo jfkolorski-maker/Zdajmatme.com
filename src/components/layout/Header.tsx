@@ -51,7 +51,7 @@ export function Header() {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: DUR.section, ease: EASE_OUT }}
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300 ${solid ? "border-b border-white/10 bg-night/85 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.7)] backdrop-blur-xl" : "border-b border-transparent bg-night/40 backdrop-blur-md"}`}
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300 ${solid ? "border-b border-white/10 bg-header/95 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.7)] backdrop-blur-xl" : "border-b border-white/5 bg-header/85 backdrop-blur-md"}`}
     >
       <div className="shell flex h-[68px] items-center justify-between gap-4">
         <a href="#start" aria-label="ZdajMatme.com – początek strony">
@@ -87,7 +87,7 @@ export function Header() {
         </nav>
         <PhoneLink
           placement="header"
-          className={`inline-flex h-11 items-center justify-center gap-2 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors sm:px-5 bg-accent text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.8)] hover:bg-accent-bright`}
+          className={`inline-flex h-11 items-center justify-center gap-2 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors sm:px-5 bg-accent text-night shadow-[0_10px_24px_-10px_rgba(255,127,17,0.8)] hover:bg-accent-bright`}
         >
           <Icon name="phone" size={18} />
           <span className="hidden sm:inline">{BRAND.phone}</span>

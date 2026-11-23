@@ -57,11 +57,8 @@ function Typewriter({ words }: { words: readonly string[] }) {
  * browsers allow autoplay – with a large sound toggle. The poster (first frame) is server-rendered
  * underneath, so the first paint never waits for the video. Pauses when scrolled away.
  */
-function HeroFilm() {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
+function HeroFilm({ videoRef: ref }: { videoRef: React.RefObject<HTMLVideoElement | null> }) {
   const [playing, setPlaying] = useState(false);
-  const heard = useRef(false);
 
   useEffect(() => {
     const v = ref.current;
@@ -78,24 +75,7 @@ function HeroFilm() {
     );
     io.observe(v);
     return () => io.disconnect();
-  }, []);
-
-  const toggleSound = () => {
-    const v = ref.current;
-    if (!v) return;
-    const next = !muted;
-    v.muted = next;
-    setMuted(next);
-    if (!next) {
-      // first time with sound: start from the beginning so the greeting is heard
-      if (!heard.current) {
-        heard.current = true;
-        v.currentTime = 0;
-      }
-      void v.play().catch(() => {});
-    }
-    track({ name: "cta_click", placement: "hero_video", label: next ? "sound_off" : "sound_on" });
-  };
+  }, [ref]);
 
   return (
     <>
@@ -116,41 +96,72 @@ function HeroFilm() {
         <source src={VIDEO.webm} type="video/webm" />
         <source src={VIDEO.mp4} type="video/mp4" />
       </video>
-      <button
-        type="button"
-        onClick={toggleSound}
-        aria-pressed={!muted}
-        className="absolute right-3 top-[80px] z-20 inline-flex h-12 items-center gap-2 rounded-full bg-night/75 px-4 text-[0.9rem] font-semibold text-white shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)] ring-1 ring-white/20 backdrop-blur-md transition-colors hover:bg-night/90 active:scale-95 md:right-4 md:top-4"
-      >
-        <Icon name={muted ? "soundOff" : "soundOn"} size={20} className="text-accent" />
-        {muted ? "Włącz dźwięk" : "Wycisz"}
-      </button>
     </>
+  );
+}
+
+/** Mute state of the hero film; the first unmute restarts it so the greeting is heard. */
+function useSound(ref: React.RefObject<HTMLVideoElement | null>) {
+  const [muted, setMuted] = useState(true);
+  const heard = useRef(false);
+  const toggle = () => {
+    const v = ref.current;
+    if (!v) return;
+    const next = !muted;
+    v.muted = next;
+    setMuted(next);
+    if (!next) {
+      if (!heard.current) {
+        heard.current = true;
+        v.currentTime = 0;
+      }
+      void v.play().catch(() => {});
+    }
+    track({ name: "cta_click", placement: "hero_video", label: next ? "sound_off" : "sound_on" });
+  };
+  return { muted, toggle };
+}
+
+function SoundButton({ muted, onClick, className = "" }: { muted: boolean; onClick: () => void; className?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={!muted}
+      className={`h-11 items-center gap-2 rounded-full bg-black/45 px-4 text-[0.88rem] font-semibold text-white ring-1 ring-white/25 backdrop-blur-md transition-colors hover:bg-black/60 active:scale-95 ${className}`}
+    >
+      <Icon name={muted ? "soundOff" : "soundOn"} size={19} className="text-accent" />
+      {muted ? "Włącz dźwięk" : "Wycisz"}
+    </button>
   );
 }
 
 /** Phones: full-screen film, copy + buttons at the bottom. Desktop: copy left, the portrait film as a card on the right. */
 export function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const sound = useSound(videoRef);
   return (
     <section id="start" aria-labelledby="hero-title" className="relative overflow-hidden bg-night text-white">
       <div className="md:shell md:grid md:min-h-[min(100svh,58rem)] md:grid-cols-[1fr_auto] md:items-center md:gap-14 md:pb-12 md:pt-[6.5rem]">
         {/* film: full-bleed background on phones, portrait card on desktop */}
         <div className="absolute inset-0 md:relative md:order-2 md:aspect-[9/16] md:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
-          <HeroFilm />
+          <HeroFilm videoRef={videoRef} />
+          {/* desktop: sound toggle at the bottom edge of the film card */}
+          <SoundButton muted={sound.muted} onClick={sound.toggle} className="absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 md:inline-flex" />
           {/* phones: shade only at the bottom, where the copy sits */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,18,18,0.35)_0%,rgba(18,18,18,0)_14%,rgba(18,18,18,0)_46%,rgba(18,18,18,0.8)_70%,rgba(18,18,18,0.96)_100%)] md:hidden" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(30,34,40,0.35)_0%,rgba(30,34,40,0)_14%,rgba(30,34,40,0)_46%,rgba(30,34,40,0.8)_70%,rgba(30,34,40,0.96)_100%)] md:hidden" />
         </div>
 
         {/* copy */}
         <div className="pointer-events-none relative z-10 flex min-h-[100svh] flex-col justify-end md:order-1 md:block md:min-h-0">
-          <div className="shell pointer-events-auto pb-4 pt-28 text-center [text-shadow:0_2px_16px_rgba(18,18,18,0.7)] md:w-auto md:p-0 md:text-left md:[text-shadow:none]">
+          <div className="shell pointer-events-auto pb-4 pt-28 text-center [text-shadow:0_2px_16px_rgba(30,34,40,0.7)] md:w-auto md:p-0 md:text-left md:[text-shadow:none]">
             <h1 id="hero-title" aria-label={`${HERO.title} ${HERO.words[0]}`} className="font-bold leading-[1.1] tracking-[-0.03em] text-[clamp(1.6rem,6.8vw,3.4rem)] md:max-w-[34rem]">
               <span className="block">{HERO.title}</span>
               <span className="block" aria-hidden="true">
                 <Typewriter words={HERO.words} />
               </span>
             </h1>
-            <p className="mx-auto mt-2.5 max-w-[30rem] text-[0.92rem] leading-relaxed text-white/85 md:mx-0 md:mt-4 md:text-[1.08rem]">{HERO.lead}</p>
+            <SoundButton muted={sound.muted} onClick={sound.toggle} className="mt-3 inline-flex md:hidden" />
 
             <div className="hero-rise mx-auto mt-4 grid max-w-[26rem] grid-cols-[1.3fr_1fr] gap-2 md:mx-0 md:mt-7 md:max-w-[31rem] md:grid-cols-2 md:gap-3" style={{ animationDelay: "0.15s" }}>
               <a
@@ -166,10 +177,12 @@ export function Hero() {
                 {BRAND.phone}
               </PhoneLink>
             </div>
-            <ul className="hero-rise mx-auto mt-3 hidden min-[360px]:flex md:!flex max-w-[24rem] flex-wrap justify-center gap-x-3 gap-y-0.5 text-[0.74rem] text-white/75 md:mx-0 md:mt-5 md:max-w-none md:justify-start md:text-[0.85rem]" style={{ animationDelay: "0.3s" }}>
+            <ul aria-label="Co oferujemy" className="hero-rise mx-auto mt-3 flex max-w-[26rem] flex-wrap justify-center gap-1.5 md:mx-0 md:mt-5 md:max-w-none md:justify-start md:gap-2" style={{ animationDelay: "0.3s" }}>
               {TRUST.map((t) => (
-                <li key={t} className="flex items-center gap-1 whitespace-nowrap">
-                  <Icon name="check" size={12} strokeWidth={3} className="text-accent" />
+                <li key={t} className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-black/40 px-3 py-1.5 text-[0.76rem] font-semibold text-white ring-1 ring-white/15 backdrop-blur-sm md:text-[0.85rem]">
+                  <span className="grid h-4 w-4 place-items-center rounded-full bg-accent text-night">
+                    <Icon name="check" size={11} strokeWidth={3.5} />
+                  </span>
                   {t}
                 </li>
               ))}

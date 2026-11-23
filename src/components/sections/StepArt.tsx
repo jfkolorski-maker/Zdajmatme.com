@@ -1,5 +1,5 @@
 /** Line illustrations for the four teaching stages (stroke 2, rounded) – no stock photos, no fake footage. */
-const A = "#FFA550";
+const A = "#FF7F11";
 const W = "rgba(255,255,255,0.85)";
 const D = "rgba(255,255,255,0.22)";
 
@@ -14,7 +14,7 @@ export function StepArt({ step }: { step: number }) {
             <g key={y}>
               <path d={`M40 ${y}h160`} stroke={D} />
               <path d={`M40 ${y}h${[110, 60, 140][i]}`} stroke={i === 1 ? A : W} strokeWidth={3.5} />
-              <circle cx={40 + [110, 60, 140][i]} cy={y} r="9" fill="#1a1a1a" stroke={i === 1 ? A : W} strokeWidth={3} />
+              <circle cx={40 + [110, 60, 140][i]} cy={y} r="9" fill="#262a30" stroke={i === 1 ? A : W} strokeWidth={3} />
             </g>
           ))}
         </g>

@@ -14,7 +14,7 @@ export const HERO = {
 };
 
 /** Hero trust line – facts from zdajmatme.com (offer + FAQ: ZOOM, virtual whiteboard). */
-export const TRUST = ["Lekcje 1-na-1 online", "Kurs 8-klasisty i maturalny", "Zajęcia na ZOOM"];
+export const TRUST = ["Lekcje 1-na-1 online", "Zajęcia na ZOOM", "Kurs 8-klasisty i maturalny"];
 
 export const VIDEO = {
   title: "Przykładowa lekcja próbna",

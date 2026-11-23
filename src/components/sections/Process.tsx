@@ -14,7 +14,7 @@ function StageBadge({ n, large = false }: { n: number; large?: boolean }) {
   return (
     <span
       aria-hidden="true"
-      className={`pointer-events-none absolute left-3 top-3 z-30 grid place-items-center rounded-full bg-accent font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.9)] ring-2 ring-white/20 ${large ? "h-14 w-14 text-xl lg:left-5 lg:top-5" : "h-11 w-11 text-base"}`}
+      className={`pointer-events-none absolute left-3 top-3 z-30 grid place-items-center rounded-full bg-accent font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,127,17,0.9)] ring-2 ring-white/20 ${large ? "h-14 w-14 text-xl lg:left-5 lg:top-5" : "h-11 w-11 text-base"}`}
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span key={n} initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }} transition={{ duration: 0.35, ease: EASE_OUT }}>
@@ -66,7 +66,7 @@ export function Process() {
 /** Illustrated stage (ZdajMatme has no step films – no fake footage). */
 function FilmLayer({ i }: { i: number }) {
   return (
-    <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,#2c2c2c_0%,#1a1a1a_70%)]">
+    <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,#3a4048_0%,#262a30_70%)]">
       <div aria-hidden="true" className="absolute inset-0 opacity-60 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:32px_32px]" />
       <div className="absolute inset-x-[12%] top-[12%] h-[44%]">
         <StepArt step={i} />
@@ -256,14 +256,14 @@ function Stories() {
               <FilmLayer i={i} />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute left-3 top-3 z-30 grid h-11 w-11 place-items-center rounded-full bg-accent text-base font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.9)] ring-2 ring-white/20"
+                className="pointer-events-none absolute left-3 top-3 z-30 grid h-11 w-11 place-items-center rounded-full bg-accent text-base font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,127,17,0.9)] ring-2 ring-white/20"
               >
                 {i + 1}
               </span>
               <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 z-30 rounded-full bg-night/70 px-3 py-1 text-xs font-bold tabular-nums text-white/85 backdrop-blur">
                 {i + 1} / {N}
               </span>
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[64%] bg-[linear-gradient(180deg,transparent_0%,rgba(18,18,18,0.74)_42%,rgba(18,18,18,0.97)_100%)]" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[64%] bg-[linear-gradient(180deg,transparent_0%,rgba(30,34,40,0.74)_42%,rgba(30,34,40,0.97)_100%)]" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-5 pb-5 text-left">
                 {/* same layout as before, proportions swapped: the accent stage line leads, the white promise is the subheading */}
                 <h3 className="text-[clamp(1.45rem,6.6vw,1.75rem)] font-[760] leading-[1.08] tracking-[-0.03em] text-accent-bright text-balance">

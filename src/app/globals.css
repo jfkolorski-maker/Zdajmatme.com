@@ -3,17 +3,18 @@
 /* ───────────────── ZdajMatme.com design system (FLIPOR engine) ─────────────────
  * Colours from zdajmatme.com: graphite builds a calm background, orange marks action,
  * white keeps it readable. Poppins (same family as zdajmatme.com). Centred, symmetric sections.
- * Text on orange is ALWAYS dark (#1a1a1a) – white on #FFA550 fails contrast. */
+ * Text on orange is ALWAYS dark (#262a30) – white on #FF7F11 fails contrast. */
 @theme {
-  --color-surface: #212121; /* zdajmatme.com --color-background */
-  --color-night: #1a1a1a; /* zdajmatme.com footer / CTA band */
-  --color-accent: #ffa550; /* zdajmatme.com orange */
-  --color-accent-bright: #ffb870; /* zdajmatme.com hover */
-  --color-accent-soft: #fff5e6; /* zdajmatme.com light orange */
-  --color-bg: #f9f9f9; /* zdajmatme.com light cards */
-  --color-muted: #616161;
-  --color-line: #e0e0e0;
-  --color-ink: #212121;
+  --color-surface: #30353d; /* anthracite – lighter than the old #212121 */
+  --color-night: #262a30; /* anthracite, darker shade */
+  --color-header: #15181c; /* header bar – darker than the page */
+  --color-accent: #ff7f11; /* vivid orange (stronger than zdajmatme.com #FF7F11) – text on it is always dark */
+  --color-accent-bright: #ff9a3d; /* hover */
+  --color-accent-soft: #fff0e0; /* light orange */
+  --color-bg: #fbf7f1; /* warm beige for light cards */
+  --color-muted: #5f6368;
+  --color-line: #eae2d6;
+  --color-ink: #1e2228;
 
   --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-math: "Cambria Math", "STIX Two Math", Georgia, "Times New Roman", serif;
