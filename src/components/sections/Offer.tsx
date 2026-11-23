@@ -20,17 +20,16 @@ export function Offer() {
   return (
     <section id="oferta" aria-labelledby="offer-title" className="section-y bg-night text-white">
       <div className="shell">
-        <SectionHead chapter="oferta" title={OFFER.title} accent={OFFER.accent} lead="Trzy ścieżki – wybierz swoją, a quiz od razu się do niej dopasuje." id="offer-title" />
+        <SectionHead chapter="oferta" title={OFFER.title} accent={OFFER.accent} id="offer-title" />
       </div>
       <ul className="rail no-scrollbar mt-8 md:mx-auto md:mt-12 md:!grid md:w-[var(--shell)] md:grid-cols-3 md:!gap-5 md:!overflow-visible md:!px-0">
         {OFFER.items.map((o, i) => (
           <li key={o.id} id={o.anchor} className="w-[82%] max-w-[22rem] scroll-mt-24 md:w-auto md:max-w-none">
             <FadeUp soft delay={i * 0.08} className="h-full">
-              <article className="dtile flex h-full flex-col overflow-hidden text-center">
+              <article className="flex h-full flex-col overflow-hidden rounded-[28px] border-2 border-accent bg-white/[0.04] text-center shadow-[0_18px_40px_-24px_rgba(255,165,80,0.55)]">
                 <ImageReveal src={o.photo.src} alt={o.photo.alt} delay={i * 0.06} sizes="(min-width: 768px) 30vw, 82vw" className="aspect-[4/3] w-full" />
                 <div className="flex flex-1 flex-col px-5 pb-5 pt-5 md:px-6 md:pb-6">
-                  <span className="text-xs font-bold tabular-nums tracking-[0.2em] text-accent">0{i + 1}</span>
-                  <h3 className="t-h3 mt-1.5">{o.title}</h3>
+                  <h3 className="t-h3">{o.title}</h3>
                   <p className="mt-2 flex-1 text-[0.98rem] leading-relaxed text-white/65">{o.text}</p>
                   <a
                     href="#zapisy"
