@@ -56,26 +56,22 @@ export const OFFER = {
   ],
 };
 
-/** "Poznaj nasz proces nauczania" – four stages, verbatim from zdajmatme.com. */
-export const PROCESS = [
+/** "Poznaj nasz proces nauczania" – four stages (zdajmatme.com). `photo` = optional stage picture (else line art). */
+export const PROCESS: { stage: string; text: string; photo?: string; alt?: string }[] = [
   {
-    stage: "Dostosowujemy poziom nauczania",
-    title: "Tempo dopasowane do ucznia.",
+    stage: "Dopasowujemy poziom ucznia",
     text: "Doświadczony korepetytor nie tylko tłumaczy materiał, ale też poznaje mocne i słabe strony ucznia, dopasowując tempo pracy.",
   },
   {
     stage: "Utrwalanie wiedzy po lekcji",
-    title: "Zadania i stały kontakt.",
     text: "Po zajęciach uczeń otrzymuje zadania do samodzielnego ćwiczenia i ma stały kontakt z nauczycielem – w razie pytań zawsze może liczyć na wsparcie.",
   },
   {
     stage: "Regularne raporty dla rodziców",
-    title: "Pełen obraz postępów.",
     text: "Rodzice regularnie dostają informacje o postępach, przerobionym materiale i zaangażowaniu dziecka.",
   },
   {
-    stage: "Sukces i poczucie pewności",
-    title: "Uczeń naprawdę rozumie.",
+    stage: "Sukces i poczucie komfortu",
     text: "Celem jest nie tylko lepsza ocena czy zdany egzamin, ale poczucie, że uczeń naprawdę potrafi. Budujemy realne umiejętności i pewność siebie.",
   },
 ];

@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
+import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { SectionHead } from "@/components/motion/SectionHead";
 import { Icon } from "@/components/ui/icons";
@@ -65,6 +66,13 @@ export function Process() {
 
 /** Illustrated stage (ZdajMatme has no step films – no fake footage). */
 function FilmLayer({ i }: { i: number }) {
+  const photo = PROCESS[i].photo;
+  if (photo)
+    return (
+      <div className="absolute inset-0">
+        <Image src={photo} alt={PROCESS[i].alt ?? ""} fill sizes="(min-width: 1024px) 40vw, 92vw" className="object-cover" />
+      </div>
+    );
   return (
     <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,#3a4048_0%,#262a30_70%)]">
       <div aria-hidden="true" className="absolute inset-0 opacity-60 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:32px_32px]" />
@@ -242,7 +250,7 @@ function Stories() {
       <ol className="shell relative">
         {PROCESS.map((s, i) => (
           <li
-            key={s.title}
+            key={s.stage}
             className="sticky"
             style={{ top: STACK_TOP + i * STACK_STEP, height: i < N - 1 ? `calc(100svh - ${STACK_TOP}px)` : "auto" }}
           >
@@ -267,10 +275,8 @@ function Stories() {
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-5 pb-5 text-left">
                 {/* same layout as before, proportions swapped: the accent stage line leads, the white promise is the subheading */}
                 <h3 className="text-[clamp(1.45rem,6.6vw,1.75rem)] font-[760] leading-[1.08] tracking-[-0.03em] text-accent-bright text-balance">
-                  <span className="block">Etap 0{i + 1}</span>
                   {s.stage}
                 </h3>
-                <p className="mt-1.5 text-[1.02rem] font-semibold leading-snug tracking-[-0.01em] text-white text-balance">{s.title}</p>
                 <p className="mt-1.5 text-[0.95rem] leading-relaxed text-white/75">{s.text}</p>
               </div>
               {/* darkens as the next card slides over */}
@@ -321,7 +327,7 @@ function Stage() {
           <div className="col-span-5">
             <div className="flex gap-1.5" role="tablist" aria-label="Etapy">
               {PROCESS.map((p, i) => (
-                <Bar key={p.title} i={i} steps={steps} label={`Etap ${i + 1}: ${p.stage}`} selected={i === active} onClick={() => goTo(i)} />
+                <Bar key={p.stage} i={i} steps={steps} label={`Etap ${i + 1}: ${p.stage}`} selected={i === active} onClick={() => goTo(i)} />
               ))}
             </div>
             <div className="relative mt-10 min-h-[17rem]">
@@ -331,14 +337,8 @@ function Stage() {
                     className="text-[clamp(2rem,2.9vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.03em] text-accent-bright text-balance"
                     variants={{ in: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } }, out: { opacity: 0, y: -10, transition: { duration: 0.22 } } }}
                   >
-                    Etap 0{active + 1} · {s.stage}
+                    {s.stage}
                   </motion.h3>
-                  <motion.p
-                    className="mt-3 text-[clamp(1.2rem,1.6vw,1.45rem)] font-semibold leading-snug tracking-[-0.015em] text-white"
-                    variants={{ in: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } }, out: { opacity: 0, y: -10, transition: { duration: 0.22 } } }}
-                  >
-                    {s.title}
-                  </motion.p>
                   <motion.p
                     className="t-lead mt-3 max-w-md text-white/65"
                     variants={{ in: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } }, out: { opacity: 0, transition: { duration: 0.2 } } }}

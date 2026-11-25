@@ -170,13 +170,15 @@ export function Hero() {
         {/* copy */}
         <div className="pointer-events-none relative z-10 flex min-h-[100svh] flex-col justify-end md:order-1 md:block md:min-h-0">
           <div className="shell pointer-events-auto pb-4 pt-28 text-center [text-shadow:0_2px_16px_rgba(30,34,40,0.7)] md:w-auto md:p-0 md:text-left md:[text-shadow:none]">
+            <div className="mb-3 flex justify-end md:hidden">
+              <SoundButton muted={sound.muted} onClick={sound.toggle} className="inline-flex" />
+            </div>
             <h1 id="hero-title" aria-label={`${HERO.title} ${HERO.words[0]}`} className="font-bold leading-[1.1] tracking-[-0.03em] text-[clamp(1.6rem,6.8vw,3.4rem)] md:max-w-[34rem]">
               <span className="block">{HERO.title}</span>
               <span className="block" aria-hidden="true">
                 <Typewriter words={HERO.words} />
               </span>
             </h1>
-            <SoundButton muted={sound.muted} onClick={sound.toggle} className="mt-3 inline-flex md:hidden" />
 
             <div className="hero-rise mx-auto mt-4 grid max-w-[26rem] grid-cols-[1.3fr_1fr] gap-2 md:mx-0 md:mt-7 md:max-w-[22rem] md:grid-cols-1 md:gap-3 lg:max-w-[31rem] lg:grid-cols-2" style={{ animationDelay: "0.15s" }}>
               <a
