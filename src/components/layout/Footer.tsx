@@ -9,8 +9,8 @@ const link = "inline-flex min-h-11 items-center text-white/70 transition-colors 
 export function Footer() {
   return (
     <footer className="border-t border-white/[0.07] bg-night pb-24 text-white md:pb-0">
-      <div className="shell grid gap-9 py-14 text-center md:grid-cols-4 md:text-left">
-        <div className="flex flex-col items-center md:items-start">
+      <div className="shell grid gap-9 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-4">
+        <div className="flex flex-col items-center sm:items-start">
           <Logo />
           <p className="mt-3 max-w-[18rem] text-[0.95rem] leading-relaxed text-white/60">Matematyka, która buduje pewność siebie. Pomagamy na każdym etapie edukacji.</p>
         </div>
@@ -38,7 +38,7 @@ export function Footer() {
           <h2 className="text-[1rem] font-semibold text-accent">Kontakt</h2>
           <ul className="mt-2">
             <li><PhoneLink placement="footer" className={`${link} font-semibold !text-white`}>Telefon: {BRAND.phone}</PhoneLink></li>
-            <li><a href={`mailto:${BRAND.email}`} className={link}>{BRAND.email}</a></li>
+            <li><a href={`mailto:${BRAND.email}`} className={`${link} break-all`}>{BRAND.email}</a></li>
             <li className="text-sm text-white/50">Zajęcia online na ZOOM</li>
           </ul>
         </address>
@@ -47,8 +47,8 @@ export function Footer() {
         <div className="shell flex flex-col items-center justify-between gap-2 py-5 text-sm text-white/55 sm:flex-row">
           <span>© {new Date().getFullYear()} {BRAND.name}. Wszelkie prawa zastrzeżone.</span>
           <span className="flex gap-5">
-            <a href={BRAND.privacyUrl} className="hover:text-white">Polityka prywatności</a>
-            <a href="/regulamin" className="hover:text-white">Regulamin</a>
+            <a href={BRAND.privacyUrl} className="inline-flex min-h-11 items-center hover:text-white">Polityka prywatności</a>
+            <a href="/regulamin" className="inline-flex min-h-11 items-center hover:text-white">Regulamin</a>
           </span>
         </div>
       </div>

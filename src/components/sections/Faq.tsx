@@ -26,7 +26,7 @@ export function Faq() {
         </div>
         <FadeUp className="mt-8 text-center">
           <p className="text-white/60">Nie ma tu Twojego pytania?</p>
-          <PhoneLink placement="faq" className="mt-1 inline-flex items-center gap-2 text-lg font-bold text-accent">
+          <PhoneLink placement="faq" className="mt-1 inline-flex min-h-12 items-center gap-2 text-lg font-bold text-accent">
             <Icon name="phone" size={18} /> Zadzwoń – odpowie Oliwia
           </PhoneLink>
         </FadeUp>

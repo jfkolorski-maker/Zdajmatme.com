@@ -297,7 +297,7 @@ function PriceBox({ answers }: { answers: QuizAnswers }) {
   const o = offerSummary(answers);
   return (
     <motion.div
-      className="mt-4 rounded-[22px] bg-surface px-5 py-5 text-center text-white"
+      className="mt-3 rounded-[22px] bg-surface px-5 py-4 text-center text-white"
       initial={{ opacity: 0, y: 16, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ ...SPRING, delay: 0.25 }}

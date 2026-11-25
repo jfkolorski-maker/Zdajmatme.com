@@ -64,31 +64,46 @@ function HeroFilm({ videoRef: ref }: { videoRef: React.RefObject<HTMLVideoElemen
     const v = ref.current;
     if (!v) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduce) void playInline(v);
+    let started = false;
+    let visible = true;
+    // The film (~1 MB) starts downloading only after the page has loaded, so it never competes with the
+    // first paint; the server-rendered first frame (poster image) covers the gap.
+    const start = () => {
+      if (started || reduce) return;
+      started = true;
+      if (visible) void playInline(v);
+    };
+    let t = 0;
+    const onLoad = () => (t = window.setTimeout(start, 250));
+    if (document.readyState === "complete") onLoad();
+    else window.addEventListener("load", onLoad, { once: true });
     const io = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) {
-          if (!reduce || !v.muted) void v.play().catch(() => {});
-        } else v.pause();
+        visible = e.isIntersecting;
+        if (!visible) v.pause();
+        else if (started || !v.muted) void v.play().catch(() => {});
       },
       { threshold: 0.25 },
     );
     io.observe(v);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      window.clearTimeout(t);
+      window.removeEventListener("load", onLoad);
+    };
   }, [ref]);
 
   return (
     <>
+      {/* first frame – the LCP element, painted from the server HTML */}
       <Image src={VIDEO.poster} alt="" fill priority sizes="(min-width: 768px) 26rem, 100vw" className="object-cover" />
       <video
         ref={ref}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${playing ? "opacity-100" : "opacity-0"}`}
-        poster={VIDEO.poster}
-        autoPlay
+        className={`absolute inset-x-0 bottom-px top-0 h-[calc(100%-1px)] w-full object-cover transition-opacity duration-500 ${playing ? "opacity-100" : "opacity-0"}`}
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
         disablePictureInPicture
         onPlaying={() => setPlaying(true)}
         aria-label="Film: Oliwia z ZdajMatme.com rozwiązuje zadanie z procentów na tablecie"
@@ -128,7 +143,7 @@ function SoundButton({ muted, onClick, className = "" }: { muted: boolean; onCli
       type="button"
       onClick={onClick}
       aria-pressed={!muted}
-      className={`h-11 items-center gap-2 rounded-full bg-black/45 px-4 text-[0.88rem] font-semibold text-white ring-1 ring-white/25 backdrop-blur-md transition-colors hover:bg-black/60 active:scale-95 ${className}`}
+      className={`h-12 items-center gap-2 whitespace-nowrap rounded-full bg-black/45 px-4 text-[0.88rem] font-semibold text-white ring-1 ring-white/25 backdrop-blur-md transition-colors hover:bg-black/60 active:scale-95 ${className}`}
     >
       <Icon name={muted ? "soundOff" : "soundOn"} size={19} className="text-accent" />
       {muted ? "Włącz dźwięk" : "Wycisz"}
@@ -144,7 +159,7 @@ export function Hero() {
     <section id="start" aria-labelledby="hero-title" className="relative overflow-hidden bg-night text-white">
       <div className="md:shell md:grid md:min-h-[min(100svh,58rem)] md:grid-cols-[1fr_auto] md:items-center md:gap-14 md:pb-12 md:pt-[6.5rem]">
         {/* film: full-bleed background on phones, portrait card on desktop */}
-        <div className="absolute inset-x-0 top-0 aspect-[9/16] w-full md:relative md:order-2 md:w-auto md:aspect-[9/16] md:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
+        <div className="absolute inset-x-0 top-0 aspect-[9/16] w-full md:relative md:order-2 md:w-auto md:aspect-[9/16] md:h-[min(62svh,32rem)] lg:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
           <HeroFilm videoRef={videoRef} />
           {/* desktop: sound toggle at the bottom edge of the film card */}
           <SoundButton muted={sound.muted} onClick={sound.toggle} className="absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 md:inline-flex" />
@@ -163,7 +178,7 @@ export function Hero() {
             </h1>
             <SoundButton muted={sound.muted} onClick={sound.toggle} className="mt-3 inline-flex md:hidden" />
 
-            <div className="hero-rise mx-auto mt-4 grid max-w-[26rem] grid-cols-[1.3fr_1fr] gap-2 md:mx-0 md:mt-7 md:max-w-[31rem] md:grid-cols-2 md:gap-3" style={{ animationDelay: "0.15s" }}>
+            <div className="hero-rise mx-auto mt-4 grid max-w-[26rem] grid-cols-[1.3fr_1fr] gap-2 md:mx-0 md:mt-7 md:max-w-[22rem] md:grid-cols-1 md:gap-3 lg:max-w-[31rem] lg:grid-cols-2" style={{ animationDelay: "0.15s" }}>
               <a
                 href="#zapisy"
                 className="btn btn-primary !min-h-12 !gap-1.5 !px-2.5 !py-2 !text-[clamp(0.76rem,3.55vw,0.9rem)] md:!min-h-14 md:!px-5 md:!text-[0.98rem]"

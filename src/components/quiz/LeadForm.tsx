@@ -90,14 +90,10 @@ export function LeadForm({ answers, onSent }: { answers: QuizAnswers; onSent: ()
         }
       }}
       noValidate
-      aria-labelledby="lead-title"
+      aria-label={parent ? "Dane rodzica lub opiekuna" : "Twoje dane kontaktowe"}
     >
-      <h4 id="lead-title" className="text-center text-[1.15rem] font-bold text-surface">
-        Umów pierwszą lekcję próbną
-      </h4>
-      <p className="mt-1 text-center text-sm text-muted">{parent ? "Podaj dane rodzica lub opiekuna – zadzwonimy i ustalimy termin." : "Zadzwonimy i ustalimy termin pierwszej lekcji."}</p>
 
-      <div className="mt-5 grid gap-4">
+      <div className="grid gap-4">
         {isMinorStudent(answers) && (
           <p className="rounded-xl bg-accent-soft px-4 py-3 text-sm font-medium text-surface">Poproś rodzica lub opiekuna o wpisanie jego danych – to z nim ustalimy szczegóły.</p>
         )}
