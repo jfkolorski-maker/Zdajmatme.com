@@ -110,7 +110,7 @@ export function Quiz() {
   const dir = state.direction;
 
   return (
-    <div ref={card} className="mx-auto w-full max-w-2xl scroll-mt-20 overflow-hidden rounded-[24px] bg-white text-left shadow-[0_60px_120px_-40px_rgba(0,0,0,0.7)]">
+    <div ref={card} className="mx-auto w-full max-w-2xl scroll-mt-20 overflow-hidden rounded-[28px] border-2 border-accent bg-white text-left shadow-[0_60px_120px_-40px_rgba(0,0,0,0.7)]">
       {/* App bar */}
       <div className="flex items-center gap-3 px-4 pt-4 sm:px-7 sm:pt-6">
         <motion.button

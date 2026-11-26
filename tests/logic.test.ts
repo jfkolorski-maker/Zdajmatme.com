@@ -9,8 +9,8 @@ const pick = (id: QuizAnswers extends Partial<Record<infer K, string>> ? K : nev
 const at = (s: QuizState) => (s.step >= SUMMARY_STEP ? "summary" : QUIZ[s.step].id);
 
 describe("quiz paths", () => {
-  it("1:1 lessons, high school: offer → who → stage → level → need → start (6)", () => {
-    let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "lomat")]);
+  it("1:1 lessons, matura prep: offer → who → stage → level → need → start (6)", () => {
+    let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "prep")]);
     assert.equal(at(s), "level");
     s = run([...pick("level", "extended"), ...pick("need", "exam"), ...pick("start", "asap")], s);
     assert.equal(at(s), "summary");
@@ -19,9 +19,16 @@ describe("quiz paths", () => {
   });
 
   it("1:1 lessons, primary school skips the level question (5)", () => {
-    const s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "sp78")]);
+    const s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "sp48")]);
     assert.equal(at(s), "need");
     assert.deepEqual(visibleIds(s.answers), ["offer", "who", "stage", "need", "start"]);
+  });
+
+  it("1:1 lessons, high school with the level in the answer skips the level question (5)", () => {
+    for (const st of ["lobasic", "loext"]) {
+      const s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", st)]);
+      assert.equal(at(s), "need");
+    }
   });
 
   it("8th-grade course: only offer → who → start (3)", () => {
@@ -37,7 +44,7 @@ describe("quiz paths", () => {
   });
 
   it("changing the offer drops answers that no longer apply", () => {
-    let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "lo12"), ...pick("level", "basic"), ...pick("need", "grades")]);
+    let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "prep"), ...pick("level", "basic"), ...pick("need", "grades")]);
     s = run([{ type: "answer", id: "offer", value: "e8" }], s);
     assert.equal(s.answers.stage, undefined);
     assert.equal(s.answers.level, undefined);
@@ -57,16 +64,16 @@ describe("quiz paths", () => {
 
 describe("minors", () => {
   it("primary-school / 8th-grade students are minors", () => {
-    assert.equal(isMinorStudent({ who: "self", stage: "sp78" }), true);
+    assert.equal(isMinorStudent({ who: "self", stage: "sp48" }), true);
     assert.equal(isMinorStudent({ who: "self", offer: "e8" }), true);
-    assert.equal(isMinorStudent({ who: "self", stage: "lomat" }), false);
-    assert.equal(isMinorStudent({ who: "child", stage: "sp46" }), false);
+    assert.equal(isMinorStudent({ who: "self", stage: "prep" }), false);
+    assert.equal(isMinorStudent({ who: "child", stage: "sp48" }), false);
   });
 });
 
 describe("form", () => {
   const contact = { name: "Anna", phone: "730 170 804", consent: true as const };
-  const answers = { offer: "indiv", who: "child", stage: "sp78", need: "grades", start: "asap" };
+  const answers = { offer: "indiv", who: "child", stage: "sp48", need: "grades", start: "asap" };
   const req = { submissionId: "6f1c1d1e-8a3b-4c5d-9e6f-1a2b3c4d5e6f", contact, answers, attribution: { gclid: "x" } };
 
   it("normalises Polish phones", () => {

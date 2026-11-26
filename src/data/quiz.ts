@@ -30,11 +30,10 @@ export const QUIZ = [
     question: "Na jakim etapie nauki jest uczeń?",
     summary: "Etap nauki",
     options: [
-      { value: "sp46", label: "Szkoła podstawowa, klasy 4–6", icon: "book" },
-      { value: "sp78", label: "Szkoła podstawowa, klasy 7–8", icon: "book" },
-      { value: "lo12", label: "Liceum / technikum, klasy 1–2", icon: "cap" },
-      { value: "lo34", label: "Liceum / technikum, klasy 3–4", icon: "cap" },
-      { value: "lomat", label: "Klasa maturalna", icon: "cap" },
+      { value: "sp48", label: "Klasy 4–8 i przygotowanie do egzaminu ósmoklasisty", icon: "book" },
+      { value: "lobasic", label: "Liceum / technikum – poziom podstawowy", icon: "cap" },
+      { value: "loext", label: "Liceum / technikum – poziom rozszerzony", icon: "cap" },
+      { value: "prep", label: "Przygotowanie do matury (podstawa lub rozszerzenie)", icon: "cap" },
     ],
   },
   {
@@ -83,18 +82,18 @@ export function labelOf(id: QuizId, value?: string): string {
   return (step?.options as readonly { value: string; label: string }[] | undefined)?.find((o) => o.value === value)?.label ?? "";
 }
 
-const highSchool = (s?: string) => s === "lo12" || s === "lo34" || s === "lomat";
 const isCourse = (o?: string) => o === "e8" || o === "matura";
 
 /**
  * Questions that only make sense after certain answers:
  * – courses fix the stage (8th grade / final year) → no stage question, no "need" question;
- * – the level question only for the matura course or high-school students.
+ * – the level question only for the matura course or matura preparation in 1:1 lessons
+ *   (the high-school answers already say "podstawowy" / "rozszerzony").
  */
 export function isHidden(id: QuizId, a: QuizAnswers): boolean {
   if (id === "stage") return isCourse(a.offer);
   if (id === "need") return isCourse(a.offer);
-  if (id === "level") return a.offer === "e8" || (a.offer !== "matura" && !highSchool(a.stage));
+  if (id === "level") return a.offer !== "matura" && !(a.offer !== "e8" && a.stage === "prep");
   return false;
 }
 export const visibleIds = (answers: QuizAnswers) => QUIZ_IDS.filter((id) => !isHidden(id, answers));
@@ -115,7 +114,7 @@ export function isComplete(answers: QuizAnswers): boolean {
 
 /** Minors never leave their own contact data: primary-school students are always minors. */
 export function isMinorStudent(a: QuizAnswers): boolean {
-  return a.who === "self" && (a.stage === "sp46" || a.stage === "sp78" || a.offer === "e8");
+  return a.who === "self" && (a.stage === "sp48" || a.offer === "e8");
 }
 
 /** What the summary box shows: fixed price for 1:1, courses are discussed on the call. */
