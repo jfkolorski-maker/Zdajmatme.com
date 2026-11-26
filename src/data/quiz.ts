@@ -11,8 +11,8 @@ export const QUIZ = [
     summary: "Oferta",
     options: [
       { value: "indiv", label: "Korepetycje indywidualne online", icon: "user" },
-      { value: "e8", label: "Kurs do Egzaminu Ósmoklasisty", icon: "target" },
-      { value: "matura", label: "Kurs Maturalny 2026", icon: "cap" },
+      { value: "e8", label: "Kurs do Egzaminu Ósmoklasisty", hint: "Rok szkolny 2027/2028", icon: "target" },
+      { value: "matura", label: "Kurs Maturalny", hint: "Rok szkolny 2027/2028", icon: "cap" },
       { value: "other", label: "Jeszcze nie wiem – doradźcie", icon: "chat" },
     ],
   },
@@ -30,7 +30,8 @@ export const QUIZ = [
     question: "Na jakim etapie nauki jest uczeń?",
     summary: "Etap nauki",
     options: [
-      { value: "sp48", label: "Klasy 4–8 i przygotowanie do egzaminu ósmoklasisty", icon: "book" },
+      { value: "sp48", label: "Szkoła podstawowa, klasy 4–8", icon: "book" },
+      { value: "e8prep", label: "Przygotowanie do egzaminu ósmoklasisty", icon: "target" },
       { value: "lobasic", label: "Liceum / technikum – poziom podstawowy", icon: "cap" },
       { value: "loext", label: "Liceum / technikum – poziom rozszerzony", icon: "cap" },
       { value: "prep", label: "Przygotowanie do matury (podstawa lub rozszerzenie)", icon: "cap" },
@@ -53,7 +54,6 @@ export const QUIZ = [
     options: [
       { value: "grades", label: "Lepsze oceny i nadrobienie zaległości", icon: "trend" },
       { value: "understand", label: "Zrozumienie materiału", icon: "spark" },
-      { value: "exam", label: "Przygotowanie do egzaminu lub matury", icon: "target" },
       { value: "confidence", label: "Pewność siebie i mniej stresu", icon: "thumb" },
       { value: "regular", label: "Regularne wsparcie w nauce", icon: "calendar" },
     ],
@@ -114,12 +114,12 @@ export function isComplete(answers: QuizAnswers): boolean {
 
 /** Minors never leave their own contact data: primary-school students are always minors. */
 export function isMinorStudent(a: QuizAnswers): boolean {
-  return a.who === "self" && (a.stage === "sp48" || a.offer === "e8");
+  return a.who === "self" && (a.stage === "sp48" || a.stage === "e8prep" || a.offer === "e8");
 }
 
 /** What the summary box shows: fixed price for 1:1, courses are discussed on the call. */
 export function offerSummary(a: QuizAnswers): { title: string; price: number | null; note: string } {
-  if (a.offer === "e8") return { title: "Kurs do Egzaminu Ósmoklasisty", price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
-  if (a.offer === "matura") return { title: `Kurs Maturalny 2026${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
+  if (a.offer === "e8") return { title: "Kurs do Egzaminu Ósmoklasisty 2027/2028", price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
+  if (a.offer === "matura") return { title: `Kurs Maturalny 2027/2028${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
   return { title: "Lekcja indywidualna online 1-na-1", price: 110, note: "zł / 60 min" };
 }

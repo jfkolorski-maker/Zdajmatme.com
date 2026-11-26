@@ -12,7 +12,7 @@ describe("quiz paths", () => {
   it("1:1 lessons, matura prep: offer → who → stage → level → need → start (6)", () => {
     let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "prep")]);
     assert.equal(at(s), "level");
-    s = run([...pick("level", "extended"), ...pick("need", "exam"), ...pick("start", "asap")], s);
+    s = run([...pick("level", "extended"), ...pick("need", "understand"), ...pick("start", "asap")], s);
     assert.equal(at(s), "summary");
     assert.equal(isComplete(s.answers), true);
     assert.equal(summarize(s.answers).length, 6);
@@ -58,7 +58,7 @@ describe("quiz paths", () => {
   it("shows the 1:1 price, never an invented course price", () => {
     assert.equal(offerSummary({ offer: "indiv" }).price, 110);
     assert.equal(offerSummary({ offer: "e8" }).price, null);
-    assert.equal(offerSummary({ offer: "matura", level: "extended" }).title, "Kurs Maturalny 2026 · rozszerzenie");
+    assert.equal(offerSummary({ offer: "matura", level: "extended" }).title, "Kurs Maturalny 2027/2028 · rozszerzenie");
   });
 });
 
@@ -66,6 +66,7 @@ describe("minors", () => {
   it("primary-school / 8th-grade students are minors", () => {
     assert.equal(isMinorStudent({ who: "self", stage: "sp48" }), true);
     assert.equal(isMinorStudent({ who: "self", offer: "e8" }), true);
+    assert.equal(isMinorStudent({ who: "self", stage: "e8prep" }), true);
     assert.equal(isMinorStudent({ who: "self", stage: "prep" }), false);
     assert.equal(isMinorStudent({ who: "child", stage: "sp48" }), false);
   });

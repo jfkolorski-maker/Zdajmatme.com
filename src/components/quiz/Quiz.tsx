@@ -199,7 +199,10 @@ function Question({ step, title, index, selected, onChoose }: { step: QuizStepDe
                   <Icon name={o.icon} size={22} />
                 </span>
               )}
-              <span className="flex-1 leading-snug">{o.label}</span>
+              <span className="flex-1 leading-snug">
+                {o.label}
+                {"hint" in o && <span className="mt-0.5 block text-[0.78rem] font-medium text-muted">{o.hint}</span>}
+              </span>
               <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${on ? "border-accent bg-accent text-night" : "border-line"}`}>
                 <AnimatePresence>
                   {on && (

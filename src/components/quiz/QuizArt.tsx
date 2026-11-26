@@ -77,6 +77,19 @@ function Bulb() {
   );
 }
 
+function ExamSheet() {
+  return (
+    <>
+      <path d="M10 4h19l9 9v29a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill={PAPER} {...s} />
+      <path d="M29 4v9h9" fill="none" {...s} />
+      <path d="M13 11h10M13 16h8" {...s} strokeWidth={1.6} stroke="#c9c2b8" />
+      <text x="20.5" y="37" textAnchor="middle" fontSize="20" fontWeight="800" fill={OR2} fontFamily="Poppins, sans-serif">8</text>
+      <circle cx="36" cy="36" r="8" fill={OR} {...s} />
+      <path d="M32.4 36.2l2.6 2.6 4.8-5" fill="none" {...s} stroke={INK} strokeWidth={2.2} />
+    </>
+  );
+}
+
 const ART: Record<string, React.ReactNode> = {
   /* 1:1 lesson online – laptop with the tutor on screen and a "1:1" bubble */
   indiv: (
@@ -90,16 +103,7 @@ const ART: Record<string, React.ReactNode> = {
     </>
   ),
   /* 8th-grade exam – exam sheet with a big 8 and a passed badge */
-  e8: (
-    <>
-      <path d="M10 4h19l9 9v29a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill={PAPER} {...s} />
-      <path d="M29 4v9h9" fill="none" {...s} />
-      <path d="M13 11h10M13 16h8" {...s} strokeWidth={1.6} stroke="#c9c2b8" />
-      <text x="20.5" y="37" textAnchor="middle" fontSize="20" fontWeight="800" fill={OR2} fontFamily="Poppins, sans-serif">8</text>
-      <circle cx="36" cy="36" r="8" fill={OR} {...s} />
-      <path d="M32.4 36.2l2.6 2.6 4.8-5" fill="none" {...s} stroke={INK} strokeWidth={2.2} />
-    </>
-  ),
+  e8: <ExamSheet />,
   /* matura – graduation cap over a diploma with a ribbon */
   matura: <MaturaArt />,
   /* not sure yet – glowing bulb with a question mark */
@@ -135,6 +139,7 @@ const ART: Record<string, React.ReactNode> = {
       <path d="M16 20h16" {...s} />
     </>
   ),
+  e8prep: <ExamSheet />,
   lobasic: <LevelSheet letter="P" />,
   loext: <LevelSheet letter="R" curve />,
   prep: <MaturaArt />,
