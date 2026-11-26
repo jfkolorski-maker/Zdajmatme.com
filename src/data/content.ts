@@ -60,14 +60,14 @@ export const OFFER = {
 export const PROCESS: { stage: string; text: string; photo?: string; alt?: string }[] = [
   {
     stage: "Dopasowujemy poziom ucznia",
-    photo: "/images/proces-1.webp",
-    alt: "Grafika poglądowa: lekcja online – korepetytorka sprawdza poziom ucznia",
+    photo: "/images/proces-2.webp",
+    alt: "Grafika poglądowa: lekcja online – korepetytor dopasowuje tempo do poziomu ucznia",
     text: "Doświadczony korepetytor nie tylko tłumaczy materiał, ale też poznaje mocne i słabe strony ucznia, dopasowując tempo pracy.",
   },
   {
     stage: "Utrwalanie wiedzy po lekcji",
-    photo: "/images/proces-2.webp",
-    alt: "Grafika poglądowa: uczeń ćwiczy po lekcji w kontakcie z nauczycielem",
+    photo: "/images/proces-1.webp",
+    alt: "Grafika poglądowa: uczeń ćwiczy po lekcji i ma kontakt z nauczycielką",
     text: "Po zajęciach uczeń otrzymuje zadania do samodzielnego ćwiczenia i ma stały kontakt z nauczycielem – w razie pytań zawsze może liczyć na wsparcie.",
   },
   {

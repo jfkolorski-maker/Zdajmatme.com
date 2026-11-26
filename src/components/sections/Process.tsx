@@ -246,7 +246,7 @@ function Stories() {
               ref={(n) => {
                 cards.current[i] = n;
               }}
-              className="relative mx-auto aspect-[4/5] max-h-[calc(100svh-120px)] w-full max-w-[28rem] origin-top overflow-hidden rounded-[22px] bg-surface shadow-[0_-24px_50px_-24px_rgba(0,0,0,0.85)] ring-1 ring-white/10 will-change-transform"
+              className="relative mx-auto aspect-[4/5] max-h-[calc(100svh-120px)] w-full max-w-[28rem] origin-top overflow-hidden rounded-[28px] border-2 border-accent bg-surface shadow-[0_-24px_50px_-24px_rgba(0,0,0,0.85)] will-change-transform"
               aria-label={s.stage}
             >
               <FilmLayer i={i} />
@@ -334,7 +334,7 @@ function Stage() {
 
           {/* film column */}
           <div className="col-span-7">
-            <div className="relative mx-auto aspect-square w-[min(100%,calc((100vh-68px)*0.84))] overflow-hidden rounded-[24px] bg-surface ring-1 ring-white/10">
+            <div className="relative mx-auto aspect-square w-[min(100%,calc((100vh-68px)*0.84))] overflow-hidden rounded-[28px] border-2 border-accent bg-surface">
               {PROCESS.map((f, i) => (
                 <motion.div
                   key={f.stage}
