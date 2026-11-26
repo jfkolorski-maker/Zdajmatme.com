@@ -11,21 +11,6 @@ import { EASE_IN_OUT, EASE_OUT } from "@/lib/motion";
 import { StepArt } from "./StepArt";
 
 /** Stage number in the top-left corner of the film – changes with the stage. */
-function StageBadge({ n, large = false }: { n: number; large?: boolean }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`pointer-events-none absolute left-3 top-3 z-30 grid place-items-center rounded-full bg-accent font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.9)] ring-2 ring-white/20 ${large ? "h-14 w-14 text-xl lg:left-5 lg:top-5" : "h-11 w-11 text-base"}`}
-    >
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span key={n} initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }} transition={{ duration: 0.35, ease: EASE_OUT }}>
-          {n}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  );
-}
-
 const N = PROCESS.length;
 /** One crossfade length for every scene change – the sequence breathes at one pace. */
 const FADE = 0.9;
@@ -69,8 +54,11 @@ function FilmLayer({ i }: { i: number }) {
   const photo = PROCESS[i].photo;
   if (photo)
     return (
-      <div className="absolute inset-0">
-        <Image src={photo} alt={PROCESS[i].alt ?? ""} fill sizes="(min-width: 1024px) 40vw, 92vw" className="object-cover" />
+      <div className="absolute inset-0 bg-[#1f2226]">
+        {/* square artwork pinned to the top; on phones the copy sits over its lower edge */}
+        <div className="absolute inset-x-0 top-0 aspect-square">
+          <Image src={photo} alt={PROCESS[i].alt ?? ""} fill sizes="(min-width: 1024px) 40vw, 92vw" className="object-cover" />
+        </div>
       </div>
     );
   return (
@@ -259,18 +247,9 @@ function Stories() {
                 cards.current[i] = n;
               }}
               className="relative mx-auto aspect-[4/5] max-h-[calc(100svh-120px)] w-full max-w-[28rem] origin-top overflow-hidden rounded-[22px] bg-surface shadow-[0_-24px_50px_-24px_rgba(0,0,0,0.85)] ring-1 ring-white/10 will-change-transform"
-              aria-label={`Etap ${i + 1} z ${N}: ${s.stage}`}
+              aria-label={s.stage}
             >
               <FilmLayer i={i} />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute left-3 top-3 z-30 grid h-11 w-11 place-items-center rounded-full bg-accent text-base font-extrabold tabular-nums text-night shadow-[0_10px_24px_-10px_rgba(255,165,80,0.9)] ring-2 ring-white/20"
-              >
-                {i + 1}
-              </span>
-              <span aria-hidden="true" className="pointer-events-none absolute right-3 top-3 z-30 rounded-full bg-night/70 px-3 py-1 text-xs font-bold tabular-nums text-white/85 backdrop-blur">
-                {i + 1} / {N}
-              </span>
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[64%] bg-[linear-gradient(180deg,transparent_0%,rgba(30,34,40,0.74)_42%,rgba(30,34,40,0.97)_100%)]" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-5 pb-5 text-left">
                 {/* same layout as before, proportions swapped: the accent stage line leads, the white promise is the subheading */}
@@ -327,7 +306,7 @@ function Stage() {
           <div className="col-span-5">
             <div className="flex gap-1.5" role="tablist" aria-label="Etapy">
               {PROCESS.map((p, i) => (
-                <Bar key={p.stage} i={i} steps={steps} label={`Etap ${i + 1}: ${p.stage}`} selected={i === active} onClick={() => goTo(i)} />
+                <Bar key={p.stage} i={i} steps={steps} label={p.stage} selected={i === active} onClick={() => goTo(i)} />
               ))}
             </div>
             <div className="relative mt-10 min-h-[17rem]">
@@ -350,15 +329,12 @@ function Stage() {
             </div>
             <div className="mt-8 flex items-center gap-5">
               <QuoteLink placement="process_desktop" />
-              <span className="text-sm tabular-nums text-white/45">
-                0{active + 1} / 0{N}
-              </span>
             </div>
           </div>
 
           {/* film column */}
           <div className="col-span-7">
-            <div className="relative mx-auto aspect-[4/5] w-[min(100%,calc((100vh-68px)*0.84*0.8))] overflow-hidden rounded-[24px] bg-surface ring-1 ring-white/10">
+            <div className="relative mx-auto aspect-square w-[min(100%,calc((100vh-68px)*0.84))] overflow-hidden rounded-[24px] bg-surface ring-1 ring-white/10">
               {PROCESS.map((f, i) => (
                 <motion.div
                   key={f.stage}
@@ -372,7 +348,6 @@ function Stage() {
                   <FilmLayer i={i} />
                 </motion.div>
               ))}
-              <StageBadge n={active + 1} large />
               <button type="button" aria-label="Poprzedni etap" onClick={() => goTo(active - 1)} className="absolute inset-y-0 left-0 z-20 w-1/3 cursor-w-resize" />
               <button type="button" aria-label="Następny etap" onClick={() => goTo(active + 1)} className="absolute inset-y-0 right-0 z-20 w-2/3 cursor-e-resize" />
             </div>

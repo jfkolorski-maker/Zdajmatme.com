@@ -60,18 +60,26 @@ export const OFFER = {
 export const PROCESS: { stage: string; text: string; photo?: string; alt?: string }[] = [
   {
     stage: "Dopasowujemy poziom ucznia",
+    photo: "/images/proces-1.webp",
+    alt: "Grafika poglądowa: lekcja online – korepetytorka sprawdza poziom ucznia",
     text: "Doświadczony korepetytor nie tylko tłumaczy materiał, ale też poznaje mocne i słabe strony ucznia, dopasowując tempo pracy.",
   },
   {
     stage: "Utrwalanie wiedzy po lekcji",
+    photo: "/images/proces-2.webp",
+    alt: "Grafika poglądowa: uczeń ćwiczy po lekcji w kontakcie z nauczycielem",
     text: "Po zajęciach uczeń otrzymuje zadania do samodzielnego ćwiczenia i ma stały kontakt z nauczycielem – w razie pytań zawsze może liczyć na wsparcie.",
   },
   {
     stage: "Regularne raporty dla rodziców",
+    photo: "/images/proces-3.webp",
+    alt: "Grafika poglądowa: rodzice przeglądają raport postępów ucznia",
     text: "Rodzice regularnie dostają informacje o postępach, przerobionym materiale i zaangażowaniu dziecka.",
   },
   {
     stage: "Sukces i poczucie komfortu",
+    photo: "/images/proces-4.webp",
+    alt: "Grafika poglądowa: uczeń cieszy się z dobrego wyniku",
     text: "Celem jest nie tylko lepsza ocena czy zdany egzamin, ale poczucie, że uczeń naprawdę potrafi. Budujemy realne umiejętności i pewność siebie.",
   },
 ];
