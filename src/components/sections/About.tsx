@@ -11,9 +11,9 @@ export function About() {
         <SectionHead chapter="o-nas" title={ABOUT.title} accent={ABOUT.accent} lead={ABOUT.lead} id="about-title" />
         <div className="mx-auto mt-8 grid max-w-5xl items-center gap-8 md:mt-12 md:grid-cols-2 md:gap-12">
           <ImageReveal src={ABOUT.photo.src} alt={ABOUT.photo.alt} sizes="(min-width: 768px) 46vw, 92vw" className="aspect-[3/2] w-full rounded-[22px]" />
-          <ol className="border-t border-white/10">
+          <ol className="border-t border-accent">
             {ABOUT.points.map((b, i) => (
-              <FadeUp as="li" key={b.title} delay={i * 0.08} className="flex gap-4 border-b border-white/10 py-5 md:py-6">
+              <FadeUp as="li" key={b.title} delay={i * 0.08} className="flex gap-4 border-b border-accent py-5 md:py-6">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-accent/12 text-accent">
                   <Icon name={b.icon} size={20} />
                 </span>

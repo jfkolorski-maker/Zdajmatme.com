@@ -200,9 +200,9 @@ html.menu-open {
   }
   /* Dark tile used for compact mobile content blocks */
   .dtile {
-    border-radius: 22px;
+    border-radius: 28px;
+    border: 2px solid var(--color-accent);
     background: rgb(255 255 255 / 0.04);
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
   }
 
   .card {
