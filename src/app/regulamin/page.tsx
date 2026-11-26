@@ -19,7 +19,7 @@ export default function TermsPage() {
       <H n={2}>Zakres serwisu</H>
       <p>
         Serwis prezentuje ofertę ZdajMatme.com: korepetycje indywidualne z matematyki online, kurs do egzaminu ósmoklasisty i kurs maturalny, oraz umożliwia
-        wysłanie zgłoszenia na lekcję próbną przez quiz i formularz.
+        wysłanie zgłoszenia na pierwszą lekcję przez quiz i formularz.
       </p>
 
       <H n={3}>Zgłoszenie</H>

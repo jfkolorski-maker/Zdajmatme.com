@@ -11,7 +11,7 @@ import { Logo } from "./Logo";
 
 /**
  * Frosted bar with a "where am I" guide: on phones the current chapter
- * ("04 · Lekcja próbna") sits between logo and phone; on desktop the
+ * ("04 · Pierwsza lekcja") sits between logo and phone; on desktop the
  * matching link is highlighted. A hairline progress bar runs along the bottom.
  */
 export function Header() {

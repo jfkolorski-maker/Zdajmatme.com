@@ -9,7 +9,7 @@ export const HERO = {
   words: ["prosta", "łatwa", "intuicyjna"],
   lead: "Niezależnie od tego, czy przygotowujesz się do egzaminu, czy nadrabiasz zaległości – mamy kurs dla Ciebie.",
   eyebrow: "ZdajMatme.com · matematyka online",
-  ctaQuiz: "Umów lekcję próbną",
+  ctaQuiz: "Umów pierwszą lekcję",
   cue: "Zobacz naszą ofertę",
 };
 
@@ -165,7 +165,7 @@ export const CHAPTERS = [
   { id: "lekcja", label: "Przykładowa lekcja", short: "Lekcja" },
   { id: "oferta", label: "Oferta", short: "Oferta" },
   { id: "proces", label: "Proces nauczania", short: "Proces" },
-  { id: "zapisy", label: "Lekcja próbna", short: "Zapisy" },
+  { id: "zapisy", label: "Pierwsza lekcja", short: "Zapisy" },
   { id: "jak-uczymy", label: "Jak uczymy", short: "Metoda" },
   { id: "dla-rodzica", label: "Dla rodzica", short: "Rodzic" },
   { id: "o-nas", label: "O nas", short: "O nas" },

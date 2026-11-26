@@ -19,7 +19,7 @@ export default function PrivacyPage() {
       <H n={2}>Jakie dane i w jakim celu</H>
       <ul>
         <li>
-          <strong>Obsługa zgłoszenia (lekcja próbna, kontakt)</strong> – imię, numer telefonu, opcjonalnie e-mail, preferowane godziny, treść wiadomości
+          <strong>Obsługa zgłoszenia (pierwsza lekcja, kontakt)</strong> – imię, numer telefonu, opcjonalnie e-mail, preferowane godziny, treść wiadomości
           oraz odpowiedzi z quizu (oferta, etap i poziom nauki, cel, termin startu). Podstawa: podjęcie działań na żądanie osoby, której dane dotyczą
           (art. 6 ust. 1 lit. b RODO) oraz zgoda wyrażona w formularzu (art. 6 ust. 1 lit. a RODO).
         </li>

@@ -198,7 +198,7 @@ export function LeadForm({ answers, onSent }: { answers: QuizAnswers; onSent: ()
           </>
         ) : (
           <>
-            Umów lekcję próbną <Icon name="arrow" size={18} />
+            Umów pierwszą lekcję <Icon name="arrow" size={18} />
           </>
         )}
       </button>

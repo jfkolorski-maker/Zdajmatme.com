@@ -20,7 +20,7 @@ export const BRAND = {
   seo: {
     title: "Korepetycje z matematyki online 1:1, kurs ósmoklasisty i maturalny | ZdajMatme.com",
     description:
-      "Korepetycje indywidualne z matematyki online, kurs do egzaminu ósmoklasisty i kurs maturalny 2026 (podstawa i rozszerzenie). Zajęcia na ZOOM z wirtualną tablicą. Umów lekcję próbną.",
+      "Korepetycje indywidualne z matematyki online, kurs do egzaminu ósmoklasisty i kurs maturalny 2026 (podstawa i rozszerzenie). Zajęcia na ZOOM z wirtualną tablicą. Umów pierwszą lekcję.",
   },
 } as const;
 

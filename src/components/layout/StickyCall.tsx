@@ -8,7 +8,7 @@ import { track } from "@/lib/ads/track";
 import { DUR, EASE_OUT } from "@/lib/motion";
 
 /**
- * Mobile-only action bar: "Lekcja próbna" + call button. Appears after the
+ * Mobile-only action bar: "Pierwsza lekcja" + call button. Appears after the
  * hero, steps aside while the quiz / form or the final CTA are on screen,
  * keeps clear of the home indicator (safe-area inset).
  */
@@ -54,7 +54,7 @@ export function StickyCall() {
               onClick={() => track({ name: "cta_click", placement: "sticky_bar", label: "quiz" })}
               className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-accent text-[0.98rem] font-bold text-night transition-colors active:bg-accent-bright"
             >
-              Umów lekcję próbną
+              Umów pierwszą lekcję
               <Icon name="arrow" size={17} />
             </a>
             <PhoneLink placement="sticky_bar" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/10 text-white transition-colors active:bg-white/20">

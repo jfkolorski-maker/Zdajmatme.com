@@ -74,7 +74,7 @@ function FilmLayer({ i }: { i: number }) {
 function QuoteLink({ placement, className = "" }: { placement: string; className?: string }) {
   return (
     <a href="#zapisy" className={`btn btn-primary ${className}`} onClick={() => trackEvent({ name: "cta_click", placement, label: "quiz" })}>
-      Umów lekcję próbną <Icon name="arrow" size={18} />
+      Umów pierwszą lekcję <Icon name="arrow" size={18} />
     </a>
   );
 }

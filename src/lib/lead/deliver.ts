@@ -48,7 +48,7 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
   const offer = offerSummary(answers);
   const hours = HOURS.find((h) => h.value === contact.hours);
   const description = [
-    stage === "complete" ? "Zgłoszenie ze strony www (quiz) – lekcja próbna." : `Zgłoszenie ze strony www – ${STAGE_LABEL[stage].toLowerCase()}. Oddzwoń.`,
+    stage === "complete" ? "Zgłoszenie ze strony www (quiz) – pierwsza lekcja." : `Zgłoszenie ze strony www – ${STAGE_LABEL[stage].toLowerCase()}. Oddzwoń.`,
     `Oferta: ${offer.title}${offer.price ? ` (${offer.price} zł / 60 min)` : ""}`,
     ...summary.map((r) => `${r.label}: ${r.value}`),
     hours ? `Preferowane godziny: ${hours.label}` : "",

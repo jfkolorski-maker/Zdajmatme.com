@@ -30,7 +30,7 @@ export function Footer() {
           <h2 className="text-[1rem] font-semibold text-accent">Na skróty</h2>
           <ul className="mt-2">
             <li><a href="#o-nas" className={link}>O nas</a></li>
-            <li><a href="#zapisy" className={link}>Lekcja próbna</a></li>
+            <li><a href="#zapisy" className={link}>Pierwsza lekcja</a></li>
             <li><a href="#faq" className={link}>FAQ</a></li>
           </ul>
         </nav>

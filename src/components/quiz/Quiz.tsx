@@ -278,7 +278,7 @@ function Done({ onRestart }: { onRestart: () => void }) {
       <h3 data-screen-title tabIndex={-1} className="t-h3 mt-6 text-surface outline-none">
         Dziękujemy! Zgłoszenie dotarło.
       </h3>
-      <p className="mx-auto mt-3 max-w-sm text-muted">Oddzwonimy, aby umówić pierwszą lekcję próbną. Wolisz porozmawiać od razu? Zadzwoń.</p>
+      <p className="mx-auto mt-3 max-w-sm text-muted">Oddzwonimy, aby umówić pierwszą lekcję. Wolisz porozmawiać od razu? Zadzwoń.</p>
       <div className="mt-7 grid gap-2.5 sm:grid-cols-2">
         <PhoneLink placement="quiz_success" className="btn btn-primary w-full">
           <Icon name="phone" size={18} />
@@ -312,7 +312,7 @@ function PriceBox({ answers }: { answers: QuizAnswers }) {
         <p className="mt-2 text-[1.15rem] font-semibold leading-snug">{o.note}</p>
       )}
       <p className="mx-auto mt-3 max-w-md text-[0.9rem] leading-snug text-white/80">
-        Akceptujesz? <strong className="text-white">Zostaw dane poniżej</strong> – oddzwonimy i umówimy pierwszą lekcję próbną.
+        Akceptujesz? <strong className="text-white">Zostaw dane poniżej</strong> – oddzwonimy i umówimy pierwszą lekcję.
       </p>
     </motion.div>
   );
