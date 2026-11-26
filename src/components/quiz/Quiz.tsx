@@ -3,6 +3,7 @@
 import { AnimatePresence, animate, motion, useReducedMotion } from "motion/react";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { Icon } from "@/components/ui/icons";
+import { QuizArt, hasQuizArt } from "./QuizArt";
 import { PhoneLink } from "@/components/ui/PhoneLink";
 import { QUIZ, isHidden, offerSummary, questionOf, summarize, type QuizAnswers, type QuizStepDef } from "@/data/quiz";
 import { track } from "@/lib/ads/track";
@@ -189,9 +190,15 @@ function Question({ step, title, index, selected, onChoose }: { step: QuizStepDe
               transition={{ opacity: { duration: DUR.ui, delay: 0.05 * i }, y: { duration: DUR.ui, ease: EASE_OUT, delay: 0.05 * i }, scale: SPRING }}
               whileTap={{ scale: 0.97 }}
             >
-              <span className="tile-icon">
-                <Icon name={o.icon} size={22} />
-              </span>
+              {hasQuizArt(o.value) ? (
+                <span className="tile-art">
+                  <QuizArt value={o.value} />
+                </span>
+              ) : (
+                <span className="tile-icon">
+                  <Icon name={o.icon} size={22} />
+                </span>
+              )}
               <span className="flex-1 leading-snug">{o.label}</span>
               <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${on ? "border-accent bg-accent text-night" : "border-line"}`}>
                 <AnimatePresence>

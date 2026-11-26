@@ -254,13 +254,42 @@ html.menu-open {
     width: 3rem;
     height: 3rem;
     border-radius: 14px;
-    background: var(--color-accent-soft);
+    background: linear-gradient(145deg, #fff7ec 0%, #ffe2bf 100%);
+    box-shadow: inset 0 0 0 1px rgb(240 127 26 / 0.18);
     color: #b85f00; /* darker orange – 4.6:1 on the soft tile */
     transition: all 0.2s;
   }
   .tile.is-on .tile-icon {
     background: var(--color-accent);
     color: var(--color-night);
+  }
+  /* illustrated answer icon (offer / who) */
+  .tile-art {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 18px;
+    background: radial-gradient(120% 120% at 30% 15%, #fff7ec 0%, #ffe2bf 55%, #ffd09a 100%);
+    box-shadow:
+      inset 0 0 0 1px rgb(240 127 26 / 0.18),
+      0 10px 22px -14px rgb(240 127 26 / 0.7);
+    transition:
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s;
+  }
+  @media (hover: hover) {
+    .tile:hover .tile-art {
+      transform: rotate(-4deg) scale(1.06);
+    }
+  }
+  .tile.is-on .tile-art {
+    background: #fff;
+    transform: scale(1.06);
+    box-shadow:
+      inset 0 0 0 2px var(--color-accent),
+      0 12px 26px -12px rgb(240 127 26 / 0.85);
   }
 
   /* Form */
