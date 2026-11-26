@@ -123,7 +123,7 @@ export function offerSummary(a: QuizAnswers): { title: string; price: number | n
   if (a.offer === "matura") return { title: `Kurs Maturalny 2027/2028${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
   // 1:1 price list (owner): extended level 125 zł, everything else (primary school, basic level) 110 zł / 60 min
   const extended = a.stage === "loext" || (a.stage === "prep" && a.level === "extended");
-  if (extended) return { title: "Lekcja indywidualna 1-na-1 · poziom rozszerzony", price: 125, note: "zł / 60 min" };
-  if (a.stage === "prep" && a.level === "unsure") return { title: "Lekcja indywidualna 1-na-1", price: 110, note: "zł / 60 min · rozszerzenie 125 zł" };
-  return { title: "Lekcja indywidualna online 1-na-1", price: 110, note: "zł / 60 min" };
+  if (extended) return { title: "Lekcja indywidualna 1-na-1 · poziom rozszerzony", price: 125, note: "/ 60 min" };
+  if (a.stage === "prep" && a.level === "unsure") return { title: "Lekcja indywidualna 1-na-1", price: 110, note: "/ 60 min · rozszerzenie 125 zł" };
+  return { title: "Lekcja indywidualna online 1-na-1", price: 110, note: "/ 60 min" };
 }
