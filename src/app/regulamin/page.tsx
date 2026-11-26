@@ -28,7 +28,7 @@ export default function TermsPage() {
         <li>Odpowiedzi z quizu służą do przygotowania rozmowy i doboru zajęć; nie są diagnozą edukacyjną.</li>
         <li>W przypadku ucznia niepełnoletniego dane kontaktowe podaje rodzic lub opiekun prawny.</li>
         <li>
-          Cena referencyjna lekcji indywidualnej online: {BRAND.price.label}. Lekcje indywidualne rozliczane są po każdym miesiącu nauki, kursy grupowe – jednorazowo
+          Cena referencyjna lekcji indywidualnej online: {BRAND.price.label} (poziom rozszerzony: 125 zł / 60 min). Lekcje indywidualne rozliczane są po każdym miesiącu nauki, kursy grupowe – jednorazowo
           lub w ratach. Szczegóły ustalane są indywidualnie.
         </li>
         <li>Odwołanie lekcji indywidualnej najpóźniej 24 godziny przed terminem pozwala bezpłatnie przełożyć zajęcia.</li>

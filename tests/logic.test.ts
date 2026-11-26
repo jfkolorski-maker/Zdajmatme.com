@@ -57,6 +57,11 @@ describe("quiz paths", () => {
 
   it("shows the 1:1 price, never an invented course price", () => {
     assert.equal(offerSummary({ offer: "indiv" }).price, 110);
+    assert.equal(offerSummary({ offer: "indiv", stage: "sp48" }).price, 110);
+    assert.equal(offerSummary({ offer: "indiv", stage: "lobasic" }).price, 110);
+    assert.equal(offerSummary({ offer: "indiv", stage: "prep", level: "basic" }).price, 110);
+    assert.equal(offerSummary({ offer: "indiv", stage: "loext" }).price, 125);
+    assert.equal(offerSummary({ offer: "indiv", stage: "prep", level: "extended" }).price, 125);
     assert.equal(offerSummary({ offer: "e8" }).price, null);
     assert.equal(offerSummary({ offer: "matura", level: "extended" }).title, "Kurs Maturalny 2027/2028 · rozszerzenie");
   });

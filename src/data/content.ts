@@ -131,7 +131,7 @@ export const FAQ = [
   },
   {
     q: "Ile kosztuje lekcja i jak mogę zapłacić?",
-    a: "Lekcja indywidualna online 1-na-1 kosztuje 110 zł za 60 minut; za lekcje indywidualne rozliczamy się po każdym miesiącu nauki. Za kursy grupowe można płacić jednorazowo (ze zniżką) lub w ratach miesięcznych. Szczegóły ustalamy indywidualnie.",
+    a: "Lekcja indywidualna online 1-na-1 kosztuje 110 zł za 60 minut, a na poziomie rozszerzonym 125 zł za 60 minut; za lekcje indywidualne rozliczamy się po każdym miesiącu nauki. Za kursy grupowe można płacić jednorazowo (ze zniżką) lub w ratach miesięcznych. Szczegóły ustalamy indywidualnie.",
   },
   {
     q: "Co jeśli będę musiał/a odwołać lekcję?",
