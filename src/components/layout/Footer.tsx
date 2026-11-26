@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PhoneLink } from "@/components/ui/PhoneLink";
 import { BRAND } from "@/config/brand";
 import { OFFER } from "@/data/content";
@@ -19,9 +20,9 @@ export function Footer() {
           <ul className="mt-2">
             {OFFER.items.map((o) => (
               <li key={o.id}>
-                <a href={`#${o.anchor}`} className={link}>
+                <Link href={o.id === "indiv" ? "/korepetycje-indywidualne" : `/#${o.anchor}`} className={link}>
                   {o.title}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -29,9 +30,9 @@ export function Footer() {
         <nav aria-label="Na skróty">
           <h2 className="text-[1rem] font-semibold text-accent">Na skróty</h2>
           <ul className="mt-2">
-            <li><a href="#o-nas" className={link}>O nas</a></li>
+            <li><Link href="/#o-nas" className={link}>O nas</Link></li>
             <li><a href="#zapisy" className={link}>Pierwsza lekcja</a></li>
-            <li><a href="#faq" className={link}>FAQ</a></li>
+            <li><Link href="/#faq" className={link}>FAQ</Link></li>
           </ul>
         </nav>
         <address className="not-italic">

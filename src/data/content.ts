@@ -150,11 +150,11 @@ export const FINAL_CTA = {
 
 /** Desktop menu – labels from zdajmatme.com; each points at its place on the landing. */
 export const NAV = [
-  { href: "#korepetycje", label: "Korepetycje" },
-  { href: "#kurs-8-klasisty", label: "Kurs 8-klasisty" },
-  { href: "#kurs-maturalny", label: "Kurs Maturalny" },
-  { href: "#o-nas", label: "O Nas" },
-  { href: "#kontakt", label: "Kontakt" },
+  { href: "/korepetycje-indywidualne", label: "Korepetycje indywidualne" },
+  { href: "/#kurs-8-klasisty", label: "Kurs 8-klasisty" },
+  { href: "/#kurs-maturalny", label: "Kurs Maturalny" },
+  { href: "/#o-nas", label: "O Nas" },
+  { href: "/#kontakt", label: "Kontakt" },
 ];
 
 /**

@@ -43,6 +43,7 @@ const PATHS: Record<string, string> = {
   play: "M7 4.5v15l13-7.5z",
   soundOn: "M4 9h4l5-4v14l-5-4H4zM16.5 9a4 4 0 0 1 0 6M19.5 6a8 8 0 0 1 0 12",
   soundOff: "M4 9h4l5-4v14l-5-4H4zM17 9.5l5 5M22 9.5l-5 5",
+  menu: "M4 7h16M4 12h16M4 17h16",
   graph: "M3 3v18h18M7 15c2-6 4-9 6-9s3 3 4 6",
 };
 
