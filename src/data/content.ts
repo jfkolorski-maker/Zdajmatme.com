@@ -42,7 +42,7 @@ export const OFFER = {
       title: "Kurs do Egzaminu Ósmoklasisty",
       text: "Intensywne przygotowanie w małej grupie. Skupiamy się na „pewniakach egzaminacyjnych” i strategiach CKE.",
       cta: "Sprawdź szczegóły kursu",
-      photo: { src: "/images/oferta-kurs-8.webp", alt: "Kurs do Egzaminu Ósmoklasisty", width: 1024, height: 1024 },
+      photo: { src: "/images/oferta-kurs-8-v2.webp", alt: "Uczeń rozwiązuje zadanie z egzaminu ósmoklasisty podczas lekcji online", width: 1536, height: 1024 },
     },
     {
       id: "matura" as OfferId,
@@ -51,7 +51,7 @@ export const OFFER = {
       // TODO: potwierdzić – zdajmatme.com: „zdaj maturę na 100%” to obietnica wyniku; złagodzone do celu.
       text: "Kompleksowy kurs na poziomie podstawowym i rozszerzonym. Poznaj strategie rozwiązywania zadań i przygotuj się do matury.",
       cta: "Poznaj program maturalny",
-      photo: { src: "/images/oferta-kurs-maturalny.webp", alt: "Kurs Maturalny 2026", width: 1536, height: 1024 },
+      photo: { src: "/images/oferta-kurs-maturalny-v2.webp", alt: "Uczennica przygotowuje się do matury z matematyki podczas kursu online", width: 1536, height: 1024 },
     },
   ],
 };
