@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { QuizArt } from "@/components/quiz/QuizArt";
 import { presetQuiz } from "@/components/sections/Offer";
 import { track } from "@/lib/ads/track";
 
 /**
- * 1:1 transfer of zdajmatme.com/korepetycje-indywidualne.php – same order, copy, photos, icons and look
+ * Transferred from zdajmatme.com/korepetycje-indywidualne.php – same order and copy; restyled step by step to match the home page
  * (dark sections, white cards, pill tags, black/orange buttons). To be reworked later to match the new home page.
  * "Umów się teraz" leads to the quiz at the bottom of this page (on the old site: contact form), preset to 1:1 lessons.
  */
@@ -47,13 +47,13 @@ export function KorHero() {
 export function KorLevels() {
   const items = ["Przygotowanie do egzaminu ósmoklasisty", "Szkoła podstawowa", "Szkoła ponadpodstawowa", "Przygotowanie do matury podstawowej", "Przygotowanie do matury rozszerzonej"];
   return (
-    <section aria-labelledby="kor-levels" className="bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+    <section aria-labelledby="kor-levels" className="bg-surface px-5 py-16 text-white md:py-20">
       <h2 id="kor-levels" className={sectionTitle}>
         Dla uczniów na <span className={ORANGE}>każdym poziomie</span>
       </h2>
       <ul className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-3">
         {items.map((t) => (
-          <li key={t} className="flex min-h-11 w-full items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-5 py-2.5 text-center text-[0.8rem] font-semibold uppercase tracking-[0.08em] sm:w-auto">
+          <li key={t} className="flex min-h-11 w-full items-center justify-center rounded-full border-2 border-accent bg-white/[0.04] px-5 py-2.5 text-center text-[0.8rem] font-semibold uppercase tracking-[0.08em] sm:w-auto">
             {t}
           </li>
         ))}
@@ -66,98 +66,42 @@ const BENEFITS = [
   {
     title: "Nadrobić zaległości",
     text: "Spokojnie i we własnym tempie uzupełnimy luki w materiale, abyś poczuł/a się pewnie na każdej lekcji w szkole.",
-    icon: (
-      <svg {...svg}>
-        <path d="M4 19.5v-15a2.5 2.5 0 0 1 2.5 -2.5h11a2.5 2.5 0 0 1 2.5 2.5v15a2.5 2.5 0 0 1 -2.5 2.5h-11a2.5 2.5 0 0 1 -2.5 -2.5z" />
-        <path d="M9 7h6" />
-        <path d="M9 11h6" />
-      </svg>
-    ),
+    art: "grades",
   },
   {
     title: "Przygotować się do sprawdzianu",
     text: "Intensywnie przerobimy materiał przed ważnym testem, kartkówką czy egzaminem, skupiając się na kluczowych zadaniach.",
-    icon: (
-      <svg {...svg}>
-        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-        <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-        <path d="M12 3l0 2" />
-        <path d="M3 12l2 0" />
-        <path d="M12 21l0 -2" />
-        <path d="M21 12l-2 0" />
-      </svg>
-    ),
+    art: "kor-test",
   },
   {
     title: "Odrabiać prace domowe",
     text: "Zapewniamy regularne wsparcie w rozwiązywaniu zadań domowych, tłumacząc krok po kroku, jak dojść do prawidłowego wyniku.",
-    icon: (
-      <svg {...svg}>
-        <path d="M13 20l7 -7" />
-        <path d="M13 20v-6a1 1 0 0 1 1 -1h6v-7a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7" />
-      </svg>
-    ),
+    art: "kor-homework",
   },
   {
     title: "Rozwinąć swoje umiejętności",
     text: "Jeśli matematyka to Twoja pasja, pomożemy Ci wejść na wyższy poziom i przygotować się do konkursów i olimpiad.",
-    icon: (
-      <svg {...svg}>
-        <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
-        <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
-        <path d="M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      </svg>
-    ),
+    art: "confidence",
   },
 ];
 
 export function KorForWhom() {
   return (
-    <section aria-labelledby="kor-who" className="bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+    <section aria-labelledby="kor-who" className="bg-night px-5 py-16 text-white md:py-20">
       <h2 id="kor-who" className={sectionTitle}>
         Dla kogo są te <span className={ORANGE}>zajęcia</span>?
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-center text-[1.05rem] leading-relaxed text-white/90">Dla uczniów szkół podstawowych i średnich - na każdym poziom zaawansowania. Pomagamy:</p>
       <div className="mx-auto mt-10 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {BENEFITS.map((b) => (
-          <div key={b.title} className="rounded-lg bg-white px-7 py-9 text-center text-black shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
-            <div className={`mx-auto grid place-items-center ${ORANGE}`}>{b.icon}</div>
+          <div key={b.title} className="rounded-[28px] border-2 border-accent bg-white px-7 py-9 text-center text-black shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+            <span className="tile-art mx-auto !h-20 !w-20 !rounded-[22px]">
+              <QuizArt value={b.art} size={60} />
+            </span>
             <h3 className="mt-5 text-[1.25rem] font-bold leading-snug">{b.title}</h3>
             <p className="mt-3 text-[0.98rem] leading-relaxed">{b.text}</p>
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-/** YouTube loads only after a click (privacy + speed); poster = the film's own thumbnail. */
-export function KorVideo() {
-  const [play, setPlay] = useState(false);
-  return (
-    <section id="lekcja" aria-labelledby="kor-video" className="bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
-      <h2 id="kor-video" className={sectionTitle}>
-        Przykładowa lekcja
-      </h2>
-      <div className="relative mx-auto mt-8 aspect-video w-full max-w-4xl overflow-hidden rounded-lg bg-black">
-        {play ? (
-          <iframe
-            className="absolute inset-0 h-full w-full"
-            src="https://www.youtube-nocookie.com/embed/8fBZJu4RNss?autoplay=1&rel=0"
-            title="Przykładowa lekcja wideo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        ) : (
-          <button type="button" onClick={() => setPlay(true)} aria-label="Odtwórz przykładową lekcję" className="group absolute inset-0">
-            <Image src="/video/lekcja-poster.webp" alt="" fill sizes="(min-width: 900px) 56rem, 92vw" className="object-cover" />
-            <span className="absolute left-1/2 top-1/2 grid h-16 w-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-[#FF0000] transition-transform group-hover:scale-105">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-          </button>
-        )}
       </div>
     </section>
   );
@@ -204,7 +148,7 @@ const WHY = [
 
 export function KorWhy() {
   return (
-    <section aria-labelledby="kor-why" className="bg-[#212121] px-5 py-16 text-white md:py-20">
+    <section aria-labelledby="kor-why" className="bg-night px-5 py-16 text-white md:py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-14">
         <Image src="/images/kor-uczen.webp" alt="Uczeń pracujący nad zadaniami z matematyki na laptopie" width={1200} height={1200} sizes="(min-width: 768px) 46vw, 92vw" className="w-full rounded-lg" />
         <div>
@@ -241,13 +185,13 @@ export function KorPricing() {
     { id: "extended", name: "Poziom rozszerzony", price: "125 zł", text: "Indywidualne zajęcia dla uczniów, którzy chcą dobrze przygotować się do matury rozszerzonej, uporządkować materiał i swobodniej radzić sobie z wymagającymi zadaniami." },
   ];
   return (
-    <section id="cennik" aria-labelledby="kor-price" className="scroll-mt-16 bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+    <section id="cennik" aria-labelledby="kor-price" className="scroll-mt-16 bg-surface px-5 py-16 text-white md:py-20">
       <h2 id="kor-price" className={sectionTitle}>
         Cennik
       </h2>
       <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
         {plans.map((p) => (
-          <div key={p.id} className="flex flex-col items-center rounded-lg bg-white px-7 py-10 text-center text-[#1a1a1a]">
+          <div key={p.id} className="flex flex-col items-center rounded-[28px] border-2 border-accent bg-white px-7 py-10 text-center text-[#1a1a1a]">
             <h3 className="text-[1.4rem] font-semibold">{p.name}</h3>
             <p className="mt-6 text-[2.8rem] font-bold leading-none text-[#FFA550]">{p.price}</p>
             <p className="mt-4 text-[1.05rem]">za 60 minut korepetycji online</p>
@@ -257,7 +201,7 @@ export function KorPricing() {
             </a>
           </div>
         ))}
-        <div className="relative flex flex-col items-center rounded-lg border-2 border-[#FFA550] bg-white px-7 py-10 text-center text-[#1a1a1a]">
+        <div className="relative flex flex-col items-center rounded-[28px] border-2 border-accent bg-white px-7 py-10 text-center text-[#1a1a1a]">
           <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#FFA550] px-4 py-1.5 text-[0.9rem] font-bold">-10%</span>
           <h3 className="text-[1.4rem] font-semibold">Pakiet 10 lekcji</h3>
           <ul className="mt-5 w-full space-y-3">

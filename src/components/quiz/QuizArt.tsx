@@ -223,6 +223,30 @@ const ART: Record<string, React.ReactNode> = {
     </>
   ),
 
+  /* ── sub-page "Korepetycje indywidualne" ── */
+  /* test / quiz prep – test sheet with ticks and a stopwatch */
+  "kor-test": (
+    <>
+      <rect x="6" y="5" width="26" height="36" rx="3" fill={PAPER} {...s} />
+      <path d="M11 13l2 2 3.5-4M11 22l2 2 3.5-4M11 31l2 2 3.5-4" fill="none" {...s} stroke={OR2} strokeWidth={2.2} />
+      <path d="M20 13h7M20 22h7M20 31h5" {...s} stroke="#c9c2b8" strokeWidth={1.8} />
+      <circle cx="36" cy="34" r="9" fill={OR} {...s} />
+      <path d="M36 29.5V34l2.8 2" fill="none" {...s} strokeWidth={2.2} />
+      <path d="M33.5 22.5h5" {...s} strokeWidth={2.4} />
+    </>
+  ),
+  /* homework – open notebook with a pencil */
+  "kor-homework": (
+    <>
+      <path d="M4 11c5-2 10-2 20 1.5V41c-10-3.5-15-3.5-20-1.5z" fill={PAPER} {...s} />
+      <path d="M44 11c-5-2-10-2-20 1.5V41c10-3.5 15-3.5 20-1.5z" fill={PAPER} {...s} />
+      <path d="M9 19c3-.8 6-.6 10 .6M9 25c3-.8 6-.6 10 .6" {...s} stroke="#c9c2b8" strokeWidth={1.6} />
+      <text x="34" y="27" textAnchor="middle" fontSize="9" fontWeight="800" fill={OR2} fontFamily="Poppins, sans-serif">2+2</text>
+      <path d="M27 38l12-12 4 4-12 12-5 1z" fill={OR} {...s} />
+      <path d="M37 28l4 4" {...s} />
+    </>
+  ),
+
 };
 
 export function hasQuizArt(value: string) {
