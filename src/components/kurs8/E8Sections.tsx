@@ -34,6 +34,29 @@ export function E8Hero() {
   );
 }
 
+/** Banner right under the hero photo: enrolment for the next school year is open. */
+export function E8Enrol() {
+  return (
+    <section aria-label="Zapisy" className="relative z-10 -mt-12 bg-[linear-gradient(transparent_3rem,var(--color-surface)_3rem)] px-5">
+      <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 rounded-[28px] border-2 border-accent bg-night px-6 py-6 text-center text-white shadow-[0_0_0_8px_rgba(255,165,80,0.12),0_24px_60px_-24px_rgba(255,165,80,0.6)] md:flex-row md:justify-between md:px-8 md:text-left">
+        <p className="text-[1.15rem] font-semibold leading-snug md:text-[1.3rem]">
+          <span className="mb-1 flex items-center justify-center gap-2 text-[0.78rem] font-bold uppercase tracking-[0.18em] text-accent-bright md:justify-start">
+            <span aria-hidden="true" className="relative flex h-2.5 w-2.5">
+              <span className="ping absolute inset-0 rounded-full bg-accent/60" />
+              <span className="relative h-2.5 w-2.5 rounded-full bg-accent" />
+            </span>
+            Rok szkolny 2027/2028
+          </span>
+          Zapisy na kurs do egzaminu ósmoklasisty <span className={ORANGE}>już otwarte!</span>
+        </p>
+        <a href="#zapisy" onClick={() => toQuiz("e8_enrol_banner")} className="btn btn-primary shrink-0">
+          Zapisz się
+        </a>
+      </div>
+    </section>
+  );
+}
+
 const INFO = [
   "Kurs składa się z 22 spotkań. Pojedyncze spotkanie trwa 60 minut.",
   "Koszt jednej lekcji to jedyne 45 zł.",
@@ -47,13 +70,13 @@ const INFO = [
 
 export function E8Info() {
   return (
-    <section aria-labelledby="e8-info" className="bg-surface px-5 py-16 text-white md:py-20">
+    <section aria-labelledby="e8-info" className="bg-surface px-5 pb-14 pt-12 text-white md:pb-16 md:pt-14">
       <h2 id="e8-info" className={sectionTitle}>
         Najważniejsze informacje o <span className={ORANGE}>kursie</span>
       </h2>
-      <ul className="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-2">
+      <ul className="mx-auto mt-8 grid max-w-5xl gap-2.5 md:grid-cols-2 md:gap-3">
         {INFO.map((t) => (
-          <li key={t} className="rounded-[22px] border-2 border-accent bg-accent px-6 py-5 text-[1rem] font-medium leading-relaxed text-night shadow-[0_14px_34px_-20px_rgba(255,165,80,0.8)]">
+          <li key={t} className="rounded-[18px] border-2 border-accent bg-white px-5 py-3 text-[0.93rem] font-medium leading-snug text-night">
             {t}
           </li>
         ))}
@@ -62,29 +85,29 @@ export function E8Info() {
   );
 }
 
-const LESSONS: [string, string][] = [
-  ["04.11.2025", "Liczby i działania 1"],
-  ["11.11.2025", "Liczby i działania 2"],
-  ["18.11.2025", "Liczby i działania 3"],
-  ["25.11.2025", "Liczby i działania 4"],
-  ["02.12.2025", "Procenty"],
-  ["09.12.2025", "Potęgi"],
-  ["16.12.2025", "Pierwiastki"],
-  ["13.01.2026", "Proporcje"],
-  ["20.01.2026", "Wyrażenia algebraiczne"],
-  ["27.01.2026", "Równania"],
-  ["03.02.2026", "Układ współrzędnych"],
-  ["10.02.2026", "Kąty i własności figur"],
-  ["17.02.2026", "Trójkąty"],
-  ["24.02.2026", "Czworokąty"],
-  ["03.03.2026", "Graniastosłupy"],
-  ["10.03.2026", "Ostrosłupy"],
-  ["17.03.2026", "Statystyka"],
-  ["24.03.2026", "Kombinatoryka i prawdopodobieństwo"],
-  ["31.03.2026", "Zadania praktyczne"],
-  ["07.04.2026", "Powtórzenie 1"],
-  ["14.04.2026", "Powtórzenie 2"],
-  ["21.04.2026", "Powtórzenie 3"],
+const LESSONS = [
+  "Liczby i działania 1",
+  "Liczby i działania 2",
+  "Liczby i działania 3",
+  "Liczby i działania 4",
+  "Procenty",
+  "Potęgi",
+  "Pierwiastki",
+  "Proporcje",
+  "Wyrażenia algebraiczne",
+  "Równania",
+  "Układ współrzędnych",
+  "Kąty i własności figur",
+  "Trójkąty",
+  "Czworokąty",
+  "Graniastosłupy",
+  "Ostrosłupy",
+  "Statystyka",
+  "Kombinatoryka i prawdopodobieństwo",
+  "Zadania praktyczne",
+  "Powtórzenie 1",
+  "Powtórzenie 2",
+  "Powtórzenie 3",
 ];
 
 export function E8Schedule() {
@@ -97,17 +120,15 @@ export function E8Schedule() {
         <table className="w-full text-left text-[0.95rem]">
           <thead className="bg-white text-night">
             <tr>
-              <th scope="col" className="px-4 py-4 font-semibold">Nr</th>
-              <th scope="col" className="px-2 py-4 font-semibold">Data</th>
-              <th scope="col" className="px-4 py-4 font-semibold">Tytuł lekcji</th>
+              <th scope="col" className="w-16 border-r-2 border-accent px-4 py-4 text-center font-semibold">Nr</th>
+              <th scope="col" className="px-4 py-4 font-semibold">Temat lekcji</th>
             </tr>
           </thead>
           <tbody>
-            {LESSONS.map(([date, title], i) => (
-              <tr key={date} className="border-t border-white/10">
-                <td className={`px-4 py-4 font-bold tabular-nums ${ORANGE}`}>{i + 1}</td>
-                <td className="whitespace-nowrap px-2 py-4 tabular-nums">{date}</td>
-                <td className="px-4 py-4">{title}</td>
+            {LESSONS.map((title, i) => (
+              <tr key={title} className="border-t-2 border-accent">
+                <td className={`border-r-2 border-accent px-4 py-3.5 text-center font-bold tabular-nums ${ORANGE}`}>{i + 1}</td>
+                <td className="px-4 py-3.5">{title}</td>
               </tr>
             ))}
           </tbody>

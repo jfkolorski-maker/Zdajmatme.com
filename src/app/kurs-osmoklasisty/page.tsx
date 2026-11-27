@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ConsentBanner } from "@/components/ads/ConsentBanner";
 import { Tracking } from "@/components/ads/Tracking";
-import { E8Hero, E8Info, E8Pricing, E8Schedule } from "@/components/kurs8/E8Sections";
+import { E8Enrol, E8Hero, E8Info, E8Pricing, E8Schedule } from "@/components/kurs8/E8Sections";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { StickyCall } from "@/components/layout/StickyCall";
@@ -37,6 +37,7 @@ export default function Kurs8Page() {
       <Header />
       <main>
         <E8Hero />
+        <E8Enrol />
         <E8Info />
         <VideoLesson title="Przykładowy fragment lekcji" accent={["fragment", "lekcji"]} youtubeId="mLvQZZW3XYI" poster="/video/e8-fragment-poster.webp" />
         <E8Schedule />
