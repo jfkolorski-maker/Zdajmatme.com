@@ -8,7 +8,7 @@ export function Faq() {
   return (
     <section id="faq" aria-labelledby="faq-title" className="section-y bg-surface text-white">
       <div className="shell">
-        <SectionHead chapter="faq" title="Najczęściej zadawane pytania" lead="Krótko o lekcjach, materiałach, płatnościach i odwoływaniu zajęć." id="faq-title" />
+        <SectionHead chapter="faq" title="Najczęściej zadawane pytania" lead="Ceny, lekcje online, postępy dziecka i odwoływanie zajęć." id="faq-title" />
         <div className="mx-auto mt-8 max-w-3xl space-y-2.5 md:mt-12">
           {FAQ.map((f, i) => (
             <FadeUp key={f.q} delay={Math.min(i, 3) * 0.04}>

@@ -32,7 +32,7 @@ export const viewport: Viewport = { themeColor: "#262a30", width: "device-width"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl" suppressHydrationWarning>
+    <html lang="pl" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
         <a href="#zapisy" className="skip-link">
           Przejdź do zapisów

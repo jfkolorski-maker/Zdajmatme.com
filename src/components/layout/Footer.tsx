@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "@/components/ui/icons";
 import { PhoneLink } from "@/components/ui/PhoneLink";
 import { BRAND } from "@/config/brand";
 import { OFFER } from "@/data/content";
@@ -20,7 +21,7 @@ export function Footer() {
           <ul className="mt-2">
             {OFFER.items.map((o) => (
               <li key={o.id}>
-                <Link href={o.id === "indiv" ? "/korepetycje-indywidualne" : o.id === "e8" ? "/kurs-osmoklasisty" : "/kurs-maturalny"} className={link}>
+                <Link href={o.href} className={link}>
                   {o.title}
                 </Link>
               </li>
@@ -38,7 +39,7 @@ export function Footer() {
         <address className="not-italic">
           <h2 className="text-[1rem] font-semibold text-accent">Kontakt</h2>
           <ul className="mt-2">
-            <li><PhoneLink placement="footer" className={`${link} font-semibold !text-white`}>Telefon: {BRAND.phone}</PhoneLink></li>
+            <li className="my-2"><PhoneLink placement="footer" className="group inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-accent px-5 font-semibold tabular-nums text-white transition-colors hover:bg-accent hover:text-night"><Icon name="phone" size={17} className="text-accent group-hover:text-night" />{BRAND.phone}</PhoneLink></li>
             <li><a href={`mailto:${BRAND.email}`} className={`${link} break-all`}>{BRAND.email}</a></li>
             <li className="text-sm text-white/50">Zajęcia online na Microsoft Teams</li>
           </ul>

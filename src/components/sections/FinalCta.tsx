@@ -31,15 +31,11 @@ export function FinalCta() {
             {BRAND.phone}
           </PhoneLink>
         </FadeUp>
-        <FadeUp delay={0.24} className="mx-auto mt-6 flex max-w-[24rem] flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+        <FadeUp delay={0.24} className="mx-auto mt-6 flex max-w-[24rem] flex-col gap-3 sm:max-w-none sm:items-center">
           <a href="#zapisy" className="btn btn-primary text-[1.02rem]" onClick={() => track({ name: "cta_click", placement: "final", label: "quiz" })}>
             {FINAL_CTA.ctaQuiz}
             <Icon name="arrow" size={18} />
           </a>
-          <PhoneLink placement="final" className="btn btn-on-dark text-[1.02rem]">
-            <Icon name="phone" size={19} className="text-accent" />
-            {FINAL_CTA.ctaCall}
-          </PhoneLink>
         </FadeUp>
       </div>
     </section>

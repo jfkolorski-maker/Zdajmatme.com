@@ -10,10 +10,10 @@ export function About() {
       <div className="shell">
         <SectionHead chapter="o-nas" title={ABOUT.title} accent={ABOUT.accent} lead={ABOUT.lead} id="about-title" />
         <div className="mx-auto mt-8 grid max-w-5xl items-center gap-8 md:mt-12 md:grid-cols-2 md:gap-12">
-          <ImageReveal src={ABOUT.photo.src} alt={ABOUT.photo.alt} sizes="(min-width: 768px) 46vw, 92vw" className="aspect-[3/2] w-full rounded-[22px]" />
+          <ImageReveal src={ABOUT.photo.src} alt={ABOUT.photo.alt} sizes="(min-width: 768px) 46vw, 92vw" className="aspect-[16/9] w-full rounded-[22px] md:aspect-[3/2]" />
           <ol className="border-t border-accent">
             {ABOUT.points.map((b, i) => (
-              <FadeUp as="li" key={b.title} delay={i * 0.08} className="flex gap-4 border-b border-accent py-5 md:py-6">
+              <FadeUp as="li" key={b.title} delay={i * 0.08} className="flex gap-4 border-b border-accent/40 py-4 md:py-5">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-accent/12 text-accent">
                   <Icon name={b.icon} size={20} />
                 </span>

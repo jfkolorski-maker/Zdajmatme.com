@@ -31,26 +31,29 @@ export const OFFER = {
     {
       id: "indiv" as OfferId,
       anchor: "korepetycje",
+      href: "/korepetycje-indywidualne",
       title: "Korepetycje indywidualne online",
-      text: "Elastyczne zajęcia 1-na-1 dopasowane do Twoich potrzeb. Nadrobimy zaległości.",
-      cta: "Dowiedz się więcej",
+      text: "Zajęcia 1-na-1 w Twoim tempie. Od 110 zł za 60 minut.",
+      cta: "Zobacz korepetycje",
       photo: { src: "/images/oferta-korepetycje.webp", alt: "Korepetycje indywidualne online", width: 1024, height: 1024 },
     },
     {
       id: "e8" as OfferId,
       anchor: "kurs-8-klasisty",
+      href: "/kurs-osmoklasisty",
       title: "Kurs do Egzaminu Ósmoklasisty",
-      text: "Intensywne przygotowanie w małej grupie. Skupiamy się na „pewniakach egzaminacyjnych” i strategiach CKE.",
-      cta: "Sprawdź szczegóły kursu",
+      text: "Mała grupa online, pewniaki egzaminacyjne i strategie CKE. Rok szkolny 2027/2028.",
+      cta: "Zobacz kurs",
       photo: { src: "/images/oferta-kurs-8-v2.webp", alt: "Uczeń rozwiązuje zadanie z egzaminu ósmoklasisty podczas lekcji online", width: 1536, height: 1024 },
     },
     {
       id: "matura" as OfferId,
       anchor: "kurs-maturalny",
-      title: "Kurs Maturalny 2026",
+      href: "/kurs-maturalny",
+      title: "Kurs maturalny",
       // TODO: potwierdzić – zdajmatme.com: „zdaj maturę na 100%” to obietnica wyniku; złagodzone do celu.
-      text: "Kompleksowy kurs na poziomie podstawowym i rozszerzonym. Poznaj strategie rozwiązywania zadań i przygotuj się do matury.",
-      cta: "Poznaj program maturalny",
+      text: "Poziom podstawowy i rozszerzony. Typowe zadania maturalne i strategie ich rozwiązywania. Rok szkolny 2027/2028.",
+      cta: "Zobacz kurs",
       photo: { src: "/images/oferta-kurs-maturalny-v2.webp", alt: "Uczennica przygotowuje się do matury z matematyki podczas kursu online", width: 1536, height: 1024 },
     },
   ],
@@ -62,80 +65,67 @@ export const PROCESS: { stage: string; text: string; photo?: string; alt?: strin
     stage: "Dopasowujemy poziom ucznia",
     photo: "/images/proces-2.webp",
     alt: "Grafika poglądowa: lekcja online – korepetytor dopasowuje tempo do poziomu ucznia",
-    text: "Doświadczony korepetytor nie tylko tłumaczy materiał, ale też poznaje mocne i słabe strony ucznia, dopasowując tempo pracy.",
+    text: "Poznajemy mocne i słabe strony ucznia i dopasowujemy tempo pracy.",
   },
   {
     stage: "Utrwalanie wiedzy po lekcji",
     photo: "/images/proces-1.webp",
     alt: "Grafika poglądowa: uczeń ćwiczy po lekcji i ma kontakt z nauczycielką",
-    text: "Po zajęciach uczeń otrzymuje zadania do samodzielnego ćwiczenia i ma stały kontakt z nauczycielem – w razie pytań zawsze może liczyć na wsparcie.",
+    text: "Po lekcji uczeń dostaje zadania do ćwiczeń, a w razie pytań – szybką pomoc.",
   },
   {
     stage: "Regularne raporty dla rodziców",
     photo: "/images/proces-3.webp",
     alt: "Grafika poglądowa: rodzice przeglądają raport postępów ucznia",
-    text: "Rodzice regularnie dostają informacje o postępach, przerobionym materiale i zaangażowaniu dziecka.",
+    text: "Rodzice regularnie dostają informacje o postępach i przerobionym materiale.",
   },
   {
     stage: "Sukces i poczucie komfortu",
     photo: "/images/proces-4.webp",
     alt: "Grafika poglądowa: uczeń cieszy się z dobrego wyniku",
-    text: "Celem jest nie tylko lepsza ocena czy zdany egzamin, ale poczucie, że uczeń naprawdę potrafi. Budujemy realne umiejętności i pewność siebie.",
+    text: "Lepsze oceny i zdany egzamin – a przede wszystkim pewność, że uczeń naprawdę potrafi.",
   },
 ];
 
-/** "Jak uczymy?" – two principles from zdajmatme.com. */
-export const HOW = {
-  title: "Jak uczymy?",
-  accent: ["uczymy?"],
-  items: [
-    { icon: "book", title: "Wiedza i dobra energia", text: "Skuteczna nauka to połączenie merytoryki i dobrej energii. Dzięki nowoczesnym rozwiązaniom online lekcje są dynamiczne, wciągające i skuteczne." },
-    { icon: "monitor", title: "Komfort nauki online", text: "Zajęcia prowadzimy online – dzieci i młodzież uczą się w komfortowych warunkach, bez dojazdów, korków i niepotrzebnego stresu." },
-  ],
-};
-
-/** "Spokój i pewność dla każdego rodzica" – parents' questions from zdajmatme.com. */
-export const PARENTS = {
-  title: "Spokój i pewność dla każdego rodzica",
-  accent: ["dla", "każdego", "rodzica"],
-  lead: "Wiemy, jak ważny jest dla Ciebie rozwój i komfort Twojego dziecka. Stawiamy na partnerstwo, przejrzystość i realne efekty.",
-  items: [
-    { q: "Jak będę informowany/a o postępach dziecka?", a: "Jesteś zawsze na bieżąco. Po każdej serii zajęć otrzymasz od nas szczegółowe podsumowanie postępów, przerobionego materiału oraz obszarów, nad którymi aktualnie pracujemy. Stawiamy na pełną transparentność." },
-    { q: "Kto będzie uczyć moje dziecko?", a: "Twoim dzieckiem opiekują się wyłącznie doświadczeni i zweryfikowani korepetytorzy. To pasjonaci, którzy potrafią budować relacje, motywować i tłumaczyć matematykę w przystępny, ciekawy sposób." },
-    { q: "Jakie są zalety nauki w formie online?", a: "Zajęcia online to przede wszystkim oszczędność Twojego czasu i pełen komfort dla dziecka. Nauka odbywa się w znanym i bezpiecznym otoczeniu, bez stresu i logistyki związanej z dojazdami." },
-  ],
-};
-
-/** "Uczymy inaczej – uczymy skutecznie" (O nas) – zdajmatme.com. */
+/** "Uczymy inaczej – uczymy skutecznie" (O nas) – zdajmatme.com, merged with "Jak uczymy?". */
 export const ABOUT = {
   title: "Uczymy inaczej – uczymy skutecznie",
   accent: ["Uczymy"],
-  lead: "Naszą misją jest nie tylko przekazywanie wiedzy, ale budowanie pewności siebie. Pokazujemy, że matematyka jest logiczna i każdy może ją zrozumieć.",
+  lead: "Pokazujemy, że matematyka jest logiczna i każdy może ją zrozumieć.",
   photo: { src: "/images/o-nas.webp", alt: "Nowoczesne i przyjazne podejście do nauki matematyki online", width: 1536, height: 1024 },
   points: [
-    { icon: "eye", title: "Indywidualne podejście", text: "Skupiamy się na Tobie, a nie na sztywnym programie." },
-    { icon: "spark", title: "Doświadczeni nauczyciele", text: "Uczymy z pasją i potrafimy tłumaczyć najtrudniejsze zagadnienia." },
-    { icon: "thumb", title: "Nowoczesne narzędzia", text: "Korzystamy z wirtualnej tablicy, dzięki czemu lekcje online są efektywne i angażujące." },
+    { icon: "eye", title: "Indywidualne podejście", text: "Skupiamy się na uczniu, nie na sztywnym programie." },
+    { icon: "spark", title: "Doświadczeni nauczyciele", text: "Tłumaczymy trudne tematy prosto i z pasją." },
+    { icon: "thumb", title: "Wirtualna tablica na Teams", text: "Rozwiązujemy zadania razem – jak przy jednym biurku." },
+    { icon: "monitor", title: "Nauka z domu", text: "Bez dojazdów, korków i niepotrzebnego stresu." },
   ],
 };
 
-/** FAQ – verbatim answers from zdajmatme.com (real practice: Teams, recordings, payments, cancellations). */
+/** FAQ – answers from zdajmatme.com (incl. the parents' questions), shortened. */
 export const FAQ = [
   {
-    q: "Jak wyglądają lekcje online?",
-    a: "Zajęcia odbywają się na platformie Microsoft Teams. Korzystamy z interaktywnej wirtualnej tablicy, na której wspólnie rozwiązujemy zadania, tak jakbyśmy siedzieli obok siebie. Każdy uczeń ma możliwość aktywnego udziału w lekcji.",
-  },
-  {
-    q: "Czy otrzymam jakieś materiały po zajęciach?",
-    a: "Tak. Po każdych zajęciach kursowych otrzymujesz pracę domową do utrwalenia wiedzy oraz dostęp do nagrania z całej lekcji. Możesz powtórzyć materiał w dowolnym momencie przed egzaminem.",
-  },
-  {
     q: "Ile kosztuje lekcja i jak mogę zapłacić?",
-    a: "Lekcja indywidualna online 1-na-1 kosztuje 110 zł za 60 minut, a na poziomie rozszerzonym 125 zł za 60 minut; za lekcje indywidualne rozliczamy się po każdym miesiącu nauki. Za kursy grupowe można płacić jednorazowo (ze zniżką) lub w ratach miesięcznych. Szczegóły ustalamy indywidualnie.",
+    a: "Lekcja 1-na-1 kosztuje 110 zł za 60 minut, na poziomie rozszerzonym 125 zł. Za lekcje indywidualne rozliczamy się po każdym miesiącu. Kursy grupowe można opłacić jednorazowo (taniej) lub w ratach miesięcznych.",
   },
   {
-    q: "Co jeśli będę musiał/a odwołać lekcję?",
-    a: "Prosimy o informację najpóźniej 24 godziny przed planowanym terminem lekcji indywidualnej. Wtedy zajęcia można bezpłatnie przełożyć na inny, dogodny termin.",
+    q: "Jak wyglądają lekcje online?",
+    a: "Na Microsoft Teams, z wirtualną tablicą – rozwiązujemy zadania razem, tak jakbyśmy siedzieli obok siebie.",
+  },
+  {
+    q: "Kto będzie uczyć moje dziecko?",
+    a: "Wyłącznie doświadczeni i zweryfikowani korepetytorzy, którzy potrafią motywować i tłumaczyć matematykę przystępnie.",
+  },
+  {
+    q: "Jak będę informowany/a o postępach dziecka?",
+    a: "Po każdej serii zajęć dostajesz podsumowanie: postępy, przerobiony materiał i to, nad czym teraz pracujemy.",
+  },
+  {
+    q: "Czy dostanę materiały po zajęciach?",
+    a: "Tak. Po zajęciach kursowych dostajesz pracę domową i nagranie całej lekcji – możesz wrócić do niego w dowolnym momencie.",
+  },
+  {
+    q: "Co jeśli muszę odwołać lekcję?",
+    a: "Daj znać najpóźniej 24 godziny wcześniej – przełożymy lekcję indywidualną bezpłatnie na inny termin.",
   },
 ];
 
@@ -143,9 +133,8 @@ export const FINAL_CTA = {
   title: "Gotowy na zmianę?",
   accent: ["zmianę?"],
   // zdajmatme.com also says „liczba miejsc w grupach jest ograniczona” – TODO: potwierdzić, dopiero wtedy dodać.
-  lead: "Nie odkładaj sukcesu na później. Pierwszy krok jest najważniejszy. Skontaktuj się z nami już dziś, a pomożemy Ci osiągnąć Twój cel.",
-  ctaQuiz: "Porozmawiajmy o Twoich celach",
-  ctaCall: "Zadzwoń do Oliwii",
+  lead: "Zadzwoń albo zostaw numer – oddzwonimy i ustalimy pierwszą lekcję.",
+  ctaQuiz: "Umów pierwszą lekcję",
 };
 
 /** Desktop menu – labels from zdajmatme.com; each points at its place on the landing. */
@@ -162,12 +151,10 @@ export const NAV = [
  * heading and for the "where am I" label in the header.
  */
 export const CHAPTERS = [
-  { id: "lekcja", label: "Przykładowa lekcja", short: "Lekcja" },
   { id: "oferta", label: "Oferta", short: "Oferta" },
+  { id: "lekcja", label: "Przykładowa lekcja", short: "Lekcja" },
   { id: "proces", label: "Proces nauczania", short: "Proces" },
   { id: "zapisy", label: "Pierwsza lekcja", short: "Zapisy" },
-  { id: "jak-uczymy", label: "Jak uczymy", short: "Metoda" },
-  { id: "dla-rodzica", label: "Dla rodzica", short: "Rodzic" },
   { id: "o-nas", label: "O nas", short: "O nas" },
   { id: "faq", label: "FAQ", short: "FAQ" },
   { id: "kontakt", label: "Kontakt", short: "Kontakt" },

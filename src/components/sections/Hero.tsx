@@ -189,7 +189,7 @@ export function Hero() {
                 {HERO.ctaQuiz}
                 <Icon name="arrow" size={16} className="hidden shrink-0 sm:block" />
               </a>
-              <PhoneLink placement="hero" className="btn btn-on-dark !min-h-12 !gap-1.5 !px-2.5 !py-2 !text-[clamp(0.76rem,3.55vw,0.9rem)] tabular-nums md:!min-h-14 md:!px-5 md:!text-[0.98rem]">
+              <PhoneLink placement="hero" className="btn btn-on-dark !border-2 !border-accent !min-h-12 !gap-1.5 !px-2.5 !py-2 !text-[clamp(0.76rem,3.55vw,0.9rem)] tabular-nums md:!min-h-14 md:!px-5 md:!text-[0.98rem]">
                 <Icon name="phone" size={16} className="shrink-0 text-accent" />
                 {BRAND.phone}
               </PhoneLink>

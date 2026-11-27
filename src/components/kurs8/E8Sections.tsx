@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { presetQuiz } from "@/components/sections/Offer";
 import { CourseSchedule } from "@/components/ui/CourseSchedule";
+import { FadeUp } from "@/components/motion/Reveal";
+import { SectionHead } from "@/components/motion/SectionHead";
+import { FactList, PriceCard } from "@/components/ui/Premium";
 import { track } from "@/lib/ads/track";
 
 /**
@@ -11,7 +14,6 @@ import { track } from "@/lib/ads/track";
  * "Zapisz się" leads to the quiz at the bottom of this page, preset to the 8th-grade course.
  */
 const ORANGE = "text-[#FFA550]";
-const sectionTitle = "text-center text-[clamp(1.9rem,6.5vw,2.6rem)] font-bold leading-tight text-white";
 
 function toQuiz(placement: string) {
   presetQuiz("e8");
@@ -28,7 +30,7 @@ export function E8Hero() {
           Egzamin ósmoklasisty <span className={ORANGE}>bez stresu</span>
         </h1>
         <p className="mt-4 max-w-2xl text-[1.1rem] leading-relaxed text-white/90 md:text-[1.2rem]">
-          Nasz kurs to sprawdzony sposób na sukces. Zobacz, jak w praktyce przygotowujemy do egzaminu, przerabiając setki zadań i budując strategie, które gwarantują wysoki wynik.
+          Mała grupa online, setki przerobionych zadań i sprawdzone strategie egzaminacyjne.
         </p>
       </div>
     </section>
@@ -59,29 +61,23 @@ export function E8Enrol() {
 }
 
 const INFO = [
-  "Kurs składa się z 22 spotkań. Pojedyncze spotkanie trwa 60 minut.",
-  "Koszt jednej lekcji to jedyne 45 zł.",
-  "Zajęcia odbywają się online w poniedziałki o godzinie 18:00.",
-  "Uczestnicy mają dostęp do notatek i filmów z zajęć przez czas trwania kursu.",
-  "Po każdej lekcji otrzymujesz zadanie domowe - niezbędny element progresu.",
-  "Materiały są opracowane na podstawie wymagań Centralnej Komisji Egzaminacyjnej.",
-  "Nie ma obowiązku uczestnictwa w lekcji o określonej godzinie - zajęcia są nagrywane.",
-  "Zawsze możesz zwrócić się do nas o pomoc w dowolnym zadaniu - nie tylko z kursu.",
+  "22 spotkania po 60 minut",
+  "45 zł za lekcję",
+  "Poniedziałki o 18:00, online na Teams",
+  "Nagrania i notatki przez cały kurs",
+  "Zadanie domowe po każdej lekcji",
+  "Materiały zgodne z wymaganiami CKE",
+  "Nie możesz być na żywo? Obejrzysz nagranie",
+  "Pomagamy też w zadaniach spoza kursu",
 ];
 
 export function E8Info() {
   return (
-    <section aria-labelledby="e8-info" className="bg-surface px-5 pb-14 pt-12 text-white md:pb-16 md:pt-14">
-      <h2 id="e8-info" className={sectionTitle}>
-        Najważniejsze informacje o <span className={ORANGE}>kursie</span>
-      </h2>
-      <ul className="mx-auto mt-8 grid max-w-5xl gap-2.5 md:grid-cols-2 md:gap-3">
-        {INFO.map((t) => (
-          <li key={t} className="rounded-[18px] border-2 border-accent bg-white px-5 py-3 text-[0.93rem] font-medium leading-snug text-night">
-            {t}
-          </li>
-        ))}
-      </ul>
+    <section aria-labelledby="e8-info" className="section-y bg-surface text-white">
+      <div className="shell">
+        <SectionHead kicker="Kurs w skrócie" title="Najważniejsze informacje" accent={["informacje"]} id="e8-info" />
+        <FactList items={INFO} />
+      </div>
     </section>
   );
 }
@@ -113,53 +109,35 @@ const LESSONS = [
 
 export function E8Schedule() {
   return (
-    <section aria-labelledby="e8-schedule" className="bg-night px-5 py-16 text-white md:py-20">
-      <h2 id="e8-schedule" className={sectionTitle}>
-        Terminarz <span className={ORANGE}>kursu</span>
-      </h2>
-      <CourseSchedule
-        lessons={LESSONS}
-        facts={[
-          { value: "60 min", label: "jedna lekcja" },
-          { value: "Pon. 18:00", label: "online na żywo" },
-          { value: "Teams", label: "+ nagrania i notatki" },
-        ]}
-        onCta={() => toQuiz("e8_schedule")}
-      />
+    <section aria-labelledby="e8-schedule" className="section-y bg-night text-white">
+      <div className="shell">
+        <SectionHead kicker="Program" title="Terminarz kursu" accent={["kursu"]} id="e8-schedule" />
+        <CourseSchedule
+          lessons={LESSONS}
+          facts={[
+            { value: "60 min", label: "jedna lekcja" },
+            { value: "Pon. 18:00", label: "online na żywo" },
+            { value: "Teams", label: "+ nagrania i notatki" },
+          ]}
+          onCta={() => toQuiz("e8_schedule")}
+        />
+      </div>
     </section>
   );
 }
 
 export function E8Pricing() {
   return (
-    <section id="cennik" aria-labelledby="e8-price" className="scroll-mt-16 bg-surface px-5 py-16 text-white md:py-20">
-      <h2 id="e8-price" className={sectionTitle}>
-        Cennik
-      </h2>
-      <div className="mx-auto mt-10 grid max-w-4xl gap-6 md:grid-cols-2">
-        <div className="flex flex-col items-center rounded-[28px] border-2 border-accent bg-white px-7 py-10 text-center text-[#1a1a1a]">
-          <h3 className="text-[1.4rem] font-semibold">Pojedyncza lekcja</h3>
-          <p className="mt-6 text-[2.8rem] font-bold leading-none text-[#FFA550]">45 zł</p>
-          <p className="mt-4 text-[1.05rem]">za 60 minutową lekcję w kursie</p>
-          <p className="mt-5 flex-1 text-[0.98rem] leading-relaxed text-[#333]">Kompleksowe przygotowanie do egzaminu. Elastyczna opcja pozwala rozłożyć koszt w czasie.</p>
-          <a href="#zapisy" onClick={() => toQuiz("e8_price_single")} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-black px-8 font-semibold text-[#FFA550] transition-transform hover:-translate-y-0.5">
-            Zapisz się
-          </a>
-        </div>
-        <div className="relative flex flex-col items-center rounded-[28px] border-2 border-accent bg-white px-7 py-10 text-center text-[#1a1a1a] shadow-[0_24px_60px_-30px_rgba(255,165,80,0.7)]">
-          <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#FFA550] px-4 py-1.5 text-[0.9rem] font-bold">-10%</span>
-          <h3 className="text-[1.4rem] font-semibold">Jednorazowa opłata</h3>
-          <p className="mt-6 flex items-baseline gap-3">
-            <s className="text-[1.4rem] text-[#adb5bd]">990 zł</s>
-            <span className="text-[2.8rem] font-bold leading-none text-[#FFA550]">890 zł</span>
-          </p>
-          <p className="mt-4 text-[1.05rem]">za cały kurs (25 lekcji)</p>
-          <p className="mt-5 flex-1 text-[0.98rem] leading-relaxed text-[#333]">
-            Najlepsza oferta! Oszczędź <strong>100 zł</strong>, płacąc za cały kurs z góry i zapewnij sobie miejsce w grupie.
-          </p>
-          <a href="#zapisy" onClick={() => toQuiz("e8_price_full")} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[#FFA550] px-8 font-semibold text-[#1a1a1a] transition-transform hover:-translate-y-0.5">
-            Wybieram z rabatem
-          </a>
+    <section id="cennik" aria-labelledby="e8-price" className="section-y scroll-mt-16 bg-surface text-white">
+      <div className="shell">
+        <SectionHead kicker="Cennik" title="Wybierz sposób płatności" accent={["płatności"]} id="e8-price" />
+        <div className="mx-auto mt-8 grid max-w-3xl gap-4 md:mt-12 md:grid-cols-2 md:gap-5">
+          <FadeUp className="h-full">
+            <PriceCard name="Pojedyncza lekcja" price="45 zł" unit="za 60 minut" note="Płacisz w trakcie – koszt rozłożony w czasie." cta="Zapisz się" onClick={() => toQuiz("e8_price_single")} />
+          </FadeUp>
+          <FadeUp delay={0.06} className="h-full">
+            <PriceCard name="Cały kurs" badge="−10%" featured old="990 zł" price="890 zł" unit="płatność jednorazowa" note="Oszczędzasz 100 zł i masz pewne miejsce w grupie." cta="Wybieram z rabatem" onClick={() => toQuiz("e8_price_full")} />
+          </FadeUp>
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ import { SUMMARY_STEP, clearQuiz, initialQuizState, loadQuiz, quizReducer, saveQ
 const ADVANCE_MS = 340;
 
 /** Quiz as a small app: one screen per question, segmented progress, spring feedback. */
-export function Quiz() {
+export function Quiz({ defaultOffer }: { defaultOffer?: string } = {}) {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);
   const [sent, setSent] = useState(false);
   const reduced = useReducedMotion();
@@ -24,17 +24,24 @@ export function Quiz() {
   const timer = useRef<number | undefined>(undefined);
   const card = useRef<HTMLDivElement>(null);
   const prevStep = useRef(0);
+  /** Only scroll the page for the visitor's own quiz actions – never on load (saved progress, sub-page preset). */
+  const interacted = useRef(false);
 
   useEffect(() => {
     const saved = loadQuiz();
-    if (saved) {
-      started.current = Object.keys(saved.answers).length > 0;
+    if (saved && Object.keys(saved.answers).length > 0) {
+      started.current = true;
       prevStep.current = saved.step;
       dispatch({ type: "hydrate", state: saved });
+    } else if (defaultOffer) {
+      // course sub-pages: "Czego szukasz?" is already known – start at the next question (no scroll)
+      prevStep.current = 1;
+      dispatch({ type: "answer", id: "offer", value: defaultOffer });
+      dispatch({ type: "goTo", step: 1 });
     }
     hydrated.current = true;
     return () => window.clearTimeout(timer.current);
-  }, []);
+  }, [defaultOffer]);
 
   useEffect(() => {
     if (hydrated.current) saveQuiz(state);
@@ -45,6 +52,7 @@ export function Quiz() {
     const onPreset = (e: Event) => {
       const offer = (e as CustomEvent<{ offer: string }>).detail?.offer;
       if (!offer) return;
+      interacted.current = true;
       if (!started.current) {
         started.current = true;
         track({ name: "quiz_start" });
@@ -61,6 +69,7 @@ export function Quiz() {
   useEffect(() => {
     if (prevStep.current === state.step) return;
     prevStep.current = state.step;
+    if (!interacted.current) return;
     const el = card.current;
     if (!el) return;
     const top = el.getBoundingClientRect().top;
@@ -110,7 +119,7 @@ export function Quiz() {
   const dir = state.direction;
 
   return (
-    <div ref={card} className="mx-auto w-full max-w-2xl scroll-mt-20 overflow-hidden rounded-[28px] border-2 border-accent bg-white text-left shadow-[0_60px_120px_-40px_rgba(0,0,0,0.7)]">
+    <div ref={card} onPointerDownCapture={() => (interacted.current = true)} onKeyDownCapture={() => (interacted.current = true)} className="mx-auto w-full max-w-2xl scroll-mt-20 overflow-hidden rounded-[28px] border-2 border-accent bg-white text-left shadow-[0_60px_120px_-40px_rgba(0,0,0,0.7)]">
       {/* App bar */}
       <div className="flex items-center gap-3 px-4 pt-4 sm:px-7 sm:pt-6">
         <motion.button

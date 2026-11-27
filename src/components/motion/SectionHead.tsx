@@ -34,7 +34,11 @@ export function SectionHead({ chapter, kicker, title, accent, lead, id, classNam
               <span className="h-px w-6 bg-accent/50" />
             </>
           ) : (
-            <span className="text-white/75">{kicker}</span>
+            <>
+              <span className="h-px w-6 bg-accent/50" />
+              <span className="text-white/75">{kicker}</span>
+              <span className="h-px w-6 bg-accent/50" />
+            </>
           )}
         </p>
       </FadeUp>

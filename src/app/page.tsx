@@ -9,13 +9,11 @@ import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
 import { Offer } from "@/components/sections/Offer";
-import { Parents } from "@/components/sections/Parents";
 import { Process } from "@/components/sections/Process";
 import { QuizSection } from "@/components/sections/QuizSection";
-import { Standard } from "@/components/sections/Standard";
 import { VideoLesson } from "@/components/sections/VideoLesson";
 import { BRAND } from "@/config/brand";
-import { FAQ, OFFER, PARENTS } from "@/data/content";
+import { FAQ, OFFER } from "@/data/content";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -44,12 +42,12 @@ const jsonLd = {
       .map((o) => ({ "@type": "Course", name: o.title, description: o.text, provider: { "@id": `${BRAND.url}/#org` } })),
     {
       "@type": "FAQPage",
-      mainEntity: [...FAQ, ...PARENTS.items].map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+      mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
     },
   ],
 };
 
-/** Order = zdajmatme.com: hero → przykładowa lekcja → oferta → proces → zapisy → jak uczymy → dla rodzica → o nas → FAQ → kontakt. */
+/** Google Ads order: hero → oferta → przykładowa lekcja → proces → zapisy → o nas → FAQ → kontakt. */
 export default function LandingPage() {
   return (
     <Providers>
@@ -57,12 +55,10 @@ export default function LandingPage() {
       <Header />
       <main>
         <Hero />
-        <VideoLesson />
         <Offer />
+        <VideoLesson />
         <Process />
         <QuizSection />
-        <Standard />
-        <Parents />
         <About />
         <Faq />
         <FinalCta />

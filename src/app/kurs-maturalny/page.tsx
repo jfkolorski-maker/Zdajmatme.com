@@ -37,7 +37,7 @@ export default function KursMaturalnyPage() {
       <main>
         <MaturaCourse />
         <MaturaHow />
-        <QuizSection />
+        <QuizSection defaultOffer="matura" />
         <FinalCta />
       </main>
       <Footer />

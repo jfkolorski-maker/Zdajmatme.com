@@ -14,12 +14,13 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - Silnik wzorowany na malowanie.flipor.pl (animacje, quiz, backend leadów).
 
 ## Struktura
-- `/` – strona główna (`src/app/page.tsx`): Hero (film Oliwii, przycisk dźwięku) → Przykładowa lekcja → Oferta („Wybierz ścieżkę…”, 3 karty) → Proces nauczania (4 etapy z grafikami) → Quiz „Umów pierwszą lekcję!” (`#zapisy`) → Jak uczymy → Dla rodzica → O nas → FAQ → Kontakt („Gotowy na zmianę?”).
+- `/` – strona główna (`src/app/page.tsx`, kolejność pod Google Ads): Hero (film Oliwii) → Oferta (3 karty – cała karta to link do podstrony) → Przykładowa lekcja → Proces nauczania (4 karty, na telefonie przesuwane w bok) → Quiz (`#zapisy`) → O nas (połączone z „Jak uczymy”) → FAQ (połączone z „Dla rodzica”) → Kontakt.
 - Podstrony (przeniesione z zdajmatme.com i dopasowane stylem):
   - `/korepetycje-indywidualne` – `src/components/korepetycje/KorSections.tsx`
   - `/kurs-osmoklasisty` – `src/components/kurs8/E8Sections.tsx`
   - `/kurs-maturalny` – `src/components/matura/MaturaSections.tsx` (zakładki podstawa/rozszerzenie)
-  - Każda kończy się quizem + kontaktem; przyciski „Zapisz się/Umów się” robią `presetQuiz(...)` i przewijają do `#zapisy`.
+  - Każda kończy się quizem + kontaktem; quiz startuje od razu z wybraną ofertą (`<QuizSection defaultOffer=…>`), przyciski „Zapisz się/Umów się” przewijają do `#zapisy`.
+  - Wspólne elementy premium podstron: `src/components/ui/Premium.tsx` (FactList, FeatureList, PriceCard) i `src/components/ui/CourseSchedule.tsx` (terminarz). Nagłówki sekcji: `SectionHead` (kicker z kreskami).
 - Menu: `NAV` w `src/data/content.ts`; nagłówek `src/components/layout/Header.tsx` (na telefonie menu ☰). Stopka: `Footer.tsx`.
 - Treści strony głównej: `src/data/content.ts`; quiz: `src/data/quiz.ts` (+ `src/components/quiz/*`, ilustrowane ikonki `QuizArt.tsx`); marka/telefon: `src/config/brand.ts`.
 - Leady: `src/app/api/leads/route.ts` → webhook `LEAD_WEBHOOK_URL` (zmienna w Vercel – **jeszcze nieustawiona przez właściciela**; bez niej formularz uczciwie pokazuje błąd i proponuje telefon).
@@ -30,12 +31,13 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - „Pierwsza lekcja” (nie „lekcja próbna”). Zajęcia na **Microsoft Teams** (nie ZOOM).
 - Ceny 1-na-1: 110 zł / 60 min, poziom rozszerzony 125 zł / 60 min; pakiet 10 lekcji −10% (990 / 1125 zł). Kurs 8-klasisty: 45 zł/lekcja, 890 zł cały kurs. Kurs maturalny: 45 zł, 1780 zł cały kurs.
 - Kursy (E8, matura) oznaczone jako **rok szkolny 2027/2028**; na podstronach kursów boks „zapisy już otwarte”, terminarz **bez dat**.
+- Numer telefonu zawsze w pomarańczowej obwódce (hero, kontakt, stopka).
+- Przejście na każdą podstronę zawsze na samą górę (`data-scroll-behavior="smooth"` w `<html>`; quiz przewija stronę tylko po kliknięciu w quiz).
 - Kontakt: okrągłe zdjęcie Oliwii (`public/team/oliwia-kontakt.webp`, z zdajmatme.com) w pomarańczowej obwódce, pod nim imię i nazwisko; numer telefonu pulsuje (`.phone-pulse`).
 - Nie wymyślać opinii, wyników ani danych; grafiki AI oznaczać jako poglądowe. Bez danych osobowych w analityce. Nie podawać sekretów w czacie.
 - Po każdej zmianie: build + szybki test na telefonie (Playwright, iPhone 13 i 320 px – brak poziomego przewijania), commit z czytelnym opisem, push na `main` i `flipor-engine`, weryfikacja produkcji.
 
 ## Otwarte sprawy (do decyzji właścicielki)
-- Karta „Kurs Maturalny 2026” w ofercie na stronie głównej i w stopce – zmienić na 2027/2028?
 - Kurs 8-klasisty: „22 spotkania” vs „cały kurs (25 lekcji)” w cenniku – która liczba jest prawidłowa?
 - Kurs maturalny: „45 zł za 60-minutową lekcję” vs „22 spotkania po 2 godziny” – czy cena ma być „za godzinę”?
 - Ustawienie `LEAD_WEBHOOK_URL` w Vercel, dane firmy do polityki prywatności/regulaminu (`NEXT_PUBLIC_LEGAL_*`).
