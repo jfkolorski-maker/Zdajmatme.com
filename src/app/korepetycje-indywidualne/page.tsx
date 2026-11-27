@@ -13,7 +13,7 @@ import { BRAND } from "@/config/brand";
 
 export const metadata: Metadata = {
   title: "Korepetycje indywidualne z matematyki online | ZdajMatme.com",
-  description: "Lekcje 1-na-1 z matematyki online na ZOOM: szkoła podstawowa, egzamin ósmoklasisty, liceum i matura. Poziom podstawowy 110 zł, rozszerzony 125 zł za 60 minut.",
+  description: "Lekcje 1-na-1 z matematyki online na Microsoft Teams: szkoła podstawowa, egzamin ósmoklasisty, liceum i matura. Poziom podstawowy 110 zł, rozszerzony 125 zł za 60 minut.",
   alternates: { canonical: `${BRAND.url}/korepetycje-indywidualne` },
 };
 

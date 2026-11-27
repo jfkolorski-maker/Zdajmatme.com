@@ -13,8 +13,8 @@ export const HERO = {
   cue: "Zobacz naszą ofertę",
 };
 
-/** Hero trust line – facts from zdajmatme.com (offer + FAQ: ZOOM, virtual whiteboard). */
-export const TRUST = ["Lekcje 1-na-1 online", "Zajęcia na ZOOM", "Kurs 8-klasisty i maturalny"];
+/** Hero trust line – facts from zdajmatme.com (offer + FAQ: Microsoft Teams, virtual whiteboard). */
+export const TRUST = ["Lekcje 1-na-1 online", "Zajęcia na Teamsie", "Kurs 8-klasisty i maturalny"];
 
 export const VIDEO = {
   title: "Przykładowa lekcja",
@@ -119,11 +119,11 @@ export const ABOUT = {
   ],
 };
 
-/** FAQ – verbatim answers from zdajmatme.com (real practice: ZOOM, recordings, payments, cancellations). */
+/** FAQ – verbatim answers from zdajmatme.com (real practice: Teams, recordings, payments, cancellations). */
 export const FAQ = [
   {
     q: "Jak wyglądają lekcje online?",
-    a: "Zajęcia odbywają się na platformie ZOOM. Korzystamy z interaktywnej wirtualnej tablicy, na której wspólnie rozwiązujemy zadania, tak jakbyśmy siedzieli obok siebie. Każdy uczeń ma możliwość aktywnego udziału w lekcji.",
+    a: "Zajęcia odbywają się na platformie Microsoft Teams. Korzystamy z interaktywnej wirtualnej tablicy, na której wspólnie rozwiązujemy zadania, tak jakbyśmy siedzieli obok siebie. Każdy uczeń ma możliwość aktywnego udziału w lekcji.",
   },
   {
     q: "Czy otrzymam jakieś materiały po zajęciach?",
@@ -151,7 +151,7 @@ export const FINAL_CTA = {
 /** Desktop menu – labels from zdajmatme.com; each points at its place on the landing. */
 export const NAV = [
   { href: "/korepetycje-indywidualne", label: "Korepetycje indywidualne" },
-  { href: "/#kurs-8-klasisty", label: "Kurs 8-klasisty" },
+  { href: "/kurs-osmoklasisty", label: "Kurs 8-klasisty" },
   { href: "/#kurs-maturalny", label: "Kurs Maturalny" },
   { href: "/#o-nas", label: "O Nas" },
   { href: "/#kontakt", label: "Kontakt" },

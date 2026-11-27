@@ -35,7 +35,7 @@ export default function TermsPage() {
       </ul>
 
       <H n={4}>Wymagania techniczne</H>
-      <p>Do korzystania z serwisu wystarczy aktualna przeglądarka. Zajęcia odbywają się na platformie ZOOM i wymagają urządzenia z dostępem do internetu.</p>
+      <p>Do korzystania z serwisu wystarczy aktualna przeglądarka. Zajęcia odbywają się na platformie Microsoft Teams i wymagają urządzenia z dostępem do internetu.</p>
 
       <H n={5}>Reklamacje</H>
       <p>

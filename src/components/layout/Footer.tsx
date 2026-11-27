@@ -20,7 +20,7 @@ export function Footer() {
           <ul className="mt-2">
             {OFFER.items.map((o) => (
               <li key={o.id}>
-                <Link href={o.id === "indiv" ? "/korepetycje-indywidualne" : `/#${o.anchor}`} className={link}>
+                <Link href={o.id === "indiv" ? "/korepetycje-indywidualne" : o.id === "e8" ? "/kurs-osmoklasisty" : `/#${o.anchor}`} className={link}>
                   {o.title}
                 </Link>
               </li>
@@ -40,7 +40,7 @@ export function Footer() {
           <ul className="mt-2">
             <li><PhoneLink placement="footer" className={`${link} font-semibold !text-white`}>Telefon: {BRAND.phone}</PhoneLink></li>
             <li><a href={`mailto:${BRAND.email}`} className={`${link} break-all`}>{BRAND.email}</a></li>
-            <li className="text-sm text-white/50">Zajęcia online na ZOOM</li>
+            <li className="text-sm text-white/50">Zajęcia online na Microsoft Teams</li>
           </ul>
         </address>
       </div>
