@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { presetQuiz } from "@/components/sections/Offer";
+import { CourseSchedule } from "@/components/ui/CourseSchedule";
 import { track } from "@/lib/ads/track";
 
 /**
@@ -116,24 +117,15 @@ export function E8Schedule() {
       <h2 id="e8-schedule" className={sectionTitle}>
         Terminarz <span className={ORANGE}>kursu</span>
       </h2>
-      <div className="mx-auto mt-10 max-w-3xl overflow-hidden rounded-[28px] border-2 border-accent">
-        <table className="w-full text-left text-[0.95rem]">
-          <thead className="bg-white text-night">
-            <tr>
-              <th scope="col" className="w-16 border-r-2 border-accent px-4 py-4 text-center font-semibold">Nr</th>
-              <th scope="col" className="px-4 py-4 font-semibold">Temat lekcji</th>
-            </tr>
-          </thead>
-          <tbody>
-            {LESSONS.map((title, i) => (
-              <tr key={title} className="border-t-2 border-accent">
-                <td className={`border-r-2 border-accent px-4 py-3.5 text-center font-bold tabular-nums ${ORANGE}`}>{i + 1}</td>
-                <td className="px-4 py-3.5">{title}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <CourseSchedule
+        lessons={LESSONS}
+        facts={[
+          { value: "60 min", label: "jedna lekcja" },
+          { value: "Pon. 18:00", label: "online na żywo" },
+          { value: "Teams", label: "+ nagrania i notatki" },
+        ]}
+        onCta={() => toQuiz("e8_schedule")}
+      />
     </section>
   );
 }

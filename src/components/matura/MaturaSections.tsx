@@ -5,6 +5,7 @@ import { useState } from "react";
 import { QuizArt } from "@/components/quiz/QuizArt";
 import { presetQuiz } from "@/components/sections/Offer";
 import { VideoLesson } from "@/components/sections/VideoLesson";
+import { CourseSchedule } from "@/components/ui/CourseSchedule";
 import { track } from "@/lib/ads/track";
 
 /**
@@ -47,9 +48,9 @@ const TOPICS = [
   "Powtórzenie 2",
 ];
 
-const LEVELS: Record<Level, { tab: string; infoTitle: string; scheduleTitle: string; day: string; video: { id: string; poster: string } }> = {
-  basic: { tab: "Matura Podstawowa", infoTitle: "kursie podstawowym", scheduleTitle: "kursu podstawowego", day: "w poniedziałki", video: { id: "8fBZJu4RNss", poster: "/video/lekcja-poster.webp" } },
-  extended: { tab: "Matura Rozszerzona", infoTitle: "kursie rozszerzonym", scheduleTitle: "kursu rozszerzonego", day: "we środy", video: { id: "C1xyYJieWOE", poster: "/video/matura-r-poster.webp" } },
+const LEVELS: Record<Level, { tab: string; infoTitle: string; scheduleTitle: string; day: string; short: string; video: { id: string; poster: string } }> = {
+  basic: { tab: "Matura Podstawowa", infoTitle: "kursie podstawowym", scheduleTitle: "kursu podstawowego", day: "w poniedziałki", short: "Pon. 18:00", video: { id: "8fBZJu4RNss", poster: "/video/lekcja-poster.webp" } },
+  extended: { tab: "Matura Rozszerzona", infoTitle: "kursie rozszerzonym", scheduleTitle: "kursu rozszerzonego", day: "we środy", short: "Śr. 18:00", video: { id: "C1xyYJieWOE", poster: "/video/matura-r-poster.webp" } },
 };
 
 function info(day: string) {
@@ -141,24 +142,15 @@ export function MaturaCourse() {
           <h2 id="mat-schedule" className={sectionTitle}>
             Terminarz <span className={ORANGE}>{L.scheduleTitle}</span>
           </h2>
-          <div className="mx-auto mt-10 max-w-3xl overflow-hidden rounded-[28px] border-2 border-accent">
-            <table className="w-full text-left text-[0.95rem]">
-              <thead className="bg-white text-night">
-                <tr>
-                  <th scope="col" className="w-16 border-r-2 border-accent px-4 py-4 text-center font-semibold">Nr</th>
-                  <th scope="col" className="px-4 py-4 font-semibold">Temat lekcji</th>
-                </tr>
-              </thead>
-              <tbody>
-                {TOPICS.map((title, i) => (
-                  <tr key={title} className="border-t-2 border-accent">
-                    <td className={`border-r-2 border-accent px-4 py-3.5 text-center font-bold tabular-nums ${ORANGE}`}>{i + 1}</td>
-                    <td className="px-4 py-3.5">{title}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <CourseSchedule
+            lessons={TOPICS}
+            facts={[
+              { value: "2 godziny", label: "jedno spotkanie" },
+              { value: L.short, label: "online na żywo" },
+              { value: "Teams", label: "+ nagrania i notatki" },
+            ]}
+            onCta={() => toQuiz("matura_schedule")}
+          />
         </section>
 
         <section id="cennik" aria-labelledby="mat-price" className="scroll-mt-16 bg-surface px-5 py-16 text-white md:py-20">
