@@ -400,6 +400,27 @@ html.menu-open {
     transform: translateY(22px);
   }
 }
+/* contact phone number: soft orange glow that breathes */
+.phone-pulse {
+  animation: phone-pulse 2.4s ease-in-out infinite;
+}
+@keyframes phone-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(255 165 80 / 0.45), 0 0 26px -6px rgb(255 165 80 / 0.45);
+  }
+  50% {
+    transform: scale(1.035);
+    box-shadow: 0 0 0 10px rgb(255 165 80 / 0), 0 0 46px -4px rgb(255 165 80 / 0.7);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .phone-pulse {
+    animation: none;
+    box-shadow: 0 0 30px -6px rgb(255 165 80 / 0.55);
+  }
+}
 @keyframes ping {
   75%,
   100% {

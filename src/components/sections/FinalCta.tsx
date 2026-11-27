@@ -16,17 +16,19 @@ export function FinalCta() {
     <section id="kontakt" aria-labelledby="final-title" className="section-y relative overflow-hidden bg-night text-white">
       <div className="shell relative text-center">
         <SectionHead chapter="kontakt" title={FINAL_CTA.title} accent={FINAL_CTA.accent} lead={FINAL_CTA.lead} id="final-title" />
-        <FadeUp delay={0.12} className="mt-8 flex items-center justify-center gap-3">
-          <span className="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-accent/60">
-            <Image src={PHOTOS.oliwia.src} alt={PHOTOS.oliwia.alt} fill sizes="56px" className="object-cover object-[50%_28%]" />
+        <FadeUp delay={0.12} className="mt-9 flex flex-col items-center">
+          <span className="relative block h-40 w-40 overflow-hidden rounded-full border-4 border-accent shadow-[0_0_0_8px_rgba(255,165,80,0.14),0_0_44px_-8px_rgba(255,165,80,0.6)] md:h-48 md:w-48">
+            <Image src={PHOTOS.oliwia.src} alt={PHOTOS.oliwia.alt} fill sizes="(min-width: 768px) 192px, 160px" className="object-cover object-[50%_28%]" />
           </span>
-          <span className="text-left">
-            <span className="block font-semibold">{BRAND.owner.name}</span>
-            <span className="block text-sm text-white/60">Założycielka · odbiera telefon</span>
-          </span>
+          <span className="mt-4 block text-[1.25rem] font-semibold">{BRAND.owner.name}</span>
+          <span className="block text-sm text-white/60">Założycielka · odbiera telefon</span>
         </FadeUp>
         <FadeUp delay={0.18}>
-          <PhoneLink placement="final_number" className="mt-5 inline-block text-[clamp(2.2rem,11vw,4.5rem)] font-bold tracking-tight text-white tabular-nums transition-colors hover:text-accent">
+          <PhoneLink
+            placement="final_number"
+            className="phone-pulse mt-7 inline-flex items-center gap-3 rounded-full border-2 border-accent bg-accent/[0.06] px-7 py-3 text-[clamp(1.9rem,9.5vw,3.8rem)] font-bold tracking-tight text-white tabular-nums transition-colors hover:text-accent md:px-10 md:py-4"
+          >
+            <Icon name="phone" size={30} className="shrink-0 text-accent" />
             {BRAND.phone}
           </PhoneLink>
         </FadeUp>
