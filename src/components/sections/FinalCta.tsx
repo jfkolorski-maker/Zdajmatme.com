@@ -7,7 +7,6 @@ import { Icon } from "@/components/ui/icons";
 import { PhoneLink } from "@/components/ui/PhoneLink";
 import { BRAND } from "@/config/brand";
 import { FINAL_CTA } from "@/data/content";
-import { PHOTOS } from "@/data/assets";
 import { track } from "@/lib/ads/track";
 
 /** 09 · Gotowy na zmianę? – big phone number (FLIPOR) + the person who answers it. */
@@ -18,7 +17,7 @@ export function FinalCta() {
         <SectionHead chapter="kontakt" title={FINAL_CTA.title} accent={FINAL_CTA.accent} lead={FINAL_CTA.lead} id="final-title" />
         <FadeUp delay={0.12} className="mt-9 flex flex-col items-center">
           <span className="relative block h-40 w-40 overflow-hidden rounded-full border-4 border-accent shadow-[0_0_0_8px_rgba(255,165,80,0.14),0_0_44px_-8px_rgba(255,165,80,0.6)] md:h-48 md:w-48">
-            <Image src={PHOTOS.oliwia.src} alt={PHOTOS.oliwia.alt} fill sizes="(min-width: 768px) 192px, 160px" className="object-cover object-[50%_28%]" />
+            <Image src="/team/oliwia-kontakt.webp" alt={`${BRAND.owner.name} – założycielka ZdajMatme.com`} fill sizes="(min-width: 768px) 192px, 160px" className="object-cover" />
           </span>
           <span className="mt-4 block text-[1.25rem] font-semibold">{BRAND.owner.name}</span>
           <span className="block text-sm text-white/60">Założycielka · odbiera telefon</span>
