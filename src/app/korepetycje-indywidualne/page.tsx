@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { ConsentBanner } from "@/components/ads/ConsentBanner";
 import { Tracking } from "@/components/ads/Tracking";
-import { KorForWhom, KorHero, KorLevels, KorPricing, KorWhy } from "@/components/korepetycje/KorSections";
+import { KorForWhom, KorHero, KorLevels, KorPricing, KorVideo, KorWhy } from "@/components/korepetycje/KorSections";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { StickyCall } from "@/components/layout/StickyCall";
 import { Providers } from "@/components/Providers";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { QuizSection } from "@/components/sections/QuizSection";
-import { VideoLesson } from "@/components/sections/VideoLesson";
 import { BRAND } from "@/config/brand";
 
 export const metadata: Metadata = {
@@ -30,7 +29,7 @@ const jsonLd = {
   ],
 };
 
-/** Sub-page carried over from zdajmatme.com/korepetycje-indywidualne.php, in the landing-page design; ends with the quiz. */
+/** Sub-page transferred 1:1 from zdajmatme.com/korepetycje-indywidualne.php (to be reworked later); ends with the quiz + contact. */
 export default function KorepetycjePage() {
   return (
     <Providers>
@@ -40,7 +39,7 @@ export default function KorepetycjePage() {
         <KorHero />
         <KorLevels />
         <KorForWhom />
-        <VideoLesson />
+        <KorVideo />
         <KorWhy />
         <KorPricing />
         <QuizSection />

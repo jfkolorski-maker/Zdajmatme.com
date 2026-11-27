@@ -1,158 +1,286 @@
 "use client";
 
 import Image from "next/image";
-import { FadeUp, ImageReveal, RevealText } from "@/components/motion/Reveal";
-import { SectionHead } from "@/components/motion/SectionHead";
+import { useState } from "react";
 import { presetQuiz } from "@/components/sections/Offer";
-import { Icon } from "@/components/ui/icons";
-import { PhoneLink } from "@/components/ui/PhoneLink";
-import { BRAND } from "@/config/brand";
-import { KOR } from "@/data/korepetycje";
 import { track } from "@/lib/ads/track";
 
-/** Every "book" button on this page opens the quiz below, already set to 1:1 lessons. */
+/**
+ * 1:1 transfer of zdajmatme.com/korepetycje-indywidualne.php – same order, copy, photos, icons and look
+ * (dark sections, white cards, pill tags, black/orange buttons). To be reworked later to match the new home page.
+ * "Umów się teraz" leads to the quiz at the bottom of this page (on the old site: contact form), preset to 1:1 lessons.
+ */
+const ORANGE = "text-[#FFA550]";
+const sectionTitle = "text-center text-[clamp(1.9rem,6.5vw,2.6rem)] font-bold leading-tight text-white";
+
 function toQuiz(placement: string) {
   presetQuiz("indiv");
   track({ name: "cta_click", placement, label: "quiz" });
 }
 
+const svg = { width: 44, height: 44, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
+
 export function KorHero() {
-  const h = KOR.hero;
   return (
-    <section id="start" aria-labelledby="kor-title" className="relative overflow-hidden bg-night text-white">
-      <Image src={h.photo.src} alt="" fill priority sizes="100vw" className="object-cover object-[60%_55%]" />
-      <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,24,28,0.72)_0%,rgba(21,24,28,0.62)_45%,rgba(38,42,48,0.97)_100%)]" />
-      <div className="shell relative flex min-h-[min(88svh,46rem)] flex-col items-center justify-center pb-14 pt-28 text-center">
-        <p className="hero-rise text-[0.78rem] font-bold uppercase tracking-[0.22em] text-accent-bright">Lekcje 1-na-1 · ZOOM</p>
-        <RevealText as="h1" id="kor-title" immediate text={h.title} accent={[...h.accent]} className="mt-4 max-w-3xl text-[clamp(2rem,8vw,3.6rem)] font-bold leading-[1.08] tracking-[-0.03em]" />
-        <p className="hero-rise mt-5 max-w-xl text-[1.02rem] leading-relaxed text-white/80 md:text-[1.12rem]" style={{ animationDelay: "0.2s" }}>
-          {h.lead}
+    <section id="start" aria-labelledby="kor-title" className="relative overflow-hidden text-white">
+      <Image src="/images/kor-hero.webp" alt="" fill priority sizes="100vw" className="object-cover" />
+      <div aria-hidden="true" className="absolute inset-0 bg-[rgba(26,26,26,0.7)]" />
+      <div className="relative mx-auto flex max-w-3xl flex-col items-center px-5 pb-[100px] pt-[168px] text-center">
+        <h1 id="kor-title" className="text-[clamp(2.2rem,8.5vw,3.5rem)] font-bold leading-[1.15]">
+          Indywidualne korepetycje online
+        </h1>
+        <p className="mt-4 max-w-2xl text-[1.1rem] leading-relaxed text-white/90 md:text-[1.25rem]">
+          Pełne skupienie tylko na Tobie. Zajęcia jeden na jeden to najlepszy sposób na dopasowanie tempa i materiału do ucznia.
         </p>
-        <div className="hero-rise mt-8 flex w-full max-w-md flex-col gap-3 sm:flex-row sm:justify-center" style={{ animationDelay: "0.35s" }}>
-          <a href="#cennik" className="btn btn-primary sm:flex-1" onClick={() => track({ name: "cta_click", placement: "kor_hero", label: "pricing" })}>
-            {h.cta}
-            <Icon name="arrow" size={18} />
-          </a>
-          <PhoneLink placement="kor_hero" className="btn btn-on-dark tabular-nums sm:flex-1">
-            <Icon name="phone" size={18} className="text-accent" />
-            {BRAND.phone}
-          </PhoneLink>
-        </div>
+        <a
+          href="#cennik"
+          onClick={() => track({ name: "cta_click", placement: "kor_hero", label: "pricing" })}
+          className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#FFA550] px-9 text-[1.1rem] font-semibold text-[#1a1a1a] transition-transform hover:-translate-y-0.5"
+        >
+          Sprawdź cennik
+        </a>
       </div>
     </section>
   );
 }
 
 export function KorLevels() {
-  const l = KOR.levels;
+  const items = ["Przygotowanie do egzaminu ósmoklasisty", "Szkoła podstawowa", "Szkoła ponadpodstawowa", "Przygotowanie do matury podstawowej", "Przygotowanie do matury rozszerzonej"];
   return (
-    <section aria-labelledby="kor-levels" className="section-y bg-night text-white">
-      <div className="shell">
-        <SectionHead kicker="Korepetycje indywidualne" title={l.title} accent={l.accent} id="kor-levels" />
-        <ul className="mx-auto mt-8 grid max-w-4xl gap-3 sm:grid-cols-2 md:mt-12 lg:grid-cols-3">
-          {l.items.map((it, i) => (
-            <FadeUp as="li" soft key={it.label} delay={i * 0.06} className={`dtile flex items-center gap-4 px-5 py-4 ${i === l.items.length - 1 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[14px] bg-accent/12 text-accent">
-                <Icon name={it.icon} size={22} />
-              </span>
-              <span className="text-[1rem] font-semibold leading-snug">{it.label}</span>
-            </FadeUp>
-          ))}
-        </ul>
-      </div>
+    <section aria-labelledby="kor-levels" className="bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+      <h2 id="kor-levels" className={sectionTitle}>
+        Dla uczniów na <span className={ORANGE}>każdym poziomie</span>
+      </h2>
+      <ul className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-3">
+        {items.map((t) => (
+          <li key={t} className="flex min-h-11 w-full items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-5 py-2.5 text-center text-[0.8rem] font-semibold uppercase tracking-[0.08em] sm:w-auto">
+            {t}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
+
+const BENEFITS = [
+  {
+    title: "Nadrobić zaległości",
+    text: "Spokojnie i we własnym tempie uzupełnimy luki w materiale, abyś poczuł/a się pewnie na każdej lekcji w szkole.",
+    icon: (
+      <svg {...svg}>
+        <path d="M4 19.5v-15a2.5 2.5 0 0 1 2.5 -2.5h11a2.5 2.5 0 0 1 2.5 2.5v15a2.5 2.5 0 0 1 -2.5 2.5h-11a2.5 2.5 0 0 1 -2.5 -2.5z" />
+        <path d="M9 7h6" />
+        <path d="M9 11h6" />
+      </svg>
+    ),
+  },
+  {
+    title: "Przygotować się do sprawdzianu",
+    text: "Intensywnie przerobimy materiał przed ważnym testem, kartkówką czy egzaminem, skupiając się na kluczowych zadaniach.",
+    icon: (
+      <svg {...svg}>
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+        <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+        <path d="M12 3l0 2" />
+        <path d="M3 12l2 0" />
+        <path d="M12 21l0 -2" />
+        <path d="M21 12l-2 0" />
+      </svg>
+    ),
+  },
+  {
+    title: "Odrabiać prace domowe",
+    text: "Zapewniamy regularne wsparcie w rozwiązywaniu zadań domowych, tłumacząc krok po kroku, jak dojść do prawidłowego wyniku.",
+    icon: (
+      <svg {...svg}>
+        <path d="M13 20l7 -7" />
+        <path d="M13 20v-6a1 1 0 0 1 1 -1h6v-7a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7" />
+      </svg>
+    ),
+  },
+  {
+    title: "Rozwinąć swoje umiejętności",
+    text: "Jeśli matematyka to Twoja pasja, pomożemy Ci wejść na wyższy poziom i przygotować się do konkursów i olimpiad.",
+    icon: (
+      <svg {...svg}>
+        <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+        <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+        <path d="M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+      </svg>
+    ),
+  },
+];
 
 export function KorForWhom() {
-  const f = KOR.forWhom;
   return (
-    <section aria-labelledby="kor-who" className="section-y bg-surface text-white">
-      <div className="shell">
-        <SectionHead kicker="Dla kogo" title={f.title} accent={f.accent} lead={f.lead} id="kor-who" />
-        <ul className="mx-auto mt-8 grid max-w-5xl gap-3 md:mt-12 md:grid-cols-2 md:gap-5">
-          {f.items.map((b, i) => (
-            <FadeUp as="li" soft key={b.title} delay={i * 0.08} className="dtile flex flex-col items-center px-6 py-7 text-center md:px-8 md:py-9">
-              <span className="grid h-12 w-12 place-items-center rounded-[14px] bg-accent/12 text-accent">
-                <Icon name={b.icon} size={24} />
-              </span>
-              <h3 className="mt-4 text-[1.15rem] font-semibold">{b.title}</h3>
-              <p className="mt-2 text-[0.98rem] leading-relaxed text-white/65">{b.text}</p>
-            </FadeUp>
-          ))}
-        </ul>
+    <section aria-labelledby="kor-who" className="bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+      <h2 id="kor-who" className={sectionTitle}>
+        Dla kogo są te <span className={ORANGE}>zajęcia</span>?
+      </h2>
+      <p className="mx-auto mt-5 max-w-2xl text-center text-[1.05rem] leading-relaxed text-white/90">Dla uczniów szkół podstawowych i średnich - na każdym poziom zaawansowania. Pomagamy:</p>
+      <div className="mx-auto mt-10 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {BENEFITS.map((b) => (
+          <div key={b.title} className="rounded-lg bg-white px-7 py-9 text-center text-black shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+            <div className={`mx-auto grid place-items-center ${ORANGE}`}>{b.icon}</div>
+            <h3 className="mt-5 text-[1.25rem] font-bold leading-snug">{b.title}</h3>
+            <p className="mt-3 text-[0.98rem] leading-relaxed">{b.text}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
 }
 
-export function KorWhy() {
-  const w = KOR.why;
+/** YouTube loads only after a click (privacy + speed); poster = the film's own thumbnail. */
+export function KorVideo() {
+  const [play, setPlay] = useState(false);
   return (
-    <section aria-labelledby="kor-why" className="section-y bg-night text-white">
-      <div className="shell">
-        <SectionHead kicker="Dlaczego 1-na-1" title={w.title} accent={w.accent} id="kor-why" />
-        <div className="mx-auto mt-8 grid max-w-5xl items-center gap-8 md:mt-12 md:grid-cols-2 md:gap-12">
-          <ImageReveal src={w.photo.src} alt={w.photo.alt} sizes="(min-width: 768px) 46vw, 92vw" className="aspect-square w-full rounded-[28px] border-2 border-accent" />
-          <ol className="border-t border-accent">
-            {w.points.map((b, i) => (
-              <FadeUp as="li" key={b.title} delay={i * 0.08} className="flex gap-4 border-b border-accent py-5 md:py-6">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-accent/12 text-accent">
-                  <Icon name={b.icon} size={20} />
+    <section id="lekcja" aria-labelledby="kor-video" className="bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+      <h2 id="kor-video" className={sectionTitle}>
+        Przykładowa lekcja
+      </h2>
+      <div className="relative mx-auto mt-8 aspect-video w-full max-w-4xl overflow-hidden rounded-lg bg-black">
+        {play ? (
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src="https://www.youtube-nocookie.com/embed/8fBZJu4RNss?autoplay=1&rel=0"
+            title="Przykładowa lekcja wideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        ) : (
+          <button type="button" onClick={() => setPlay(true)} aria-label="Odtwórz przykładową lekcję" className="group absolute inset-0">
+            <Image src="/video/lekcja-poster.webp" alt="" fill sizes="(min-width: 900px) 56rem, 92vw" className="object-cover" />
+            <span className="absolute left-1/2 top-1/2 grid h-16 w-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-[#FF0000] transition-transform group-hover:scale-105">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
+const WHY = [
+  {
+    lead: "Indywidualne podejście:",
+    body: (
+      <>
+        Cała lekcja jest <span className={ORANGE}>poświęcona Tobie</span>. Skupiamy się na Twoich problemach i celach.
+      </>
+    ),
+    d: ["M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0", "M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"],
+  },
+  {
+    lead: "Elastyczny grafik:",
+    body: (
+      <>
+        Terminy lekcji <span className={ORANGE}>dopasowujemy</span> do Twojego planu zajęć, a nie na odwrót.
+      </>
+    ),
+    d: ["M12.5 21h-7.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v5", "M16 3v4", "M8 3v4", "M4 11h16", "M16 19h6", "M19 16v6"],
+  },
+  {
+    lead: "Nowoczesne narzędzia:",
+    body: (
+      <>
+        Uczymy z wykorzystaniem <span className={ORANGE}>wirtualnej tablicy</span>, dzięki czemu nauka jest efektywna i angażująca.
+      </>
+    ),
+    d: ["M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a1 1 0 0 1 -1 -1"],
+  },
+  {
+    lead: "Budowanie pewności siebie:",
+    body: (
+      <>
+        W atmosferze bez stresu i presji <span className={ORANGE}>przełamujemy strach</span> przed matematyką.
+      </>
+    ),
+    d: ["M11.5 21h-5.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v6", "M16 3v4", "M8 3v4", "M4 11h16", "M15 19l2 2l4 -4"],
+  },
+];
+
+export function KorWhy() {
+  return (
+    <section aria-labelledby="kor-why" className="bg-[#212121] px-5 py-16 text-white md:py-20">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-14">
+        <Image src="/images/kor-uczen.webp" alt="Uczeń pracujący nad zadaniami z matematyki na laptopie" width={1200} height={1200} sizes="(min-width: 768px) 46vw, 92vw" className="w-full rounded-lg" />
+        <div>
+          <h2 id="kor-why" className="text-center text-[clamp(1.9rem,6.5vw,2.6rem)] font-bold leading-tight md:text-left">
+            Pełna uwaga i <span className={ORANGE}>elastyczność</span>
+          </h2>
+          <ul className="mt-8 space-y-7">
+            {WHY.map((w) => (
+              <li key={w.lead} className="flex gap-4 text-[1.02rem] leading-relaxed">
+                <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#FFF5E6] ${ORANGE}`}>
+                  <svg {...svg} width={22} height={22}>
+                    {w.d.map((d) => (
+                      <path key={d} d={d} />
+                    ))}
+                  </svg>
                 </span>
                 <div>
-                  <h3 className="text-[1.08rem] font-semibold leading-snug md:text-[1.15rem]">{b.title}</h3>
-                  <p className="mt-1.5 text-[0.95rem] leading-relaxed text-white/65">{b.text}</p>
+                  <strong>{w.lead}</strong> {w.body}
                 </div>
-              </FadeUp>
+              </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </div>
     </section>
   );
 }
 
+const blackBtn = "mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-black px-8 font-semibold text-[#FFA550] transition-transform hover:-translate-y-0.5";
+
 export function KorPricing() {
-  const p = KOR.pricing;
+  const plans = [
+    { id: "basic", name: "Poziom podstawowy", price: "110 zł", text: "Indywidualne zajęcia dopasowane do poziomu ucznia, jego potrzeb i aktualnych celów. Idealna opcja zarówno na regularną naukę, jak i doraźną pomoc." },
+    { id: "extended", name: "Poziom rozszerzony", price: "125 zł", text: "Indywidualne zajęcia dla uczniów, którzy chcą dobrze przygotować się do matury rozszerzonej, uporządkować materiał i swobodniej radzić sobie z wymagającymi zadaniami." },
+  ];
   return (
-    <section id="cennik" aria-labelledby="kor-price" className="section-y scroll-mt-16 bg-surface text-white">
-      <div className="shell">
-        <SectionHead kicker="Ceny" title={p.title} accent={p.accent} id="kor-price" />
-        <div className="mx-auto mt-8 grid max-w-6xl gap-4 md:mt-12 lg:grid-cols-3 lg:gap-5">
-          {p.plans.map((pl, i) => (
-            <FadeUp key={pl.id} delay={i * 0.08} className="dtile flex flex-col p-6 md:p-8">
-              <h3 className="text-[1.2rem] font-semibold">{pl.name}</h3>
-              <p className="mt-4 text-[2.6rem] font-bold leading-none tracking-tight text-accent-bright tabular-nums">{pl.price}</p>
-              <p className="mt-2 text-[0.9rem] text-white/60">{pl.unit}</p>
-              <p className="mt-5 flex-1 text-[0.98rem] leading-relaxed text-white/70">{pl.text}</p>
-              <a href="#zapisy" onClick={() => toQuiz(`kor_price_${pl.id}`)} className="btn btn-primary mt-6 w-full">
-                {pl.cta}
-                <Icon name="arrow" size={18} />
-              </a>
-            </FadeUp>
-          ))}
-          <FadeUp delay={0.16} className="relative flex flex-col rounded-[28px] border-2 border-accent bg-accent/[0.08] p-6 shadow-[0_24px_60px_-30px_rgba(255,165,80,0.6)] md:p-8">
-            <span className="absolute -top-3 right-6 rounded-full bg-accent px-3 py-1 text-[0.85rem] font-extrabold text-night">{p.pack.badge}</span>
-            <h3 className="text-[1.2rem] font-semibold">{p.pack.name}</h3>
-            <ul className="mt-4 space-y-3">
-              {p.pack.rows.map((r) => (
-                <li key={r.level}>
-                  <p className="text-[0.85rem] text-white/60">{r.level}</p>
-                  <p className="tabular-nums">
-                    <s className="mr-2 text-[1rem] text-white/45">{r.old}</s>
-                    <span className="text-[1.9rem] font-bold leading-none tracking-tight text-accent-bright">{r.price}</span>
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-2 text-[0.9rem] text-white/60">{p.pack.unit}</p>
-            <p className="mt-5 flex-1 text-[0.98rem] leading-relaxed text-white/70">{p.pack.text}</p>
-            <a href="#zapisy" onClick={() => toQuiz("kor_price_pack")} className="btn btn-primary mt-6 w-full">
-              {p.pack.cta}
-              <Icon name="arrow" size={18} />
+    <section id="cennik" aria-labelledby="kor-price" className="scroll-mt-16 bg-[#1a1a1a] px-5 py-16 text-white md:py-20">
+      <h2 id="kor-price" className={sectionTitle}>
+        Cennik
+      </h2>
+      <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
+        {plans.map((p) => (
+          <div key={p.id} className="flex flex-col items-center rounded-lg bg-white px-7 py-10 text-center text-[#1a1a1a]">
+            <h3 className="text-[1.4rem] font-semibold">{p.name}</h3>
+            <p className="mt-6 text-[2.8rem] font-bold leading-none text-[#FFA550]">{p.price}</p>
+            <p className="mt-4 text-[1.05rem]">za 60 minut korepetycji online</p>
+            <p className="mt-5 flex-1 text-[0.98rem] leading-relaxed text-[#333]">{p.text}</p>
+            <a href="#zapisy" onClick={() => toQuiz(`kor_price_${p.id}`)} className={blackBtn}>
+              Umów się teraz
             </a>
-          </FadeUp>
+          </div>
+        ))}
+        <div className="relative flex flex-col items-center rounded-lg border-2 border-[#FFA550] bg-white px-7 py-10 text-center text-[#1a1a1a]">
+          <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#FFA550] px-4 py-1.5 text-[0.9rem] font-bold">-10%</span>
+          <h3 className="text-[1.4rem] font-semibold">Pakiet 10 lekcji</h3>
+          <ul className="mt-5 w-full space-y-3">
+            {[
+              ["Poziom podstawowy", "1100 zł", "990 zł"],
+              ["Poziom rozszerzony", "1250 zł", "1125 zł"],
+            ].map(([lvl, old, now]) => (
+              <li key={lvl} className="flex items-center justify-between gap-3 rounded-md bg-[#FFF5E6] px-4 py-3 text-left">
+                <span className="text-[0.95rem] text-[#555]">{lvl}</span>
+                <span className="whitespace-nowrap">
+                  <s className="mr-2 text-[0.85rem] text-[#adb5bd]">{old}</s>
+                  <span className="text-[1.25rem] font-bold text-[#FFA550]">{now}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-[1.05rem]">10 spotkań po 60 minut online</p>
+          <p className="mt-5 flex-1 text-[0.98rem] leading-relaxed text-[#333]">
+            Wybierz pakiet i zaplanuj naukę na dłużej, korzystając z 10% rabatu. Pakiet może być wykorzystany zarówno na zajęciach na poziomie podstawowym, jak i rozszerzonym.
+          </p>
+          <a href="#zapisy" onClick={() => toQuiz("kor_price_pack")} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[#FFA550] px-8 font-semibold text-[#1a1a1a] transition-transform hover:-translate-y-0.5">
+            Wybieram pakiet
+          </a>
         </div>
       </div>
     </section>
