@@ -247,6 +247,18 @@ const ART: Record<string, React.ReactNode> = {
     </>
   ),
 
+  /* small group – three students */
+  group: (
+    <>
+      <circle cx="12" cy="17" r="4.5" fill={PAPER} {...s} />
+      <circle cx="36" cy="17" r="4.5" fill={PAPER} {...s} />
+      <path d="M3 38c0-6.5 4-10.5 9-10.5s9 4 9 10.5z" fill={INK} {...s} />
+      <path d="M27 38c0-6.5 4-10.5 9-10.5s9 4 9 10.5z" fill={INK} {...s} />
+      <circle cx="24" cy="14" r="5.5" fill={PAPER} {...s} />
+      <path d="M13 42c0-8 5-13 11-13s11 5 11 13z" fill={OR} {...s} />
+    </>
+  ),
+
 };
 
 export function hasQuizArt(value: string) {

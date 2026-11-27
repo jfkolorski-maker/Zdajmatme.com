@@ -20,7 +20,7 @@ export function Footer() {
           <ul className="mt-2">
             {OFFER.items.map((o) => (
               <li key={o.id}>
-                <Link href={o.id === "indiv" ? "/korepetycje-indywidualne" : o.id === "e8" ? "/kurs-osmoklasisty" : `/#${o.anchor}`} className={link}>
+                <Link href={o.id === "indiv" ? "/korepetycje-indywidualne" : o.id === "e8" ? "/kurs-osmoklasisty" : "/kurs-maturalny"} className={link}>
                   {o.title}
                 </Link>
               </li>
