@@ -14,7 +14,7 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - Silnik wzorowany na malowanie.flipor.pl (animacje, quiz, backend leadów).
 
 ## Struktura
-- `/` – strona główna (`src/app/page.tsx`, kolejność pod Google Ads): Hero (film Oliwii) → Oferta (3 karty – cała karta to link do podstrony) → Przykładowa lekcja → Proces nauczania (4 karty, na telefonie przesuwane w bok) → Opinie (`Testimonials.tsx` – talia kart: przeciąganie, strzałki, kropki, autoodtwarzanie do pierwszego dotyku; zrzuty z `public/opinie/`) → Quiz (`#zapisy`) → O nas (połączone z „Jak uczymy”) → FAQ (połączone z „Dla rodzica”) → Kontakt.
+- `/` – strona główna (`src/app/page.tsx`, kolejność pod Google Ads): Hero (telefon/tablet: pionowy film Oliwii; laptop/PC ≥1024 px: poziomy „Przykładowa lekcja” z YouTube) → Oferta (3 karty – cała karta to link do podstrony) → Przykładowa lekcja (telefon/tablet: YouTube; laptop/PC: pionowy film Oliwii – `VideoLesson desktopPortrait`) → Proces nauczania (4 karty, na telefonie przesuwane w bok) → Opinie (`Testimonials.tsx` – talia kart: przeciąganie, strzałki, kropki, autoodtwarzanie do pierwszego dotyku; zrzuty z `public/opinie/`) → Quiz (`#zapisy`) → O nas (połączone z „Jak uczymy”) → FAQ (połączone z „Dla rodzica”) → Kontakt.
 - Podstrony (przeniesione z zdajmatme.com i dopasowane stylem):
   - `/korepetycje-indywidualne` – `src/components/korepetycje/KorSections.tsx`
   - `/kurs-osmoklasisty` – `src/components/kurs8/E8Sections.tsx`

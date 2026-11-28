@@ -57,7 +57,7 @@ export default function LandingPage() {
       <main>
         <Hero />
         <Offer />
-        <VideoLesson />
+        <VideoLesson desktopPortrait />
         <Process />
         <Testimonials />
         <QuizSection />
