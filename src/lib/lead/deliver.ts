@@ -1,6 +1,6 @@
 import "server-only";
-import { labelOf, offerSummary, summarize } from "@/data/quiz";
-import { HOURS, normalizePhone, type LeadRequest, type LeadStage, type PartialLeadRequest } from "./schema";
+import { SCHOOL_YEAR, coursesFor, hoursLabel, isCourseOffer, labelOf, offerSummary, summarize } from "@/data/quiz";
+import { normalizePhone, type LeadRequest, type LeadStage, type PartialLeadRequest } from "./schema";
 
 export class LeadDeliveryError extends Error {
   constructor(
@@ -29,7 +29,7 @@ export function toLeadShape(p: PartialLeadRequest): LeadRequest & { stage: LeadS
   return {
     stage: p.stage,
     submissionId: p.submissionId,
-    contact: { name: "", phone: p.phone, email: "", message: "", adultOrGuardian: false, consent: true, marketing: false },
+    contact: { name: "", lastName: "", phone: p.phone, email: "", firstDate: "", message: "", adultOrGuardian: false, consent: true, marketing: false },
     answers: p.answers as LeadRequest["answers"],
     company: "",
     pageUrl: p.pageUrl,
@@ -46,12 +46,22 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
   const stage: LeadStage = lead.stage ?? "complete";
   const summary = summarize(answers);
   const offer = offerSummary(answers);
-  const hours = HOURS.find((h) => h.value === contact.hours);
+  const hours = hoursLabel(contact.hoursFrom, contact.hoursTo);
+  const courses = coursesFor(answers);
+  const schedule = courses.map((c) => `${c.day} ${c.time}`).join(" lub ");
+  const firstDate = contact.firstDate ? formatDate(contact.firstDate) : "";
+  const fullName = [contact.name, contact.lastName].filter(Boolean).join(" ");
   const description = [
-    stage === "complete" ? "Zgłoszenie ze strony www (quiz) – pierwsza lekcja." : `Zgłoszenie ze strony www – ${STAGE_LABEL[stage].toLowerCase()}. Oddzwoń.`,
+    stage === "complete"
+      ? isCourseOffer(answers)
+        ? `Zapis na kurs (rok szkolny ${SCHOOL_YEAR}) ze strony www.`
+        : "Zgłoszenie ze strony www (quiz) – pierwsza lekcja."
+      : `Zgłoszenie ze strony www – ${STAGE_LABEL[stage].toLowerCase()}. Oddzwoń.`,
     `Oferta: ${offer.title}${offer.price ? ` (${offer.price} zł / 60 min)` : ""}`,
     ...summary.map((r) => `${r.label}: ${r.value}`),
-    hours ? `Preferowane godziny: ${hours.label}` : "",
+    schedule ? `Termin kursu: ${schedule}` : "",
+    firstDate ? `Preferowana data pierwszej lekcji: ${firstDate}` : "",
+    hours ? `Preferowane godziny: ${hours}` : "",
     contact.message ? `Wiadomość: ${contact.message}` : "",
   ]
     .filter(Boolean)
@@ -61,7 +71,7 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
     lead_stage: stage,
     lead_stage_label: STAGE_LABEL[stage],
     status: "Nowy",
-    full_name: stage === "complete" ? contact.name : `(${STAGE_LABEL[stage]})`,
+    full_name: stage === "complete" ? fullName : `(${STAGE_LABEL[stage]})`,
     phone: normalizePhone(contact.phone) ?? contact.phone,
     email: contact.email,
     source: sourceOf(lead.attribution),
@@ -72,8 +82,11 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
     student_stage: labelOf("stage", answers.stage) || (answers.offer === "e8" ? "Szkoła podstawowa, klasa 8" : answers.offer === "matura" ? "Klasa maturalna" : ""),
     math_level: labelOf("level", answers.level) || (answers.stage === "loext" ? "Rozszerzony" : answers.stage === "lobasic" ? "Podstawowy" : ""),
     goal: labelOf("need", answers.need),
-    preferred_start: labelOf("start", answers.start),
-    preferred_hours: hours?.label ?? "",
+    first_name: contact.name,
+    last_name: contact.lastName,
+    preferred_start: schedule ? `${schedule} (rok szkolny ${SCHOOL_YEAR})` : firstDate,
+    preferred_first_date: contact.firstDate ?? "",
+    preferred_hours: hours,
     description,
     website: {
       // the Sheets/CRM script skips a repeated submission_id – each stage gets its own row
@@ -91,6 +104,12 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
       marketing_consent: contact.marketing === true,
     },
   };
+}
+
+/** "2026-12-03" → "czwartek, 3 grudnia 2026" */
+function formatDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Intl.DateTimeFormat("pl-PL", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, d)));
 }
 
 export async function deliverLead(lead: LeadRequest & { stage?: LeadStage }): Promise<void> {

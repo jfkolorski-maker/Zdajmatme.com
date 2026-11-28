@@ -42,7 +42,7 @@ export default function KorepetycjePage() {
         <VideoLesson />
         <KorWhy />
         <KorPricing />
-        <QuizSection defaultOffer="indiv" />
+        <QuizSection />
         <FinalCta />
       </main>
       <Footer />

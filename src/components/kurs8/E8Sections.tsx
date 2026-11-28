@@ -116,7 +116,7 @@ export function E8Schedule() {
           lessons={LESSONS}
           facts={[
             { value: "60 min", label: "jedna lekcja" },
-            { value: "Pon. 18:00", label: "online na żywo" },
+            { value: "Pon. 18:00", label: "zajęcia online" },
             { value: "Teams", label: "+ nagrania i notatki" },
           ]}
           onCta={() => toQuiz("e8_schedule")}

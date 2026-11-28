@@ -1,40 +1,47 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { SUMMARY_STEP, initialQuizState, quizReducer, type QuizAction, type QuizState } from "../src/components/quiz/quizState.ts";
-import { QUIZ, isComplete, isHidden, isMinorStudent, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers } from "../src/data/quiz.ts";
-import { leadRequestSchema, normalizePhone, validateContact } from "../src/lib/lead/schema.ts";
+import { QUIZ, coursesFor, hoursLabel, isComplete, isHidden, isMinorStudent, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers } from "../src/data/quiz.ts";
+import { isPlausibleFirstDate, leadRequestSchema, normalizePhone, validateContact } from "../src/lib/lead/schema.ts";
 
 const run = (actions: QuizAction[], s: QuizState = initialQuizState) => actions.reduce(quizReducer, s);
 const pick = (id: QuizAnswers extends Partial<Record<infer K, string>> ? K : never, value: string): QuizAction[] => [{ type: "answer", id, value } as QuizAction, { type: "next" }];
 const at = (s: QuizState) => (s.step >= SUMMARY_STEP ? "summary" : QUIZ[s.step].id);
 
 describe("quiz paths", () => {
-  it("1:1 lessons, matura prep: offer → who → stage → level → need → start (6)", () => {
+  it("1:1 lessons, matura prep: offer → who → stage → level → need (5)", () => {
     let s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "prep")]);
     assert.equal(at(s), "level");
-    s = run([...pick("level", "extended"), ...pick("need", "understand"), ...pick("start", "asap")], s);
+    s = run([...pick("level", "extended"), ...pick("need", "understand")], s);
     assert.equal(at(s), "summary");
     assert.equal(isComplete(s.answers), true);
-    assert.equal(summarize(s.answers).length, 6);
+    assert.equal(summarize(s.answers).length, 5);
   });
 
-  it("1:1 lessons, primary school skips the level question (5)", () => {
+  it("1:1 lessons, primary school skips the level question (4)", () => {
     const s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", "sp48")]);
     assert.equal(at(s), "need");
-    assert.deepEqual(visibleIds(s.answers), ["offer", "who", "stage", "need", "start"]);
+    assert.deepEqual(visibleIds(s.answers), ["offer", "who", "stage", "need"]);
   });
 
-  it("1:1 lessons, high school with the level in the answer skips the level question (5)", () => {
+  it("1:1 lessons, high school with the level in the answer skips the level question (4)", () => {
     for (const st of ["lobasic", "loext"]) {
       const s = run([...pick("offer", "indiv"), ...pick("who", "child"), ...pick("stage", st)]);
       assert.equal(at(s), "need");
     }
   });
 
-  it("8th-grade course: only offer → who → start (3)", () => {
+  it("8th-grade course: only offer → who, then the form (2)", () => {
     const s = run([...pick("offer", "e8"), ...pick("who", "child")]);
-    assert.equal(at(s), "start");
-    assert.equal(run(pick("start", "7d"), s).step, SUMMARY_STEP);
+    assert.equal(s.step, SUMMARY_STEP);
+  });
+
+  it("courses show their fixed day and time", () => {
+    assert.equal(coursesFor({ offer: "e8" })[0].day, "Poniedziałki");
+    assert.equal(coursesFor({ offer: "matura", level: "basic" })[0].day, "Poniedziałki");
+    assert.equal(coursesFor({ offer: "matura", level: "extended" })[0].day, "Środy");
+    assert.equal(coursesFor({ offer: "matura", level: "unsure" }).length, 2);
+    assert.equal(coursesFor({ offer: "indiv" }).length, 0);
   });
 
   it("matura course asks for the level, not the stage (4)", () => {
@@ -63,7 +70,7 @@ describe("quiz paths", () => {
     assert.equal(offerSummary({ offer: "indiv", stage: "loext" }).price, 125);
     assert.equal(offerSummary({ offer: "indiv", stage: "prep", level: "extended" }).price, 125);
     assert.equal(offerSummary({ offer: "e8" }).price, null);
-    assert.equal(offerSummary({ offer: "matura", level: "extended" }).title, "Kurs Maturalny 2027/2028 · rozszerzenie");
+    assert.equal(offerSummary({ offer: "matura", level: "extended" }).title, "Kurs maturalny 2027/2028 · rozszerzenie");
   });
 });
 
@@ -78,8 +85,8 @@ describe("minors", () => {
 });
 
 describe("form", () => {
-  const contact = { name: "Anna", phone: "730 170 804", consent: true as const };
-  const answers = { offer: "indiv", who: "child", stage: "sp48", need: "grades", start: "asap" };
+  const contact = { name: "Anna", lastName: "Kowalska", phone: "730 170 804", consent: true as const };
+  const answers = { offer: "indiv", who: "child", stage: "sp48", need: "grades" };
   const req = { submissionId: "6f1c1d1e-8a3b-4c5d-9e6f-1a2b3c4d5e6f", contact, answers, attribution: { gclid: "x" } };
 
   it("normalises Polish phones", () => {
@@ -98,15 +105,37 @@ describe("form", () => {
   it("student filling in alone must confirm 18+ / guardian", () => {
     assert.ok(validateContact(contact, { who: "self" }).adultOrGuardian);
     assert.deepEqual(validateContact({ ...contact, adultOrGuardian: true }, { who: "self" }), {});
-    const selfReq = { ...req, answers: { offer: "matura", who: "self", level: "basic", start: "asap" } };
+    const selfReq = { ...req, answers: { offer: "matura", who: "self", level: "basic" } };
     assert.equal(leadRequestSchema.safeParse(selfReq).success, false);
     assert.equal(leadRequestSchema.safeParse({ ...selfReq, contact: { ...contact, adultOrGuardian: true } }).success, true);
   });
 
   it("server rejects incomplete or impossible answers", () => {
     assert.equal(leadRequestSchema.safeParse(req).success, true);
-    assert.equal(leadRequestSchema.safeParse({ ...req, answers: { offer: "indiv", who: "child", start: "asap" } }).success, false);
+    assert.equal(leadRequestSchema.safeParse({ ...req, answers: { offer: "indiv", who: "child" } }).success, false);
     assert.equal(leadRequestSchema.safeParse({ ...req, answers: { ...answers, stage: "nope" } }).success, false);
+  });
+
+  it("last name required", () => {
+    assert.ok(validateContact({ ...contact, lastName: "" }).lastName);
+  });
+
+  it("first lesson date: real, from today up to a year ahead", () => {
+    const now = new Date("2026-11-28T10:00:00Z");
+    assert.equal(isPlausibleFirstDate("2026-12-03", now), true);
+    assert.equal(isPlausibleFirstDate("2026-11-28", now), true);
+    assert.equal(isPlausibleFirstDate("2026-11-01", now), false);
+    assert.equal(isPlausibleFirstDate("2028-01-01", now), false);
+    assert.equal(isPlausibleFirstDate("2026-02-30", now), false);
+    assert.equal(isPlausibleFirstDate("jutro", now), false);
+  });
+
+  it("hour range: from < to, within 7–22", () => {
+    assert.deepEqual(validateContact({ ...contact, hoursFrom: 14, hoursTo: 18 }), {});
+    assert.ok(validateContact({ ...contact, hoursFrom: 18, hoursTo: 14 }).hoursTo);
+    assert.ok(validateContact({ ...contact, hoursFrom: 5, hoursTo: 9 }).hoursFrom);
+    assert.equal(hoursLabel(14, 18), "14:00–18:00");
+    assert.equal(hoursLabel(7, 22), "Dowolna pora");
   });
 
   it("honeypot must stay empty", () => {

@@ -21,7 +21,7 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
   - `/kurs-maturalny` – `src/components/matura/MaturaSections.tsx` (przełącznik poziomu `LevelSwitch` – pulsuje, dopóki ktoś nie kliknie; drugi przełącznik nad terminarzem)
   - `/o-nas` – `src/components/onas/OnasSections.tsx` (z zdajmatme.com/o-nas: podejście, cytat Oliwii, misja, oferta)
   - `/kontakt` – `src/components/kontakt/KontaktSections.tsx` (telefon, e-mail, godziny 9–18, potem quiz jako formularz)
-  - Każda kończy się quizem + kontaktem; quiz startuje od razu z wybraną ofertą (`<QuizSection defaultOffer=…>`), przyciski „Zapisz się/Umów się” przewijają do `#zapisy`.
+  - Każda kończy się quizem + kontaktem; quiz zawsze startuje od pierwszego pytania (bez zapamiętywania postępu), przyciski „Zapisz się/Umów się” przewijają do `#zapisy`.
   - Wspólne elementy premium podstron: `src/components/ui/Premium.tsx` (FactList, FeatureList, PriceCard) i `src/components/ui/CourseSchedule.tsx` (terminarz). Nagłówki sekcji: `SectionHead` (kicker z kreskami).
 - Menu: `NAV` w `src/data/content.ts` (O nas → `/o-nas`, Kontakt → `/kontakt`); nagłówek `src/components/layout/Header.tsx` (na telefonie menu ☰). Stopka: `Footer.tsx`.
 - Treści strony głównej: `src/data/content.ts`; quiz: `src/data/quiz.ts` (+ `src/components/quiz/*`, ilustrowane ikonki `QuizArt.tsx`); marka/telefon: `src/config/brand.ts`.

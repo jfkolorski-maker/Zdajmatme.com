@@ -76,7 +76,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
   }
 }
 
-const KEY = "zdajmatme.quiz.v2";
+const KEY = "zdajmatme.quiz.v3";
 
 export function loadQuiz(): QuizState | null {
   try {

@@ -42,7 +42,7 @@ export default function Kurs8Page() {
         <VideoLesson title="Przykładowy fragment lekcji" accent={["fragment", "lekcji"]} youtubeId="mLvQZZW3XYI" poster="/video/e8-fragment-poster.webp" />
         <E8Schedule />
         <E8Pricing />
-        <QuizSection defaultOffer="e8" />
+        <QuizSection />
         <FinalCta />
       </main>
       <Footer />

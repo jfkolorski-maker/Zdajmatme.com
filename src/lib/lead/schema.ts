@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { QUIZ, isComplete, isHidden, isMinorStudent, type QuizAnswers } from "../../data/quiz.ts";
+import { HOUR_MAX, HOUR_MIN, QUIZ, isComplete, isHidden, isMinorStudent, type QuizAnswers } from "../../data/quiz.ts";
 
 /**
  * Normalises a phone number. Returns "+48XXXXXXXXX" for Polish numbers,
@@ -31,20 +31,25 @@ export const answersSchema = z
     stage: enumOf("stage").optional(),
     level: enumOf("level").optional(),
     need: enumOf("need").optional(),
-    start: enumOf("start"),
   })
   .refine((a) => isComplete(a as QuizAnswers) && Object.keys(a).every((k) => !isHidden(k as never, a as QuizAnswers)), "Niepełne odpowiedzi w quizie.");
 
-/** Preferred lesson hours – zdajmatme.com form ("Preferowany przedział godzinowy", 7:00–22:00). */
-export const HOURS = [
-  { value: "morning", label: "7–12" },
-  { value: "afternoon", label: "12–17" },
-  { value: "evening", label: "17–22" },
-  { value: "any", label: "Dowolnie" },
-] as const;
+/** "YYYY-MM-DD" → true when it is a real date from yesterday (time zones) up to a year ahead. */
+export function isPlausibleFirstDate(v: string, now = new Date()): boolean {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+  if (!m) return false;
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  if (d.getUTCDate() !== +m[3]) return false;
+  const day = 86_400_000;
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return d.getTime() >= today - day && d.getTime() <= today + 366 * day;
+}
+
+const hour = z.number().int().min(HOUR_MIN).max(HOUR_MAX);
 
 export const contactSchema = z.object({
-  name: z.string().trim().min(2, "Podaj imię (min. 2 znaki).").max(80, "Imię jest za długie."),
+  name: z.string().trim().min(2, "Podaj imię (min. 2 znaki).").max(60, "Imię jest za długie."),
+  lastName: z.string().trim().min(2, "Podaj nazwisko (min. 2 znaki).").max(80, "Nazwisko jest za długie."),
   phone: z
     .string()
     .trim()
@@ -57,13 +62,20 @@ export const contactSchema = z.object({
     .optional()
     .default("")
     .refine((v) => v === "" || z.email().safeParse(v).success, "Podaj poprawny adres e-mail lub zostaw puste."),
-  hours: z.enum(HOURS.map((h) => h.value) as [string, ...string[]]).optional(),
+  /** 1:1 lessons only: preferred date of the first lesson (YYYY-MM-DD) and an hour range. */
+  firstDate: z
+    .string()
+    .optional()
+    .default("")
+    .refine((v) => v === "" || isPlausibleFirstDate(v), "Wybierz datę od dziś do roku naprzód."),
+  hoursFrom: hour.optional(),
+  hoursTo: hour.optional(),
   message: z.string().trim().max(1500, "Wiadomość może mieć maks. 1500 znaków.").optional().default(""),
   /** Student filling in for themselves: adult, or the contact data belongs to a parent/guardian. */
   adultOrGuardian: z.boolean().optional().default(false),
   consent: z.literal(true, { error: "Zgoda jest wymagana, abyśmy mogli się skontaktować." }),
   marketing: z.boolean().optional().default(false),
-});
+}).refine((c) => c.hoursFrom === undefined || c.hoursTo === undefined || c.hoursFrom < c.hoursTo, { path: ["hoursTo"], message: "Godzina „do” musi być późniejsza niż „od”." });
 
 export const leadRequestSchema = z
   .object({

@@ -185,7 +185,7 @@ export function MaturaCourse() {
             lessons={TOPICS}
             facts={[
               { value: "2 godziny", label: "jedno spotkanie" },
-              { value: L.short, label: "online na żywo" },
+              { value: L.short, label: "zajęcia online" },
               { value: "Teams", label: "+ nagrania i notatki" },
             ]}
             onCta={() => toQuiz("matura_schedule")}

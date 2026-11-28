@@ -2,7 +2,8 @@
  * Quiz definition (FLIPOR engine: one question per screen, auto-advance, hidden questions).
  * Topics mirror the zdajmatme.com contact form ("Temat wiadomości"): individual lessons
  * (basic / extended), 8th-grade course, matura course (basic / extended).
- * 3–6 questions depending on the path – then the contact form.
+ * 2–5 questions depending on the path – then the form (courses: fixed day/time;
+ * 1:1 lessons: date of the first lesson + an hour range).
  */
 export const QUIZ = [
   {
@@ -12,7 +13,7 @@ export const QUIZ = [
     options: [
       { value: "indiv", label: "Korepetycje indywidualne online", icon: "user" },
       { value: "e8", label: "Kurs do Egzaminu Ósmoklasisty", hint: "Rok szkolny 2027/2028", icon: "target" },
-      { value: "matura", label: "Kurs Maturalny", hint: "Rok szkolny 2027/2028", icon: "cap" },
+      { value: "matura", label: "Kurs maturalny", hint: "Rok szkolny 2027/2028", icon: "cap" },
       { value: "other", label: "Jeszcze nie wiem – doradźcie", icon: "chat" },
     ],
   },
@@ -56,17 +57,6 @@ export const QUIZ = [
       { value: "understand", label: "Zrozumienie materiału", icon: "spark" },
       { value: "confidence", label: "Pewność siebie i mniej stresu", icon: "thumb" },
       { value: "regular", label: "Regularne wsparcie w nauce", icon: "calendar" },
-    ],
-  },
-  {
-    id: "start",
-    question: "Kiedy chcesz zacząć?",
-    summary: "Start",
-    options: [
-      { value: "asap", label: "Jak najszybciej", icon: "bolt" },
-      { value: "7d", label: "W ciągu 7 dni", icon: "clock" },
-      { value: "2-4w", label: "W ciągu 2–4 tygodni", icon: "calendar" },
-      { value: "browsing", label: "Dopiero się rozglądam", icon: "eye" },
     ],
   },
 ] as const;
@@ -120,10 +110,52 @@ export function isMinorStudent(a: QuizAnswers): boolean {
 /** What the summary box shows: fixed price for 1:1, courses are discussed on the call. */
 export function offerSummary(a: QuizAnswers): { title: string; price: number | null; note: string } {
   if (a.offer === "e8") return { title: "Kurs do Egzaminu Ósmoklasisty 2027/2028", price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
-  if (a.offer === "matura") return { title: `Kurs Maturalny 2027/2028${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
+  if (a.offer === "matura") return { title: `Kurs maturalny 2027/2028${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
   // 1:1 price list (owner): extended level 125 zł, everything else (primary school, basic level) 110 zł / 60 min
   const extended = a.stage === "loext" || (a.stage === "prep" && a.level === "extended");
   if (extended) return { title: "Lekcja indywidualna 1-na-1 · poziom rozszerzony", price: 125, note: "/ 60 min" };
   if (a.stage === "prep" && a.level === "unsure") return { title: "Lekcja indywidualna 1-na-1", price: 110, note: "/ 60 min · rozszerzenie 125 zł" };
   return { title: "Lekcja indywidualna online 1-na-1", price: 110, note: "/ 60 min" };
+}
+
+/* ───────── courses: fixed schedule (no date / hour picking) ───────── */
+
+export const SCHOOL_YEAR = "2027/2028";
+
+export interface CourseInfo {
+  name: string;
+  /** e.g. "Poniedziałki" */
+  day: string;
+  time: string;
+  length: string;
+  lesson: string;
+  full: string;
+}
+
+export const COURSES = {
+  e8: { name: "Kurs do Egzaminu Ósmoklasisty", day: "Poniedziałki", time: "18:00", length: "22 spotkania po 60 minut", lesson: "45 zł / lekcja", full: "890 zł za cały kurs" },
+  "matura-basic": { name: "Kurs maturalny · poziom podstawowy", day: "Poniedziałki", time: "18:00", length: "22 spotkania po 2 godziny", lesson: "45 zł / godzina", full: "1780 zł za cały kurs" },
+  "matura-extended": { name: "Kurs maturalny · poziom rozszerzony", day: "Środy", time: "18:00", length: "22 spotkania po 2 godziny", lesson: "45 zł / godzina", full: "1780 zł za cały kurs" },
+} satisfies Record<string, CourseInfo>;
+
+export const isCourseOffer = (a: QuizAnswers) => a.offer === "e8" || a.offer === "matura";
+
+/** The course(s) the answers point to – both matura levels while the level is still open. */
+export function coursesFor(a: QuizAnswers): CourseInfo[] {
+  if (a.offer === "e8") return [COURSES.e8];
+  if (a.offer !== "matura") return [];
+  if (a.level === "basic") return [COURSES["matura-basic"]];
+  if (a.level === "extended") return [COURSES["matura-extended"]];
+  return [COURSES["matura-basic"], COURSES["matura-extended"]];
+}
+
+/* ───────── 1:1 lessons: preferred hours (slider) ───────── */
+
+export const HOUR_MIN = 7;
+export const HOUR_MAX = 22;
+export const hourLabel = (h: number) => `${h}:00`;
+export function hoursLabel(from?: number, to?: number): string {
+  if (from === undefined || to === undefined) return "";
+  if (from <= HOUR_MIN && to >= HOUR_MAX) return "Dowolna pora";
+  return `${hourLabel(from)}–${hourLabel(to)}`;
 }

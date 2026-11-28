@@ -5,21 +5,20 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import { Icon } from "@/components/ui/icons";
 import { QuizArt, hasQuizArt } from "./QuizArt";
 import { PhoneLink } from "@/components/ui/PhoneLink";
-import { QUIZ, isHidden, offerSummary, questionOf, summarize, type QuizAnswers, type QuizStepDef } from "@/data/quiz";
+import { QUIZ, coursesFor, isHidden, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers, type QuizStepDef } from "@/data/quiz";
 import { track } from "@/lib/ads/track";
 import { DUR, EASE_OUT, SPRING } from "@/lib/motion";
 import { PRESET_EVENT } from "@/components/sections/Offer";
 import { LeadForm } from "./LeadForm";
-import { SUMMARY_STEP, clearQuiz, initialQuizState, loadQuiz, quizReducer, saveQuiz } from "./quizState";
+import { SUMMARY_STEP, clearQuiz, initialQuizState, quizReducer } from "./quizState";
 
 const ADVANCE_MS = 340;
 
 /** Quiz as a small app: one screen per question, segmented progress, spring feedback. */
-export function Quiz({ defaultOffer }: { defaultOffer?: string } = {}) {
+export function Quiz() {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);
   const [sent, setSent] = useState(false);
   const reduced = useReducedMotion();
-  const hydrated = useRef(false);
   const started = useRef(false);
   const timer = useRef<number | undefined>(undefined);
   const card = useRef<HTMLDivElement>(null);
@@ -27,25 +26,11 @@ export function Quiz({ defaultOffer }: { defaultOffer?: string } = {}) {
   /** Only scroll the page for the visitor's own quiz actions – never on load (saved progress, sub-page preset). */
   const interacted = useRef(false);
 
+  // Every visit (and every refresh) starts the quiz from the first question – no saved progress.
   useEffect(() => {
-    const saved = loadQuiz();
-    if (saved && Object.keys(saved.answers).length > 0) {
-      started.current = true;
-      prevStep.current = saved.step;
-      dispatch({ type: "hydrate", state: saved });
-    } else if (defaultOffer) {
-      // course sub-pages: "Czego szukasz?" is already known – start at the next question (no scroll)
-      prevStep.current = 1;
-      dispatch({ type: "answer", id: "offer", value: defaultOffer });
-      dispatch({ type: "goTo", step: 1 });
-    }
-    hydrated.current = true;
+    clearQuiz();
     return () => window.clearTimeout(timer.current);
-  }, [defaultOffer]);
-
-  useEffect(() => {
-    if (hydrated.current) saveQuiz(state);
-  }, [state]);
+  }, []);
 
   // offer cards pre-select "Czego szukasz?" and open the next question
   useEffect(() => {
@@ -94,11 +79,13 @@ export function Quiz({ defaultOffer }: { defaultOffer?: string } = {}) {
     }
     track({ name: "quiz_step", step: index + 1, question: step.id });
     dispatch({ type: "answer", id: step.id, value });
+    const vis = visibleIds({ ...state.answers, [step.id]: value });
+    const last = vis[vis.length - 1] === step.id;
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(
       () => {
         dispatch({ type: "next" });
-        if (step.id === "start") track({ name: "quiz_complete" });
+        if (last) track({ name: "quiz_complete" });
       },
       reduced ? 0 : ADVANCE_MS,
     );
@@ -165,7 +152,7 @@ export function Quiz({ defaultOffer }: { defaultOffer?: string } = {}) {
             {!onSummary ? (
               <Question step={QUIZ[state.step]} title={questionOf(QUIZ[state.step], state.answers)} index={state.step} selected={state.answers[QUIZ[state.step].id]} onChoose={choose} />
             ) : sent ? (
-              <Done onRestart={restart} />
+              <Done onRestart={restart} course={coursesFor(state.answers).length > 0} />
             ) : (
               <Summary answers={state.answers} onEdit={(i) => dispatch({ type: "goTo", step: i })} onSent={() => setSent(true)} />
             )}
@@ -290,14 +277,16 @@ function Summary({ answers, onEdit, onSent }: { answers: QuizAnswers; onEdit: (i
   );
 }
 
-function Done({ onRestart }: { onRestart: () => void }) {
+function Done({ onRestart, course }: { onRestart: () => void; course: boolean }) {
   return (
     <div className="py-4 text-center" role="status">
       <DrawCheck size={76} />
       <h3 data-screen-title tabIndex={-1} className="t-h3 mt-6 text-surface outline-none">
-        Dziękujemy! Zgłoszenie dotarło.
+        {course ? "Dziękujemy! Zapis na kurs przyjęty." : "Dziękujemy! Zgłoszenie dotarło."}
       </h3>
-      <p className="mx-auto mt-3 max-w-sm text-muted">Oddzwonimy, aby umówić pierwszą lekcję. Wolisz porozmawiać od razu? Zadzwoń.</p>
+      <p className="mx-auto mt-3 max-w-sm text-muted">
+        {course ? "Oddzwonimy, aby potwierdzić miejsce w grupie." : "Oddzwonimy, aby potwierdzić termin pierwszej lekcji."} Wolisz porozmawiać od razu? Zadzwoń.
+      </p>
       <div className="mt-7 grid gap-2.5 sm:grid-cols-2">
         <PhoneLink placement="quiz_success" className="btn btn-primary w-full">
           <Icon name="phone" size={18} />
@@ -314,6 +303,7 @@ function Done({ onRestart }: { onRestart: () => void }) {
 /** Price for 1:1 lessons (counts up), or the chosen course – the answers restated, not a diagnosis. */
 function PriceBox({ answers }: { answers: QuizAnswers }) {
   const o = offerSummary(answers);
+  const course = coursesFor(answers)[0];
   return (
     <motion.div
       className="mt-3 rounded-[22px] bg-surface px-5 py-4 text-center text-white"
@@ -327,11 +317,24 @@ function PriceBox({ answers }: { answers: QuizAnswers }) {
         <p className="mt-2 text-[clamp(1.9rem,8vw,2.6rem)] font-bold leading-none tracking-tight tabular-nums">
           <Count to={o.price} /> <span className="text-[0.5em] font-semibold text-white/70">{o.note}</span>
         </p>
+      ) : course ? (
+        <>
+          <p className="mt-2 text-[clamp(1.6rem,7vw,2.2rem)] font-bold leading-none tracking-tight">{course.lesson}</p>
+          <p className="mt-1.5 text-[0.9rem] text-white/75">lub {course.full} (−10%)</p>
+        </>
       ) : (
         <p className="mt-2 text-[1.15rem] font-semibold leading-snug">{o.note}</p>
       )}
       <p className="mx-auto mt-3 max-w-md text-[0.9rem] leading-snug text-white/80">
-        Akceptujesz? <strong className="text-white">Zostaw dane poniżej</strong> – oddzwonimy i umówimy pierwszą lekcję.
+        {course ? (
+          <>
+            <strong className="text-white">Zostaw dane poniżej</strong> – zapiszemy Cię na kurs i oddzwonimy, aby potwierdzić miejsce.
+          </>
+        ) : (
+          <>
+            Akceptujesz? <strong className="text-white">Zostaw dane poniżej</strong> – oddzwonimy i umówimy pierwszą lekcję.
+          </>
+        )}
       </p>
     </motion.div>
   );
