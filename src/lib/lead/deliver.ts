@@ -29,7 +29,7 @@ export function toLeadShape(p: PartialLeadRequest): LeadRequest & { stage: LeadS
   return {
     stage: p.stage,
     submissionId: p.submissionId,
-    contact: { name: "", lastName: "", phone: p.phone, email: "", firstDate: "", message: "", adultOrGuardian: false, consent: true, marketing: false },
+    contact: { name: "", phone: p.phone, email: "", firstDate: "", message: "", adultOrGuardian: false, consent: true, marketing: false },
     answers: p.answers as LeadRequest["answers"],
     company: "",
     pageUrl: p.pageUrl,
@@ -50,7 +50,6 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
   const courses = coursesFor(answers);
   const schedule = courses.map((c) => `${c.day} ${c.time}`).join(" lub ");
   const firstDate = contact.firstDate ? formatDate(contact.firstDate) : "";
-  const fullName = [contact.name, contact.lastName].filter(Boolean).join(" ");
   const description = [
     stage === "complete"
       ? isCourseOffer(answers)
@@ -71,7 +70,7 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
     lead_stage: stage,
     lead_stage_label: STAGE_LABEL[stage],
     status: "Nowy",
-    full_name: stage === "complete" ? fullName : `(${STAGE_LABEL[stage]})`,
+    full_name: stage === "complete" ? contact.name : `(${STAGE_LABEL[stage]})`,
     phone: normalizePhone(contact.phone) ?? contact.phone,
     email: contact.email,
     source: sourceOf(lead.attribution),
@@ -83,7 +82,6 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
     math_level: labelOf("level", answers.level) || (answers.stage === "loext" ? "Rozszerzony" : answers.stage === "lobasic" ? "Podstawowy" : ""),
     goal: labelOf("need", answers.need),
     first_name: contact.name,
-    last_name: contact.lastName,
     preferred_start: schedule ? `${schedule} (rok szkolny ${SCHOOL_YEAR})` : firstDate,
     preferred_first_date: contact.firstDate ?? "",
     preferred_hours: hours,

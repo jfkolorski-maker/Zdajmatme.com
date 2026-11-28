@@ -49,7 +49,6 @@ const hour = z.number().int().min(HOUR_MIN).max(HOUR_MAX);
 
 export const contactSchema = z.object({
   name: z.string().trim().min(2, "Podaj imię (min. 2 znaki).").max(60, "Imię jest za długie."),
-  lastName: z.string().trim().min(2, "Podaj nazwisko (min. 2 znaki).").max(80, "Nazwisko jest za długie."),
   phone: z
     .string()
     .trim()

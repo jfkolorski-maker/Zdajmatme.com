@@ -85,7 +85,7 @@ describe("minors", () => {
 });
 
 describe("form", () => {
-  const contact = { name: "Anna", lastName: "Kowalska", phone: "730 170 804", consent: true as const };
+  const contact = { name: "Anna", phone: "730 170 804", consent: true as const };
   const answers = { offer: "indiv", who: "child", stage: "sp48", need: "grades" };
   const req = { submissionId: "6f1c1d1e-8a3b-4c5d-9e6f-1a2b3c4d5e6f", contact, answers, attribution: { gclid: "x" } };
 
@@ -114,10 +114,6 @@ describe("form", () => {
     assert.equal(leadRequestSchema.safeParse(req).success, true);
     assert.equal(leadRequestSchema.safeParse({ ...req, answers: { offer: "indiv", who: "child" } }).success, false);
     assert.equal(leadRequestSchema.safeParse({ ...req, answers: { ...answers, stage: "nope" } }).success, false);
-  });
-
-  it("last name required", () => {
-    assert.ok(validateContact({ ...contact, lastName: "" }).lastName);
   });
 
   it("first lesson date: real, from today up to a year ahead", () => {

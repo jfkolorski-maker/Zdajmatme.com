@@ -11,10 +11,10 @@ import { normalizePhone, validateContact, type ContactInput, type FieldErrors } 
 
 type Status = { kind: "idle" } | { kind: "sending" } | { kind: "error"; message: string };
 
-const EMPTY: ContactInput = { name: "", lastName: "", phone: "", email: "", firstDate: "", hoursFrom: HOUR_MIN, hoursTo: HOUR_MAX, message: "", adultOrGuardian: false, consent: false as unknown as true, marketing: false };
+const EMPTY: ContactInput = { name: "", phone: "", email: "", firstDate: "", hoursFrom: HOUR_MIN, hoursTo: HOUR_MAX, message: "", adultOrGuardian: false, consent: false as unknown as true, marketing: false };
 
 /**
- * Lead form: first name, last name, phone, e-mail (optional).
+ * Lead form: first name, phone, e-mail (optional).
  * – Courses: no date / hour picking – the fixed day and time are shown, the button enrols for the school year.
  * – 1:1 lessons: a calendar for the first lesson and an hour range slider ("od – do").
  * A minor never leaves their own data – then the labels ask for the parent / guardian.
@@ -48,7 +48,7 @@ export function LeadForm({ answers, onSent }: { answers: QuizAnswers; onSent: ()
     if (status.kind === "sending") return;
     const found = validateContact(values, answers);
     setErrors(found);
-    setTouched({ name: true, lastName: true, phone: true, email: true, firstDate: true, hoursTo: true, adultOrGuardian: true, consent: true });
+    setTouched({ name: true, phone: true, email: true, firstDate: true, hoursTo: true, adultOrGuardian: true, consent: true });
     if (Object.keys(found).length) {
       formRef.current?.querySelector<HTMLElement>(`[name="${Object.keys(found)[0]}"]`)?.focus();
       return;
@@ -102,10 +102,7 @@ export function LeadForm({ answers, onSent }: { answers: QuizAnswers; onSent: ()
           <p className="rounded-xl bg-accent-soft px-4 py-3 text-sm font-medium text-surface">Poproś rodzica lub opiekuna o wpisanie jego danych – to z nim ustalimy szczegóły.</p>
         )}
         {course && <CourseBox answers={answers} />}
-        <div className="grid grid-cols-2 gap-3">
-          <Field label={parent ? "Imię rodzica" : "Imię"} name="name" placeholder="np. Anna" autoComplete="given-name" value={values.name} error={show("name")} onChange={(v) => set("name", v)} onBlur={() => blur("name")} required />
-          <Field label={parent ? "Nazwisko rodzica" : "Nazwisko"} name="lastName" placeholder="np. Kowalska" autoComplete="family-name" value={values.lastName} error={show("lastName")} onChange={(v) => set("lastName", v)} onBlur={() => blur("lastName")} required />
-        </div>
+        <Field label={parent ? "Imię rodzica lub opiekuna" : "Imię"} name="name" placeholder="np. Anna" autoComplete="given-name" value={values.name} error={show("name")} onChange={(v) => set("name", v)} onBlur={() => blur("name")} required />
         <Field
           label="Numer telefonu"
           name="phone"
