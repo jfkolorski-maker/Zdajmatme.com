@@ -65,7 +65,7 @@ export function KorForWhom() {
         <FadeUp delay={0.1}>
           <ul className="mx-auto mt-7 flex max-w-3xl flex-wrap justify-center gap-2">
             {LEVELS.map((t) => (
-              <li key={t} className="rounded-full border border-accent/60 bg-white/[0.04] px-4 py-2 text-[0.88rem] font-medium text-white/90">
+              <li key={t} className="rounded-full border-2 border-accent bg-white px-4 py-2 text-[0.88rem] font-semibold text-night">
                 {t}
               </li>
             ))}
@@ -124,21 +124,21 @@ export function KorPricing() {
           </FadeUp>
           <FadeUp delay={0.12} className="col-span-2 h-full md:col-span-1">
             <PriceCard name="Pakiet 10 lekcji" badge="−10%" featured cta="Wybieram pakiet" onClick={() => toQuiz("kor_price_pack")} note="Do wykorzystania na obu poziomach.">
-              <ul className="relative mt-5 space-y-2 text-left">
+              <ul className="mt-5 space-y-2 text-left">
                 {[
                   ["Podstawowy", "1100 zł", "990 zł"],
                   ["Rozszerzony", "1250 zł", "1125 zł"],
                 ].map(([lvl, old, now]) => (
-                  <li key={lvl} className="flex items-center justify-between gap-3 rounded-[14px] border border-accent/25 bg-white/[0.04] px-4 py-3">
-                    <span className="text-[0.92rem] text-white/75">{lvl}</span>
+                  <li key={lvl} className="flex items-center justify-between gap-3 rounded-[14px] bg-[#fff5e6] px-4 py-3">
+                    <span className="text-[0.92rem] text-[#4a4f57]">{lvl}</span>
                     <span className="whitespace-nowrap">
-                      <s className="mr-2 text-[0.82rem] text-white/35">{old}</s>
-                      <span className="text-[1.25rem] font-semibold text-accent">{now}</span>
+                      <s className="mr-2 text-[0.82rem] text-[#adb5bd]">{old}</s>
+                      <span className="text-[1.25rem] font-bold text-accent">{now}</span>
                     </span>
                   </li>
                 ))}
               </ul>
-              <p className="relative mt-3 text-[0.9rem] text-white/80">10 lekcji po 60 minut</p>
+              <p className="mt-3 text-[0.92rem] font-medium">10 lekcji po 60 minut</p>
             </PriceCard>
           </FadeUp>
         </div>

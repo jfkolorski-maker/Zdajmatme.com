@@ -12,14 +12,14 @@ export function Faq() {
         <div className="mx-auto mt-8 max-w-3xl space-y-2.5 md:mt-12">
           {FAQ.map((f, i) => (
             <FadeUp key={f.q} delay={Math.min(i, 3) * 0.04}>
-              <details className="faq dtile group">
+              <details className="faq group overflow-hidden rounded-[22px] border-2 border-accent bg-white text-[#1e2228] shadow-[0_18px_40px_-30px_rgba(255,165,80,0.6)]">
                 <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-[1rem] font-semibold md:text-[1.08rem]">
                   {f.q}
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/10 text-accent transition-transform duration-300 group-open:rotate-45">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#fff5e6] text-accent transition-transform duration-300 group-open:rotate-45">
                     <Icon name="plus" size={18} />
                   </span>
                 </summary>
-                <p className="px-5 pb-5 text-left leading-relaxed text-white/65">{f.a}</p>
+                <p className="px-5 pb-5 text-left leading-relaxed text-[#4a4f57]">{f.a}</p>
               </details>
             </FadeUp>
           ))}
