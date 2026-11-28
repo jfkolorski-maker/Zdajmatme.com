@@ -142,8 +142,8 @@ export const NAV = [
   { href: "/korepetycje-indywidualne", label: "Korepetycje indywidualne" },
   { href: "/kurs-osmoklasisty", label: "Kurs 8-klasisty" },
   { href: "/kurs-maturalny", label: "Kurs Maturalny" },
-  { href: "/#o-nas", label: "O Nas" },
-  { href: "/#kontakt", label: "Kontakt" },
+  { href: "/o-nas", label: "O Nas" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 /**

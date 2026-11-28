@@ -7,6 +7,7 @@ const PATHS: Record<string, string> = {
   check: "M4 12.5l5 5L20 6.5",
   plus: "M12 5v14M5 12h14",
   close: "M6 6l12 12M18 6L6 18",
+  mail: "M3 5h18v14H3zM3 6l9 7 9-7",
   phone:
     "M5 4h3.5l1.6 4.2-2.1 1.4a11 11 0 0 0 6.4 6.4l1.4-2.1L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z",
   roller: "M4 4h13v5H4zM17 6.5h3v5.5h-8v3M11 15h2v6h-2z",

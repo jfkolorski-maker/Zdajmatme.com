@@ -18,15 +18,17 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - Podstrony (przeniesione z zdajmatme.com i dopasowane stylem):
   - `/korepetycje-indywidualne` – `src/components/korepetycje/KorSections.tsx`
   - `/kurs-osmoklasisty` – `src/components/kurs8/E8Sections.tsx`
-  - `/kurs-maturalny` – `src/components/matura/MaturaSections.tsx` (zakładki podstawa/rozszerzenie)
+  - `/kurs-maturalny` – `src/components/matura/MaturaSections.tsx` (przełącznik poziomu `LevelSwitch` – pulsuje, dopóki ktoś nie kliknie; drugi przełącznik nad terminarzem)
+  - `/o-nas` – `src/components/onas/OnasSections.tsx` (z zdajmatme.com/o-nas: podejście, cytat Oliwii, misja, oferta)
+  - `/kontakt` – `src/components/kontakt/KontaktSections.tsx` (telefon, e-mail, godziny 9–18, potem quiz jako formularz)
   - Każda kończy się quizem + kontaktem; quiz startuje od razu z wybraną ofertą (`<QuizSection defaultOffer=…>`), przyciski „Zapisz się/Umów się” przewijają do `#zapisy`.
   - Wspólne elementy premium podstron: `src/components/ui/Premium.tsx` (FactList, FeatureList, PriceCard) i `src/components/ui/CourseSchedule.tsx` (terminarz). Nagłówki sekcji: `SectionHead` (kicker z kreskami).
-- Menu: `NAV` w `src/data/content.ts`; nagłówek `src/components/layout/Header.tsx` (na telefonie menu ☰). Stopka: `Footer.tsx`.
+- Menu: `NAV` w `src/data/content.ts` (O nas → `/o-nas`, Kontakt → `/kontakt`); nagłówek `src/components/layout/Header.tsx` (na telefonie menu ☰). Stopka: `Footer.tsx`.
 - Treści strony głównej: `src/data/content.ts`; quiz: `src/data/quiz.ts` (+ `src/components/quiz/*`, ilustrowane ikonki `QuizArt.tsx`); marka/telefon: `src/config/brand.ts`.
 - Leady: `src/app/api/leads/route.ts` → webhook `LEAD_WEBHOOK_URL` (zmienna w Vercel – **jeszcze nieustawiona przez właściciela**; bez niej formularz uczciwie pokazuje błąd i proponuje telefon).
 
 ## Ustalone zasady / preferencje
-- Jeden pomarańcz: #FFA550. Tła ciemnoszare (night/surface), nagłówek ciemniejszy. Kafelki i karty: **pomarańczowa obwódka** (`border-2 border-accent`, zaokrąglone ~28px). Linie podziału też pomarańczowe.
+- Jeden pomarańcz: #FFA550. Tła ciemnoszare (night/surface), nagłówek ciemniejszy. Kafelki, ceny, FAQ, „Najważniejsze informacje” i terminarz: **białe karty** (jaśniej, czytelniej) z **pomarańczową obwódką** (`border-2 border-accent`, zaokrąglone ~28px). Linie podziału też pomarańczowe.
 - Bez numeracji sekcji i etapów („01”, „Etap 01” itp.).
 - „Pierwsza lekcja” (nie „lekcja próbna”). Zajęcia na **Microsoft Teams** (nie ZOOM).
 - Ceny 1-na-1: 110 zł / 60 min, poziom rozszerzony 125 zł / 60 min; pakiet 10 lekcji −10% (990 / 1125 zł). Kurs 8-klasisty: 45 zł/lekcja, 890 zł cały kurs. Kurs maturalny: 45 zł, 1780 zł cały kurs.

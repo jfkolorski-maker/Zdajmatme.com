@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import { presetQuiz } from "@/components/sections/Offer";
@@ -49,9 +50,9 @@ const TOPICS = [
   "Powtórzenie 2",
 ];
 
-const LEVELS: Record<Level, { tab: string; infoTitle: string; scheduleTitle: string; short2: string; day: string; short: string; video: { id: string; poster: string } }> = {
-  basic: { tab: "Matura Podstawowa", infoTitle: "kursie podstawowym", scheduleTitle: "kursu podstawowego", short2: "poziom podstawowy", day: "w poniedziałki", short: "Pon. 18:00", video: { id: "8fBZJu4RNss", poster: "/video/lekcja-poster.webp" } },
-  extended: { tab: "Matura Rozszerzona", infoTitle: "kursie rozszerzonym", scheduleTitle: "kursu rozszerzonego", short2: "poziom rozszerzony", day: "we środy", short: "Śr. 18:00", video: { id: "C1xyYJieWOE", poster: "/video/matura-r-poster.webp" } },
+const LEVELS: Record<Level, { tab: string; infoTitle: string; scheduleTitle: string; short2: string; short3: string; day: string; short: string; video: { id: string; poster: string } }> = {
+  basic: { tab: "Matura Podstawowa", infoTitle: "kursie podstawowym", scheduleTitle: "kursu podstawowego", short2: "poziom podstawowy", short3: "Podstawowa", day: "w poniedziałki", short: "Pon. 18:00", video: { id: "8fBZJu4RNss", poster: "/video/lekcja-poster.webp" } },
+  extended: { tab: "Matura Rozszerzona", infoTitle: "kursie rozszerzonym", scheduleTitle: "kursu rozszerzonego", short2: "poziom rozszerzony", short3: "Rozszerzona", day: "we środy", short: "Śr. 18:00", video: { id: "C1xyYJieWOE", poster: "/video/matura-r-poster.webp" } },
 };
 
 function info(day: string) {
@@ -67,11 +68,66 @@ function info(day: string) {
   ];
 }
 
+/**
+ * Level switch (segmented control): an orange pill slides to the chosen level. Until the visitor
+ * switches once, the other level pulses softly, so it is obvious the buttons change the content.
+ */
+function LevelSwitch({ id, level, explored, onPick, compact = false }: { id: string; level: Level; explored: boolean; onPick: (l: Level) => void; compact?: boolean }) {
+  return (
+    <div className={`w-full ${compact ? "max-w-sm" : "mt-8 max-w-md"}`}>
+      {!compact && (
+        <p className="mb-2.5 flex items-center justify-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/75">
+          <span aria-hidden="true" className="relative flex h-2 w-2">
+            <span className="ping absolute inset-0 rounded-full bg-accent/60" />
+            <span className="relative h-2 w-2 rounded-full bg-accent" />
+          </span>
+          Wybierz poziom matury
+        </p>
+      )}
+      <div role="tablist" aria-label="Poziom matury" className="relative grid grid-cols-2 gap-1 rounded-full border-2 border-accent bg-night/75 p-1.5 shadow-[0_18px_40px_-20px_rgba(255,165,80,0.7)] backdrop-blur">
+        {(Object.keys(LEVELS) as Level[]).map((l) => {
+          const on = level === l;
+          return (
+            <button
+              key={l}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              aria-controls="matura-level"
+              onClick={() => onPick(l)}
+              className={`relative min-h-12 rounded-full px-3 text-[0.98rem] font-semibold transition-colors duration-300 ${on ? "text-night" : "text-white hover:text-accent"}`}
+            >
+              {on && <motion.span layoutId={`level-pill-${id}`} className="absolute inset-0 rounded-full bg-accent shadow-[0_8px_22px_-8px_rgba(255,165,80,0.9)]" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+              {!on && !explored && <span aria-hidden="true" className="level-nudge absolute inset-0 rounded-full" />}
+              <span className="relative inline-flex items-center gap-1.5">
+                {LEVELS[l].short3}
+                {!on && !explored && (
+                  <span aria-hidden="true" className="relative flex h-2 w-2">
+                    <span className="ping absolute inset-0 rounded-full bg-accent/70" />
+                    <span className="relative h-2 w-2 rounded-full bg-accent" />
+                  </span>
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <p aria-live="polite" className="mt-2.5 text-center text-[0.85rem] text-white/70">
+        {compact ? "Przełącz, aby zobaczyć drugi program." : "Program, terminy i ceny zmienią się dla wybranego poziomu."}
+      </p>
+    </div>
+  );
+}
+
 /** Hero + enrolment box + the two level tabs and everything that depends on the level. */
 export function MaturaCourse() {
   const [level, setLevel] = useState<Level>("basic");
+  /** until the visitor switches once, the other level gently pulses ("you can click me") */
+  const [explored, setExplored] = useState(false);
   const L = LEVELS[level];
   const pick = (l: Level) => {
+    setExplored(true);
+    if (l === level) return;
     setLevel(l);
     track({ name: "cta_click", placement: "matura_tab", label: l });
   };
@@ -87,21 +143,7 @@ export function MaturaCourse() {
           <p className="mt-4 max-w-2xl text-[1.1rem] leading-relaxed text-white/90 md:text-[1.2rem]">
             Wybierz poziom i przygotuj się spokojnie – krok po kroku, w małej grupie online.
           </p>
-          <div role="tablist" aria-label="Poziom matury" className="mt-8 flex w-full max-w-md flex-col gap-3 sm:flex-row">
-            {(Object.keys(LEVELS) as Level[]).map((l) => (
-              <button
-                key={l}
-                type="button"
-                role="tab"
-                aria-selected={level === l}
-                aria-controls="matura-level"
-                onClick={() => pick(l)}
-                className={`min-h-12 flex-1 rounded-full border-2 border-accent px-6 font-semibold transition-colors ${level === l ? "bg-accent text-night" : "bg-night/60 text-white hover:bg-night/80"}`}
-              >
-                {LEVELS[l].tab}
-              </button>
-            ))}
-          </div>
+          <LevelSwitch id="hero" level={level} explored={explored} onPick={pick} />
         </div>
       </section>
 
@@ -136,6 +178,9 @@ export function MaturaCourse() {
         <section aria-labelledby="mat-schedule" className="section-y bg-night text-white">
           <div className="shell">
             <SectionHead kicker="Program" title={`Terminarz ${L.scheduleTitle}`} accent={L.scheduleTitle.split(" ")} id="mat-schedule" key={`h-${level}`} />
+            <div className="mx-auto mt-6 flex max-w-md justify-center">
+              <LevelSwitch id="schedule" level={level} explored={explored} onPick={pick} compact />
+            </div>
             <CourseSchedule
             lessons={TOPICS}
             facts={[

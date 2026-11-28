@@ -13,9 +13,6 @@ import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 export const CARD =
   "relative overflow-hidden rounded-[28px] border-2 border-accent bg-[linear-gradient(180deg,#30353d_0%,#23272d_60%,#1e2126_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_30px_70px_-40px_rgba(0,0,0,0.85),0_20px_50px_-30px_rgba(255,165,80,0.35)]";
 
-function Sheen() {
-  return <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(80%_100%_at_50%_0%,rgba(255,255,255,0.07),transparent)]" />;
-}
 
 function useRise(i: number) {
   const reduce = useReducedMotion();
@@ -30,15 +27,14 @@ function useRise(i: number) {
 /** Short facts with an orange check – one card, two columns on desktop. */
 export function FactList({ items }: { items: ReactNode[] }) {
   return (
-    <div className={`${CARD} mx-auto mt-8 max-w-4xl md:mt-12`}>
-      <Sheen />
+    <div className={`${WHITE} mx-auto mt-8 max-w-4xl md:mt-12`}>
       <ul className="relative grid px-5 py-3 md:grid-cols-2 md:gap-x-10 md:px-9 md:py-6">
         {items.map((t, i) => (
-          <Rise key={i} i={i} className="flex items-start gap-3.5 border-b border-accent/20 py-3.5 last:border-b-0 md:[&:nth-last-child(2)]:border-b-0">
+          <Rise key={i} i={i} className="flex items-start gap-3.5 border-b border-accent/30 py-3.5 last:border-b-0 md:[&:nth-last-child(2)]:border-b-0">
             <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent text-night">
               <Icon name="check" size={14} strokeWidth={2.6} />
             </span>
-            <span className="text-[0.98rem] leading-snug text-white/90">{t}</span>
+            <span className="text-[0.98rem] font-medium leading-snug text-[#1e2228]">{t}</span>
           </Rise>
         ))}
       </ul>

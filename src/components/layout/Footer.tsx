@@ -31,7 +31,8 @@ export function Footer() {
         <nav aria-label="Na skróty">
           <h2 className="text-[1rem] font-semibold text-accent">Na skróty</h2>
           <ul className="mt-2">
-            <li><Link href="/#o-nas" className={link}>O nas</Link></li>
+            <li><Link href="/o-nas" className={link}>O nas</Link></li>
+            <li><Link href="/kontakt" className={link}>Kontakt</Link></li>
             <li><a href="#zapisy" className={link}>Pierwsza lekcja</a></li>
             <li><Link href="/#faq" className={link}>FAQ</Link></li>
           </ul>
