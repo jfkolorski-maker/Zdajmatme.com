@@ -26,6 +26,7 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li className="mt-1 text-[0.9rem] text-white/50">Uczymy też: fizyka, chemia, biologia</li>
           </ul>
         </nav>
         <nav aria-label="Na skróty">

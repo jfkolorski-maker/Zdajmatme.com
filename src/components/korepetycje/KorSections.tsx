@@ -5,6 +5,7 @@ import { FadeUp, ImageReveal } from "@/components/motion/Reveal";
 import { SectionHead } from "@/components/motion/SectionHead";
 import { presetQuiz } from "@/components/sections/Offer";
 import { Icon } from "@/components/ui/icons";
+import { OtherSubjects } from "@/components/ui/OtherSubjects";
 import { FeatureList, PriceCard } from "@/components/ui/Premium";
 import { track } from "@/lib/ads/track";
 
@@ -72,6 +73,9 @@ export function KorForWhom() {
           </ul>
         </FadeUp>
         <FeatureList items={BENEFITS} />
+        <FadeUp className="mt-6 md:mt-8">
+          <OtherSubjects placement="kor_science" />
+        </FadeUp>
       </div>
     </section>
   );

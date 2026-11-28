@@ -27,6 +27,8 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - Treści strony głównej: `src/data/content.ts`; quiz: `src/data/quiz.ts` (+ `src/components/quiz/*`, ilustrowane ikonki `QuizArt.tsx`); marka/telefon: `src/config/brand.ts`.
 - Leady: `src/app/api/leads/route.ts` → webhook `LEAD_WEBHOOK_URL` (zmienna w Vercel – **jeszcze nieustawiona przez właściciela**; bez niej formularz uczciwie pokazuje błąd i proponuje telefon).
 
+- Dodatkowo (dyskretnie, matematyka na pierwszym planie): korepetycje z fizyki, chemii i biologii – opcja „Fizyka, chemia lub biologia” w quizie (+ pytanie o przedmiot, formularz jak 1:1, cena „ustalimy w rozmowie”), pasek „Uczymy też” (`src/components/ui/OtherSubjects.tsx`) pod ofertą na stronie głównej i na podstronie korepetycji, wzmianka w stopce.
+
 ## Ustalone zasady / preferencje
 - Jeden pomarańcz: #FFA550. Tła ciemnoszare (night/surface), nagłówek ciemniejszy. Kafelki, ceny, FAQ, „Najważniejsze informacje” i terminarz: **białe karty** (jaśniej, czytelniej) z **pomarańczową obwódką** (`border-2 border-accent`, zaokrąglone ~28px). Linie podziału też pomarańczowe.
 - Paski przesuwane w bok (oferta, proces, opinie): bez animacji wjazdu pojedynczych kart (podskakiwały przy przesuwaniu) – animuje się tylko cały pasek.

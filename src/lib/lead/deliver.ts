@@ -74,8 +74,14 @@ export function buildLeadPayload(lead: LeadRequest & { stage?: LeadStage }, rece
     phone: normalizePhone(contact.phone) ?? contact.phone,
     email: contact.email,
     source: sourceOf(lead.attribution),
-    service_type: answers.offer === "e8" || answers.offer === "matura" ? `${labelOf("offer", answers.offer)} 2027/2028` : labelOf("offer", answers.offer),
-    service_category: "tutoring_math",
+    service_type:
+      answers.offer === "e8" || answers.offer === "matura"
+        ? `${labelOf("offer", answers.offer)} 2027/2028`
+        : answers.offer === "science"
+          ? `Korepetycje – ${labelOf("subject", answers.subject) || "fizyka/chemia/biologia"}`
+          : labelOf("offer", answers.offer),
+    subject: answers.offer === "science" ? labelOf("subject", answers.subject) : "Matematyka",
+    service_category: answers.offer === "science" ? "tutoring_science" : "tutoring_math",
     quoted_price: offerSummary(answers).price ? `${offerSummary(answers).price} zł / 60 min` : "do ustalenia",
     client_type: answers.who === "self" ? "Uczeń" : "Rodzic / opiekun",
     student_stage: labelOf("stage", answers.stage) || (answers.offer === "e8" ? "Szkoła podstawowa, klasa 8" : answers.offer === "matura" ? "Klasa maturalna" : ""),

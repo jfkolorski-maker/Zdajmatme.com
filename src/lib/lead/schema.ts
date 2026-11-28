@@ -27,6 +27,7 @@ const enumOf = (id: (typeof QUIZ)[number]["id"]) => {
 export const answersSchema = z
   .object({
     offer: enumOf("offer"),
+    subject: enumOf("subject").optional(),
     who: enumOf("who"),
     stage: enumOf("stage").optional(),
     level: enumOf("level").optional(),

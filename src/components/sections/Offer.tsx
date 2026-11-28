@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FadeUp } from "@/components/motion/Reveal";
+import { OtherSubjects } from "@/components/ui/OtherSubjects";
 import { SectionHead } from "@/components/motion/SectionHead";
 import { Icon } from "@/components/ui/icons";
 import { OFFER, type OfferId } from "@/data/content";
@@ -10,7 +11,7 @@ import { track } from "@/lib/ads/track";
 
 /** Each offer card pre-selects its answer in the quiz and jumps there. */
 export const PRESET_EVENT = "zdajmatme:preset";
-export function presetQuiz(offer: OfferId) {
+export function presetQuiz(offer: OfferId | "science") {
   window.dispatchEvent(new CustomEvent(PRESET_EVENT, { detail: { offer } }));
 }
 
@@ -53,6 +54,9 @@ export function Offer() {
       <p className="swipe-hint mt-4 flex items-center justify-center gap-1.5 text-sm text-white/50 md:hidden" aria-hidden="true">
         Przesuń <Icon name="arrow" size={15} />
       </p>
+      <FadeUp className="shell mt-6 md:mt-10">
+        <OtherSubjects placement="offer_science" />
+      </FadeUp>
     </section>
   );
 }

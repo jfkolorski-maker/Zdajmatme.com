@@ -44,7 +44,8 @@ export function Quiz() {
       }
       setSent(false);
       dispatch({ type: "answer", id: "offer", value: offer });
-      dispatch({ type: "goTo", step: 1 });
+      dispatch({ type: "goTo", step: 0 });
+      dispatch({ type: "next" });
     };
     window.addEventListener(PRESET_EVENT, onPreset);
     return () => window.removeEventListener(PRESET_EVENT, onPreset);
@@ -154,7 +155,7 @@ export function Quiz() {
             ) : sent ? (
               <Done onRestart={restart} course={coursesFor(state.answers).length > 0} />
             ) : (
-              <Summary answers={state.answers} onEdit={(i) => dispatch({ type: "goTo", step: i })} onSent={() => setSent(true)} />
+              <Summary answers={state.answers} onEdit={(id) => dispatch({ type: "goTo", step: QUIZ.findIndex((q) => q.id === id) })} onSent={() => setSent(true)} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -230,7 +231,7 @@ function DrawCheck({ size = 64 }: { size?: number }) {
  * Price first, the contact form right under it (no scrolling past a list of
  * answers to find it), the answers folded into one line at the bottom.
  */
-function Summary({ answers, onEdit, onSent }: { answers: QuizAnswers; onEdit: (i: number) => void; onSent: () => void }) {
+function Summary({ answers, onEdit, onSent }: { answers: QuizAnswers; onEdit: (id: string) => void; onSent: () => void }) {
   const rows = summarize(answers);
   return (
     <div>
@@ -263,9 +264,9 @@ function Summary({ answers, onEdit, onSent }: { answers: QuizAnswers; onEdit: (i
           </span>
         </summary>
         <ul className="flex flex-wrap gap-2 px-4 pb-4">
-          {rows.map((r, i) => (
+          {rows.map((r) => (
             <li key={r.id}>
-              <button type="button" onClick={() => onEdit(i)} className="rounded-full bg-bg px-3 py-1.5 text-left text-[0.82rem] text-surface transition-colors hover:bg-accent/10" aria-label={`Zmień – ${r.label}: ${r.value}`}>
+              <button type="button" onClick={() => onEdit(r.id)} className="rounded-full bg-bg px-3 py-1.5 text-left text-[0.82rem] text-surface transition-colors hover:bg-accent/10" aria-label={`Zmień – ${r.label}: ${r.value}`}>
                 <span className="text-muted">{r.label}: </span>
                 <span className="font-semibold">{r.value}</span>
               </button>
@@ -332,7 +333,8 @@ function PriceBox({ answers }: { answers: QuizAnswers }) {
           </>
         ) : (
           <>
-            Akceptujesz? <strong className="text-white">Zostaw dane poniżej</strong> – oddzwonimy i umówimy pierwszą lekcję.
+            {o.price !== null ? "Akceptujesz? " : ""}
+            <strong className="text-white">Zostaw dane poniżej</strong> – oddzwonimy{o.price !== null ? "" : ", podamy cenę"} i umówimy pierwszą lekcję.
           </>
         )}
       </p>

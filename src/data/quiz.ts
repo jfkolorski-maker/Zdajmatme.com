@@ -14,7 +14,18 @@ export const QUIZ = [
       { value: "indiv", label: "Korepetycje indywidualne online", icon: "user" },
       { value: "e8", label: "Kurs do Egzaminu Ósmoklasisty", hint: "Rok szkolny 2027/2028", icon: "target" },
       { value: "matura", label: "Kurs maturalny", hint: "Rok szkolny 2027/2028", icon: "cap" },
+      { value: "science", label: "Fizyka, chemia lub biologia", hint: "Korepetycje 1-na-1 online", icon: "spark" },
       { value: "other", label: "Jeszcze nie wiem – doradźcie", icon: "chat" },
+    ],
+  },
+  {
+    id: "subject",
+    question: "Z jakiego przedmiotu?",
+    summary: "Przedmiot",
+    options: [
+      { value: "physics", label: "Fizyka", icon: "bolt" },
+      { value: "chemistry", label: "Chemia", icon: "sparkle" },
+      { value: "biology", label: "Biologia", icon: "spark" },
     ],
   },
   {
@@ -81,6 +92,7 @@ const isCourse = (o?: string) => o === "e8" || o === "matura";
  *   (the high-school answers already say "podstawowy" / "rozszerzony").
  */
 export function isHidden(id: QuizId, a: QuizAnswers): boolean {
+  if (id === "subject") return a.offer !== "science";
   if (id === "stage") return isCourse(a.offer);
   if (id === "need") return isCourse(a.offer);
   if (id === "level") return a.offer !== "matura" && !(a.offer !== "e8" && a.stage === "prep");
@@ -110,6 +122,7 @@ export function isMinorStudent(a: QuizAnswers): boolean {
 /** What the summary box shows: fixed price for 1:1, courses are discussed on the call. */
 export function offerSummary(a: QuizAnswers): { title: string; price: number | null; note: string } {
   if (a.offer === "e8") return { title: "Kurs do Egzaminu Ósmoklasisty 2027/2028", price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
+  if (a.offer === "science") return { title: `Korepetycje 1-na-1 online${a.subject ? ` · ${labelOf("subject", a.subject).toLowerCase()}` : ""}`, price: null, note: "Cenę ustalimy w krótkiej rozmowie." };
   if (a.offer === "matura") return { title: `Kurs maturalny 2027/2028${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
   // 1:1 price list (owner): extended level 125 zł, everything else (primary school, basic level) 110 zł / 60 min
   const extended = a.stage === "loext" || (a.stage === "prep" && a.level === "extended");

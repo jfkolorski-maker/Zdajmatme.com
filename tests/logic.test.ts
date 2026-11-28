@@ -36,6 +36,16 @@ describe("quiz paths", () => {
     assert.equal(s.step, SUMMARY_STEP);
   });
 
+  it("physics / chemistry / biology: offer → subject → who → stage → need, 1:1 form", () => {
+    const s = run([...pick("offer", "science")]);
+    assert.equal(at(s), "subject");
+    const t = run([...pick("subject", "chemistry"), ...pick("who", "child"), ...pick("stage", "sp48"), ...pick("need", "grades")], s);
+    assert.equal(at(t), "summary");
+    assert.equal(offerSummary(t.answers).price, null);
+    assert.equal(coursesFor(t.answers).length, 0);
+    assert.equal(isHidden("subject", { offer: "indiv" }), true);
+  });
+
   it("courses show their fixed day and time", () => {
     assert.equal(coursesFor({ offer: "e8" })[0].day, "Poniedziałki");
     assert.equal(coursesFor({ offer: "matura", level: "basic" })[0].day, "Poniedziałki");
@@ -59,7 +69,7 @@ describe("quiz paths", () => {
   });
 
   it("addresses a student directly", () => {
-    assert.equal(questionOf(QUIZ[2], { who: "self" }), "Na jakim etapie nauki jesteś?");
+    assert.equal(questionOf(QUIZ.find((q) => q.id === "stage")!, { who: "self" }), "Na jakim etapie nauki jesteś?");
   });
 
   it("shows the 1:1 price, never an invented course price", () => {

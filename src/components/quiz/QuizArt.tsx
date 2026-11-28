@@ -259,6 +259,41 @@ const ART: Record<string, React.ReactNode> = {
     </>
   ),
 
+  /* ── other subjects ── */
+  /* physics / chemistry / biology together – flask with an orbit */
+  science: (
+    <>
+      <path d="M19 5h10M21 5v12L10 37a3.5 3.5 0 0 0 3 5.2h22a3.5 3.5 0 0 0 3-5.2L27 17V5" fill={PAPER} {...s} />
+      <path d="M14.5 29h19l3.6 7.9a2.6 2.6 0 0 1-2.4 3.6H13.3a2.6 2.6 0 0 1-2.4-3.6z" fill={OR} {...s} />
+      <circle cx="20" cy="34.5" r="1.8" fill={PAPER} />
+      <circle cx="27.5" cy="32" r="1.3" fill={PAPER} />
+      <ellipse cx="34" cy="11" rx="9" ry="3.6" fill="none" stroke={OR2} strokeWidth={1.8} transform="rotate(-28 34 11)" />
+      <circle cx="34" cy="11" r="2" fill={INK} />
+    </>
+  ),
+  /* physics – lightning bolt in a circle */
+  physics: (
+    <>
+      <circle cx="24" cy="24" r="17" fill={PAPER} {...s} />
+      <path d="M26.5 9 15 26h8l-2.5 13L33 21h-8.5z" fill={OR} {...s} />
+    </>
+  ),
+  /* chemistry – flask */
+  chemistry: (
+    <>
+      <path d="M19 5h10M21 5v12L10 37a3.5 3.5 0 0 0 3 5.2h22a3.5 3.5 0 0 0 3-5.2L27 17V5" fill={PAPER} {...s} />
+      <path d="M14.5 29h19l3.6 7.9a2.6 2.6 0 0 1-2.4 3.6H13.3a2.6 2.6 0 0 1-2.4-3.6z" fill={OR} {...s} />
+      <circle cx="20" cy="34.5" r="1.8" fill={PAPER} />
+      <circle cx="27.5" cy="32" r="1.3" fill={PAPER} />
+    </>
+  ),
+  /* biology – leaf */
+  biology: (
+    <>
+      <path d="M9 39C9 19 22 8 40 8c0 19-11 31-31 31z" fill={OR} {...s} />
+      <path d="M9 39 30 18M18 30h-6M24 24v-7M24 24h7" fill="none" {...s} />
+    </>
+  ),
 };
 
 export function hasQuizArt(value: string) {
