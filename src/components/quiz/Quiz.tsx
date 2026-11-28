@@ -5,7 +5,7 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import { Icon } from "@/components/ui/icons";
 import { QuizArt, hasQuizArt } from "./QuizArt";
 import { PhoneLink } from "@/components/ui/PhoneLink";
-import { QUIZ, coursesFor, isHidden, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers, type QuizStepDef } from "@/data/quiz";
+import { QUIZ, coursesFor, isHidden, isMulti, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers, type QuizStepDef } from "@/data/quiz";
 import { track } from "@/lib/ads/track";
 import { DUR, EASE_OUT, SPRING } from "@/lib/motion";
 import { PRESET_EVENT } from "@/components/sections/Offer";
@@ -77,6 +77,15 @@ export function Quiz() {
     if (!started.current) {
       started.current = true;
       track({ name: "quiz_start" });
+    }
+    // multiple choice: toggle, no auto-advance – the visitor taps "Dalej"
+    if (isMulti(step)) {
+      const cur = new Set((state.answers[step.id] ?? "").split(",").filter(Boolean));
+      if (cur.has(value)) cur.delete(value);
+      else cur.add(value);
+      const order = step.options.map((o) => o.value).filter((v) => cur.has(v));
+      dispatch({ type: "answer", id: step.id, value: order.join(",") });
+      return;
     }
     track({ name: "quiz_step", step: index + 1, question: step.id });
     dispatch({ type: "answer", id: step.id, value });
@@ -151,7 +160,17 @@ export function Quiz() {
             transition={{ duration: DUR.ui, ease: EASE_OUT }}
           >
             {!onSummary ? (
-              <Question step={QUIZ[state.step]} title={questionOf(QUIZ[state.step], state.answers)} index={state.step} selected={state.answers[QUIZ[state.step].id]} onChoose={choose} />
+              <Question
+                step={QUIZ[state.step]}
+                title={questionOf(QUIZ[state.step], state.answers)}
+                index={state.step}
+                selected={state.answers[QUIZ[state.step].id]}
+                onChoose={choose}
+                onNext={() => {
+                  track({ name: "quiz_step", step: state.step + 1, question: QUIZ[state.step].id });
+                  dispatch({ type: "next" });
+                }}
+              />
             ) : sent ? (
               <Done onRestart={restart} course={coursesFor(state.answers).length > 0} />
             ) : (
@@ -164,21 +183,42 @@ export function Quiz() {
   );
 }
 
-function Question({ step, title, index, selected, onChoose }: { step: QuizStepDef; title: string; index: number; selected?: string; onChoose: (s: QuizStepDef, i: number, v: string) => void }) {
+function Question({
+  step,
+  title,
+  index,
+  selected,
+  onChoose,
+  onNext,
+}: {
+  step: QuizStepDef;
+  title: string;
+  index: number;
+  selected?: string;
+  onChoose: (s: QuizStepDef, i: number, v: string) => void;
+  onNext: () => void;
+}) {
+  const multi = isMulti(step);
+  const picked = new Set((selected ?? "").split(",").filter(Boolean));
   return (
     <fieldset>
       <legend data-screen-title tabIndex={-1} className="t-h3 w-full text-center text-surface outline-none">
         {title}
       </legend>
-      <div role="radiogroup" aria-label={title} className="mt-5 grid gap-2.5 sm:grid-cols-2 sm:gap-3">
+      {multi && (
+        <p className="mt-2 flex items-center justify-center gap-1.5 text-[0.9rem] font-semibold text-accent">
+          <Icon name="check" size={16} strokeWidth={2.6} /> Możesz zaznaczyć kilka
+        </p>
+      )}
+      <div role={multi ? "group" : "radiogroup"} aria-label={title} className="mt-5 grid gap-2.5 sm:grid-cols-2 sm:gap-3">
         {step.options.map((o, i) => {
-          const on = selected === o.value;
+          const on = multi ? picked.has(o.value) : selected === o.value;
           const wide = step.options.length % 2 === 1 && i === step.options.length - 1;
           return (
             <motion.button
               key={o.value}
               type="button"
-              role="radio"
+              role={multi ? "checkbox" : "radio"}
               aria-checked={on}
               onClick={() => onChoose(step, index, o.value)}
               className={`tile ${on ? "is-on" : ""} ${wide ? "sm:col-span-2" : ""}`}
@@ -200,7 +240,7 @@ function Question({ step, title, index, selected, onChoose }: { step: QuizStepDe
                 {o.label}
                 {"hint" in o && <span className="mt-0.5 block text-[0.78rem] font-medium text-muted">{o.hint}</span>}
               </span>
-              <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${on ? "border-accent bg-accent text-night" : "border-line"}`}>
+              <span className={`grid h-7 w-7 shrink-0 place-items-center border-2 transition-colors duration-200 ${multi ? "rounded-[8px]" : "rounded-full"} ${on ? "border-accent bg-accent text-night" : "border-line"}`}>
                 <AnimatePresence>
                   {on && (
                     <motion.svg key="c" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -213,6 +253,11 @@ function Question({ step, title, index, selected, onChoose }: { step: QuizStepDe
           );
         })}
       </div>
+      {multi && (
+        <button type="button" onClick={onNext} disabled={picked.size === 0} className="btn btn-primary mt-5 w-full disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none">
+          {picked.size === 0 ? "Zaznacz co najmniej jeden" : `Dalej (${picked.size})`} <Icon name="arrow" size={18} />
+        </button>
+      )}
     </fieldset>
   );
 }

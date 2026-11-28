@@ -61,7 +61,7 @@ export function OnasStory() {
                 </blockquote>
                 <figcaption className="mt-4 border-t border-accent/30 pt-3">
                   <span className="block font-bold text-[#1e2228]">{BRAND.owner.name}</span>
-                  <span className="block text-sm text-[#6b7078]">Założycielka ZdajMatme.com</span>
+                  <span className="block text-sm text-[#6b7078]">{BRAND.owner.role}</span>
                 </figcaption>
               </figure>
             </FadeUp>

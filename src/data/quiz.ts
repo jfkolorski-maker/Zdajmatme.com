@@ -11,21 +11,23 @@ export const QUIZ = [
     question: "Czego szukasz?",
     summary: "Oferta",
     options: [
-      { value: "indiv", label: "Korepetycje indywidualne online", icon: "user" },
+      { value: "indiv", label: "Korepetycje indywidualne", hint: "Matematyka · 1-na-1 online", icon: "user" },
       { value: "e8", label: "Kurs do Egzaminu Ósmoklasisty", hint: "Rok szkolny 2027/2028", icon: "target" },
       { value: "matura", label: "Kurs maturalny", hint: "Rok szkolny 2027/2028", icon: "cap" },
-      { value: "science", label: "Fizyka, chemia lub biologia", hint: "Korepetycje 1-na-1 online", icon: "spark" },
-      { value: "other", label: "Jeszcze nie wiem – doradźcie", icon: "chat" },
+      { value: "science", label: "Fizyka, chemia, biologia", hint: "Korepetycje 1-na-1 online", icon: "spark" },
     ],
   },
   {
     id: "subject",
-    question: "Z jakiego przedmiotu?",
-    summary: "Przedmiot",
+    question: "Z jakich przedmiotów?",
+    summary: "Przedmioty",
+    /** multiple choice – the answer is a comma-separated list, e.g. "physics,math" */
+    multi: true,
     options: [
       { value: "physics", label: "Fizyka", icon: "bolt" },
       { value: "chemistry", label: "Chemia", icon: "sparkle" },
       { value: "biology", label: "Biologia", icon: "spark" },
+      { value: "math", label: "Matematyka", icon: "graph" },
     ],
   },
   {
@@ -56,7 +58,6 @@ export const QUIZ = [
     options: [
       { value: "basic", label: "Podstawowy", icon: "single" },
       { value: "extended", label: "Rozszerzony", icon: "two" },
-      { value: "unsure", label: "Jeszcze nie wiem", icon: "chat" },
     ],
   },
   {
@@ -80,8 +81,14 @@ export const QUIZ_IDS = QUIZ.map((s) => s.id) as QuizId[];
 
 export function labelOf(id: QuizId, value?: string): string {
   const step = QUIZ.find((s) => s.id === id);
-  return (step?.options as readonly { value: string; label: string }[] | undefined)?.find((o) => o.value === value)?.label ?? "";
+  const opts = step?.options as readonly { value: string; label: string }[] | undefined;
+  if (!value || !opts) return "";
+  // multiple choice: "physics,math" → "Fizyka, Matematyka" (every part must be a real option)
+  const labels = value.split(",").map((v) => opts.find((o) => o.value === v)?.label);
+  return labels.every(Boolean) ? labels.join(", ") : "";
 }
+
+export const isMulti = (step: QuizStepDef) => "multi" in step && step.multi === true;
 
 const isCourse = (o?: string) => o === "e8" || o === "matura";
 
@@ -103,6 +110,7 @@ export const visibleIds = (answers: QuizAnswers) => QUIZ_IDS.filter((id) => !isH
 /** Question title can address a student directly. */
 export function questionOf(step: QuizStepDef, a: QuizAnswers): string {
   if (step.id === "stage" && a.who === "self") return "Na jakim etapie nauki jesteś?";
+  if (step.id === "level" && a.offer === "science") return "Jaki poziom – podstawa czy rozszerzenie?";
   return step.question;
 }
 
@@ -119,16 +127,23 @@ export function isMinorStudent(a: QuizAnswers): boolean {
   return a.who === "self" && (a.stage === "sp48" || a.stage === "e8prep" || a.offer === "e8");
 }
 
-/** What the summary box shows: fixed price for 1:1, courses are discussed on the call. */
+/** 1:1 price list (owner): extended level 125 zł, everything else (primary school, 8th grade, basic level) 110 zł / 60 min. */
+export function lessonPrice(a: QuizAnswers): number {
+  const extended = a.stage === "loext" || (a.stage === "prep" && a.level === "extended");
+  return extended ? 125 : 110;
+}
+
+/** What the summary box shows: the 1:1 price (maths or other subjects), courses are fixed. */
 export function offerSummary(a: QuizAnswers): { title: string; price: number | null; note: string } {
   if (a.offer === "e8") return { title: "Kurs do Egzaminu Ósmoklasisty 2027/2028", price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
-  if (a.offer === "science") return { title: `Korepetycje 1-na-1 online${a.subject ? ` · ${labelOf("subject", a.subject).toLowerCase()}` : ""}`, price: null, note: "Cenę ustalimy w krótkiej rozmowie." };
   if (a.offer === "matura") return { title: `Kurs maturalny 2027/2028${a.level === "extended" ? " · rozszerzenie" : a.level === "basic" ? " · podstawa" : ""}`, price: null, note: "Szczegóły kursu i cenę omówimy w krótkiej rozmowie." };
-  // 1:1 price list (owner): extended level 125 zł, everything else (primary school, basic level) 110 zł / 60 min
-  const extended = a.stage === "loext" || (a.stage === "prep" && a.level === "extended");
-  if (extended) return { title: "Lekcja indywidualna 1-na-1 · poziom rozszerzony", price: 125, note: "/ 60 min" };
-  if (a.stage === "prep" && a.level === "unsure") return { title: "Lekcja indywidualna 1-na-1", price: 110, note: "/ 60 min · rozszerzenie 125 zł" };
-  return { title: "Lekcja indywidualna online 1-na-1", price: 110, note: "/ 60 min" };
+  const price = lessonPrice(a);
+  const level = price === 125 ? " · poziom rozszerzony" : "";
+  if (a.offer === "science") {
+    const subjects = labelOf("subject", a.subject).toLowerCase();
+    return { title: `Korepetycje 1-na-1${subjects ? ` · ${subjects}` : ""}${level}`, price, note: "/ 60 min" };
+  }
+  return { title: `Lekcja indywidualna 1-na-1${level}`, price, note: "/ 60 min" };
 }
 
 /* ───────── courses: fixed schedule (no date / hour picking) ───────── */
@@ -159,7 +174,8 @@ export function coursesFor(a: QuizAnswers): CourseInfo[] {
   if (a.offer !== "matura") return [];
   if (a.level === "basic") return [COURSES["matura-basic"]];
   if (a.level === "extended") return [COURSES["matura-extended"]];
-  return [COURSES["matura-basic"], COURSES["matura-extended"]];
+  if (!a.level) return [COURSES["matura-basic"], COURSES["matura-extended"]];
+  return [];
 }
 
 /* ───────── 1:1 lessons: preferred hours (slider) ───────── */

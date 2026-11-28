@@ -27,7 +27,10 @@ const enumOf = (id: (typeof QUIZ)[number]["id"]) => {
 export const answersSchema = z
   .object({
     offer: enumOf("offer"),
-    subject: enumOf("subject").optional(),
+    subject: z
+      .string()
+      .optional()
+      .refine((v) => v === undefined || /^(physics|chemistry|biology|math)(,(physics|chemistry|biology|math)){0,3}$/.test(v) && new Set(v.split(",")).size === v.split(",").length, "Nieprawidłowy przedmiot."),
     who: enumOf("who"),
     stage: enumOf("stage").optional(),
     level: enumOf("level").optional(),

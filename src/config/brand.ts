@@ -14,7 +14,7 @@ export const BRAND = {
   phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "730 170 804",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "zdajtoznami@gmail.com",
   privacyUrl: process.env.NEXT_PUBLIC_PRIVACY_URL || "/polityka-prywatnosci",
-  owner: { name: "Oliwia Siedlec", first: "Oliwia", genitive: "Oliwii", role: "Założycielka ZdajMatme.com" },
+  owner: { name: "Oliwia Siedlec", first: "Oliwia", genitive: "Oliwii", role: "Założycielka – ZdajMatme.com" },
   /** Reference price for individual 1:1 lessons (owner's brief). Courses: price discussed on the call. */
   price: { amount: 110, minutes: 60, label: "110 zł / 60 min" },
   seo: {

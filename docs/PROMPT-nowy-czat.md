@@ -27,11 +27,12 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - Treści strony głównej: `src/data/content.ts`; quiz: `src/data/quiz.ts` (+ `src/components/quiz/*`, ilustrowane ikonki `QuizArt.tsx`); marka/telefon: `src/config/brand.ts`.
 - Leady: `src/app/api/leads/route.ts` → webhook `LEAD_WEBHOOK_URL` (zmienna w Vercel – **jeszcze nieustawiona przez właściciela**; bez niej formularz uczciwie pokazuje błąd i proponuje telefon).
 
-- Dodatkowo (dyskretnie, matematyka na pierwszym planie): korepetycje z fizyki, chemii i biologii – opcja „Fizyka, chemia lub biologia” w quizie (+ pytanie o przedmiot, formularz jak 1:1, cena „ustalimy w rozmowie”), pasek „Uczymy też” (`src/components/ui/OtherSubjects.tsx`) pod ofertą na stronie głównej i na podstronie korepetycji, wzmianka w stopce.
+- Dodatkowo (dyskretnie, matematyka na pierwszym planie): korepetycje z fizyki, chemii i biologii – opcja „Fizyka, chemia, biologia” w quizie (+ pytanie „Z jakich przedmiotów?” – wielokrotny wybór: fizyka, chemia, biologia, matematyka; dalej jak 1:1, cena 110/125 zł jak matematyka), pasek „Uczymy też” (`src/components/ui/OtherSubjects.tsx`) pod ofertą na stronie głównej i na podstronie korepetycji, wzmianka w stopce.
 
 ## Ustalone zasady / preferencje
 - Jeden pomarańcz: #FFA550. Tła ciemnoszare (night/surface), nagłówek ciemniejszy. Kafelki, ceny, FAQ, „Najważniejsze informacje” i terminarz: **białe karty** (jaśniej, czytelniej) z **pomarańczową obwódką** (`border-2 border-accent`, zaokrąglone ~28px). Linie podziału też pomarańczowe.
 - Paski przesuwane w bok (oferta, proces, opinie): bez animacji wjazdu pojedynczych kart (podskakiwały przy przesuwaniu) – animuje się tylko cały pasek.
+- Quiz bez odpowiedzi „Jeszcze nie wiem” (usunięte z oferty i poziomu). Podpis Oliwii wszędzie: „Założycielka – ZdajMatme.com” (`BRAND.owner.role`).
 - Bez numeracji sekcji i etapów („01”, „Etap 01” itp.).
 - „Pierwsza lekcja” (nie „lekcja próbna”). Zajęcia na **Microsoft Teams** (nie ZOOM).
 - Ceny 1-na-1: 110 zł / 60 min, poziom rozszerzony 125 zł / 60 min; pakiet 10 lekcji −10% (990 / 1125 zł). Kurs 8-klasisty: 45 zł/lekcja, 890 zł cały kurs. Kurs maturalny: 45 zł, 1780 zł cały kurs.

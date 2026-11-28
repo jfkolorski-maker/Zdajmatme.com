@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { SUMMARY_STEP, initialQuizState, quizReducer, type QuizAction, type QuizState } from "../src/components/quiz/quizState.ts";
-import { QUIZ, coursesFor, hoursLabel, isComplete, isHidden, isMinorStudent, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers } from "../src/data/quiz.ts";
+import { QUIZ, coursesFor, hoursLabel, isComplete, labelOf, isHidden, isMinorStudent, offerSummary, questionOf, summarize, visibleIds, type QuizAnswers } from "../src/data/quiz.ts";
 import { isPlausibleFirstDate, leadRequestSchema, normalizePhone, validateContact } from "../src/lib/lead/schema.ts";
 
 const run = (actions: QuizAction[], s: QuizState = initialQuizState) => actions.reduce(quizReducer, s);
@@ -36,21 +36,29 @@ describe("quiz paths", () => {
     assert.equal(s.step, SUMMARY_STEP);
   });
 
-  it("physics / chemistry / biology: offer → subject → who → stage → need, 1:1 form", () => {
+  it("physics / chemistry / biology (+ maths): several subjects, then the 1:1 path and price", () => {
     const s = run([...pick("offer", "science")]);
     assert.equal(at(s), "subject");
-    const t = run([...pick("subject", "chemistry"), ...pick("who", "child"), ...pick("stage", "sp48"), ...pick("need", "grades")], s);
+    const t = run([...pick("subject", "physics,math"), ...pick("who", "child"), ...pick("stage", "loext"), ...pick("need", "grades")], s);
     assert.equal(at(t), "summary");
-    assert.equal(offerSummary(t.answers).price, null);
+    assert.equal(labelOf("subject", "physics,math"), "Fizyka, Matematyka");
+    assert.equal(offerSummary(t.answers).price, 125);
+    assert.equal(offerSummary({ ...t.answers, stage: "sp48" }).price, 110);
     assert.equal(coursesFor(t.answers).length, 0);
     assert.equal(isHidden("subject", { offer: "indiv" }), true);
+    assert.equal(labelOf("subject", "physics,nope"), "");
+  });
+
+  it("no unsure answers anywhere", () => {
+    for (const q of QUIZ) for (const o of q.options) assert.notEqual(o.value as string, "unsure");
+    assert.equal(QUIZ[0].options.some((o) => (o.value as string) === "other"), false);
   });
 
   it("courses show their fixed day and time", () => {
     assert.equal(coursesFor({ offer: "e8" })[0].day, "Poniedziałki");
     assert.equal(coursesFor({ offer: "matura", level: "basic" })[0].day, "Poniedziałki");
     assert.equal(coursesFor({ offer: "matura", level: "extended" })[0].day, "Środy");
-    assert.equal(coursesFor({ offer: "matura", level: "unsure" }).length, 2);
+    assert.equal(coursesFor({ offer: "matura" }).length, 2);
     assert.equal(coursesFor({ offer: "indiv" }).length, 0);
   });
 
@@ -118,6 +126,13 @@ describe("form", () => {
     const selfReq = { ...req, answers: { offer: "matura", who: "self", level: "basic" } };
     assert.equal(leadRequestSchema.safeParse(selfReq).success, false);
     assert.equal(leadRequestSchema.safeParse({ ...selfReq, contact: { ...contact, adultOrGuardian: true } }).success, true);
+  });
+
+  it("server accepts several subjects, rejects unknown ones", () => {
+    const sci = { offer: "science", subject: "chemistry,biology", who: "child", stage: "sp48", need: "grades" };
+    assert.equal(leadRequestSchema.safeParse({ ...req, answers: sci }).success, true);
+    assert.equal(leadRequestSchema.safeParse({ ...req, answers: { ...sci, subject: "chemistry,chemistry" } }).success, false);
+    assert.equal(leadRequestSchema.safeParse({ ...req, answers: { ...sci, subject: "history" } }).success, false);
   });
 
   it("server rejects incomplete or impossible answers", () => {

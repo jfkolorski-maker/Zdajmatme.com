@@ -20,7 +20,7 @@ export function FinalCta() {
             <Image src="/team/oliwia-kontakt.webp" alt={`${BRAND.owner.name} – założycielka ZdajMatme.com`} fill sizes="(min-width: 768px) 144px, 128px" className="object-cover" />
           </span>
           <span className="mt-4 block text-[1.25rem] font-semibold">{BRAND.owner.name}</span>
-          <span className="block text-sm text-white/60">Założycielka · odbiera telefon</span>
+          <span className="block text-sm text-white/60">{BRAND.owner.role}</span>
         </FadeUp>
         <FadeUp delay={0.18}>
           <PhoneLink

@@ -287,6 +287,15 @@ const ART: Record<string, React.ReactNode> = {
       <circle cx="27.5" cy="32" r="1.3" fill={PAPER} />
     </>
   ),
+  /* maths – a sheet with x² and a parabola */
+  math: (
+    <>
+      <path d="M10 5h28a2 2 0 0 1 2 2v34a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill={PAPER} {...s} />
+      <text x="15" y="19" fontSize="11" fontWeight="800" fill={INK} fontFamily="Poppins, sans-serif">x²</text>
+      <path d="M13 37c4-14 18-14 22 0" fill="none" {...s} stroke={OR2} strokeWidth={2.6} />
+      <circle cx="24" cy="26.6" r="2" fill={OR} stroke={INK} strokeWidth={1.4} />
+    </>
+  ),
   /* biology – leaf */
   biology: (
     <>

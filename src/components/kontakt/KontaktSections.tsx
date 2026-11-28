@@ -39,7 +39,10 @@ export function KontaktDirect() {
                 <Image src="/team/oliwia-kontakt.webp" alt={BRAND.owner.name} fill sizes="80px" className="object-cover" />
               </span>
               <h3 className="mt-3 text-[0.78rem] font-bold uppercase tracking-[0.22em] text-[#6b7078]">Telefon</h3>
-              <p className="mt-1 text-sm text-[#4a4f57]">Odbiera {BRAND.owner.name}</p>
+              <p className="mt-1 text-sm text-[#4a4f57]">
+                <span className="block font-semibold text-[#1e2228]">{BRAND.owner.name}</span>
+                {BRAND.owner.role}
+              </p>
               <PhoneLink
                 placement="kontakt_page"
                 className="phone-pulse mt-4 inline-flex items-center gap-2.5 rounded-full border-2 border-accent bg-white px-6 py-3 text-[1.6rem] font-bold tabular-nums text-[#1e2228] transition-colors hover:bg-accent"
