@@ -8,7 +8,6 @@ import { BRAND } from "@/config/brand";
 import { HERO, TRUST } from "@/data/content";
 import { track } from "@/lib/ads/track";
 import { playInline } from "@/lib/video";
-import { LessonPlayer } from "./VideoLesson";
 
 const VIDEO = { mp4: "/video/hero.mp4", webm: "/video/hero.webm", poster: "/video/hero-poster.webp" };
 
@@ -66,8 +65,7 @@ function HeroFilm({ videoRef: ref }: { videoRef: React.RefObject<HTMLVideoElemen
     if (!v) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let started = false;
-    // the IntersectionObserver reports right away – a hidden copy (display: none) never plays or downloads
-    let visible = false;
+    let visible = true;
     // The film (~1 MB) starts downloading only after the page has loaded, so it never competes with the
     // first paint; the server-rendered first frame (poster image) covers the gap.
     const start = () => {
@@ -153,22 +151,7 @@ function SoundButton({ muted, onClick, className = "" }: { muted: boolean; onCli
   );
 }
 
-/** Oliwia's portrait film as a stand-alone card with its own sound toggle (laptop/PC: "Przykładowa lekcja" section). */
-export function PortraitFilm({ className = "" }: { className?: string }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const sound = useSound(ref);
-  return (
-    <div className={`relative aspect-[9/16] overflow-hidden bg-night ${className}`}>
-      <HeroFilm videoRef={ref} />
-      <SoundButton muted={sound.muted} onClick={sound.toggle} className="absolute bottom-4 left-1/2 z-20 inline-flex -translate-x-1/2" />
-    </div>
-  );
-}
-
-/**
- * Phones: full-screen portrait film, copy + buttons at the bottom. Tablets: copy left, the portrait film as a card.
- * Laptops/PCs (lg): copy left, the sample lesson film (16:9) on the right – the portrait film moves to "Przykładowa lekcja".
- */
+/** Phones: full-screen film, copy + buttons at the bottom. Desktop: copy left, the portrait film as a card on the right. */
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sound = useSound(videoRef);
@@ -176,20 +159,12 @@ export function Hero() {
     <section id="start" aria-labelledby="hero-title" className="relative overflow-hidden bg-night text-white">
       <div className="md:shell md:grid md:min-h-[min(100svh,58rem)] md:grid-cols-[1fr_auto] md:items-center md:gap-14 md:pb-12 md:pt-[6.5rem]">
         {/* film: full-bleed background on phones, portrait card on desktop */}
-        <div className="absolute inset-x-0 top-0 aspect-[9/16] w-full lg:hidden md:relative md:order-2 md:w-auto md:aspect-[9/16] md:h-[min(62svh,32rem)] lg:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
+        <div className="absolute inset-x-0 top-0 aspect-[9/16] w-full md:relative md:order-2 md:w-auto md:aspect-[9/16] md:h-[min(62svh,32rem)] lg:h-[min(76svh,46rem)] md:overflow-hidden md:rounded-[24px] md:shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)] md:ring-1 md:ring-white/10">
           <HeroFilm videoRef={videoRef} />
           {/* desktop: sound toggle at the bottom edge of the film card */}
           <SoundButton muted={sound.muted} onClick={sound.toggle} className="absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 md:inline-flex" />
           {/* phones: shade only at the bottom, where the copy sits */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(30,34,40,0.35)_0%,rgba(30,34,40,0)_14%,rgba(30,34,40,0)_46%,rgba(30,34,40,0.8)_70%,rgba(30,34,40,0.96)_100%)] md:hidden" />
-        </div>
-
-        {/* laptops / PCs: the sample lesson film */}
-        <div className="hero-rise relative hidden w-[min(46vw,42rem)] lg:order-2 lg:block" style={{ animationDelay: "0.2s" }}>
-          <p className="mb-3 flex items-center gap-2 text-[0.78rem] font-bold uppercase tracking-[0.22em] text-white/70">
-            <span className="h-px w-6 bg-accent/60" /> Przykładowa lekcja
-          </p>
-          <LessonPlayer placement="hero_lesson" sizes="(min-width: 1024px) 46vw, 92vw" />
         </div>
 
         {/* copy */}
