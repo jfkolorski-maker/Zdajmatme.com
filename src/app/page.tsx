@@ -11,6 +11,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Offer } from "@/components/sections/Offer";
 import { Process } from "@/components/sections/Process";
 import { QuizSection } from "@/components/sections/QuizSection";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { VideoLesson } from "@/components/sections/VideoLesson";
 import { BRAND } from "@/config/brand";
 import { FAQ, OFFER } from "@/data/content";
@@ -47,7 +48,7 @@ const jsonLd = {
   ],
 };
 
-/** Google Ads order: hero → oferta → przykładowa lekcja → proces → zapisy → o nas → FAQ → kontakt. */
+/** Google Ads order: hero → oferta → przykładowa lekcja → proces → opinie → zapisy → o nas → FAQ → kontakt. */
 export default function LandingPage() {
   return (
     <Providers>
@@ -58,6 +59,7 @@ export default function LandingPage() {
         <Offer />
         <VideoLesson />
         <Process />
+        <Testimonials />
         <QuizSection />
         <About />
         <Faq />

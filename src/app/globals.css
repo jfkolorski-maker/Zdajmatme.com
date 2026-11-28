@@ -383,6 +383,8 @@ html.menu-open {
   padding-inline: 1.25rem;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  /* a sideways swipe never drags the page up/down or triggers back-navigation */
+  overscroll-behavior-x: contain;
 }
 .rail::-webkit-scrollbar {
   display: none;

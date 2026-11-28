@@ -14,7 +14,7 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 - Silnik wzorowany na malowanie.flipor.pl (animacje, quiz, backend leadów).
 
 ## Struktura
-- `/` – strona główna (`src/app/page.tsx`, kolejność pod Google Ads): Hero (film Oliwii) → Oferta (3 karty – cała karta to link do podstrony) → Przykładowa lekcja → Proces nauczania (4 karty, na telefonie przesuwane w bok) → Quiz (`#zapisy`) → O nas (połączone z „Jak uczymy”) → FAQ (połączone z „Dla rodzica”) → Kontakt.
+- `/` – strona główna (`src/app/page.tsx`, kolejność pod Google Ads): Hero (film Oliwii) → Oferta (3 karty – cała karta to link do podstrony) → Przykładowa lekcja → Proces nauczania (4 karty, na telefonie przesuwane w bok) → Opinie (`Testimonials.tsx`, zrzuty z `public/opinie/`, powiększanie po kliknięciu) → Quiz (`#zapisy`) → O nas (połączone z „Jak uczymy”) → FAQ (połączone z „Dla rodzica”) → Kontakt.
 - Podstrony (przeniesione z zdajmatme.com i dopasowane stylem):
   - `/korepetycje-indywidualne` – `src/components/korepetycje/KorSections.tsx`
   - `/kurs-osmoklasisty` – `src/components/kurs8/E8Sections.tsx`
@@ -29,6 +29,7 @@ Kontynuujemy pracę nad stroną **ZdajMatme.com** (korepetycje i kursy z matemat
 
 ## Ustalone zasady / preferencje
 - Jeden pomarańcz: #FFA550. Tła ciemnoszare (night/surface), nagłówek ciemniejszy. Kafelki, ceny, FAQ, „Najważniejsze informacje” i terminarz: **białe karty** (jaśniej, czytelniej) z **pomarańczową obwódką** (`border-2 border-accent`, zaokrąglone ~28px). Linie podziału też pomarańczowe.
+- Paski przesuwane w bok (oferta, proces, opinie): bez animacji wjazdu pojedynczych kart (podskakiwały przy przesuwaniu) – animuje się tylko cały pasek.
 - Bez numeracji sekcji i etapów („01”, „Etap 01” itp.).
 - „Pierwsza lekcja” (nie „lekcja próbna”). Zajęcia na **Microsoft Teams** (nie ZOOM).
 - Ceny 1-na-1: 110 zł / 60 min, poziom rozszerzony 125 zł / 60 min; pakiet 10 lekcji −10% (990 / 1125 zł). Kurs 8-klasisty: 45 zł/lekcja, 890 zł cały kurs. Kurs maturalny: 45 zł, 1780 zł cały kurs.

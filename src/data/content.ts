@@ -154,6 +154,7 @@ export const CHAPTERS = [
   { id: "oferta", label: "Oferta", short: "Oferta" },
   { id: "lekcja", label: "Przykładowa lekcja", short: "Lekcja" },
   { id: "proces", label: "Proces nauczania", short: "Proces" },
+  { id: "opinie", label: "Opinie", short: "Opinie" },
   { id: "zapisy", label: "Pierwsza lekcja", short: "Zapisy" },
   { id: "o-nas", label: "O nas", short: "O nas" },
   { id: "faq", label: "FAQ", short: "FAQ" },

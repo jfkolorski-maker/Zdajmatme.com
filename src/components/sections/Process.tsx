@@ -88,11 +88,10 @@ function QuoteLink({ placement, className = "" }: { placement: string; className
  */
 function Stories() {
   return (
-    <div className="mt-8">
+    <FadeUp className="mt-8">
       <ol className="rail no-scrollbar">
-        {PROCESS.map((p, i) => (
+        {PROCESS.map((p) => (
           <li key={p.stage} className="w-[78%] max-w-[20rem]">
-            <FadeUp soft delay={i * 0.06} className="h-full">
               <article className="flex h-full flex-col overflow-hidden rounded-[28px] border-2 border-accent bg-white/[0.04] shadow-[0_18px_40px_-24px_rgba(255,165,80,0.55)]">
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#1f2226]">
                   {p.photo && <Image src={p.photo} alt={p.alt ?? ""} fill sizes="78vw" className="object-cover object-top" />}
@@ -102,7 +101,6 @@ function Stories() {
                   <p className="mt-2 text-[0.95rem] leading-relaxed text-white/65">{p.text}</p>
                 </div>
               </article>
-            </FadeUp>
           </li>
         ))}
       </ol>
@@ -112,7 +110,7 @@ function Stories() {
       <div className="shell mt-6 flex flex-col items-center">
         <QuoteLink placement="process_mobile" className="w-full max-w-[24rem]" />
       </div>
-    </div>
+    </FadeUp>
   );
 }
 
